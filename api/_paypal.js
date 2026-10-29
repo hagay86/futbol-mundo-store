@@ -4,6 +4,7 @@
 const LIVE_CLIENT_ID = 'BAAcpWVZSv030wUMQde4l21vlth1TeSvuvPbdXFnGPizDEtGHgsZb30mS_RtaHxOGO5wgkDejjGFoXoiuk';
 const clientId = () => (process.env.PAYPAL_CLIENT_ID || LIVE_CLIENT_ID).trim();
 export const paypalReady = () => { const sec = (process.env.PAYPAL_SECRET || '').trim(); return !!(clientId() && sec && sec !== clientId()); };
+export const paypalClientId = () => clientId();
 export const paypalMode = () => (process.env.PAYPAL_ENV || '').toLowerCase().startsWith('sand') ? 'sandbox' : 'live';
 const BASE = () => paypalMode() === 'sandbox' ? 'https://api-m.sandbox.paypal.com' : 'https://api-m.paypal.com';
 
@@ -35,7 +36,7 @@ const usd = c => (c / 100).toFixed(2);
 const cut = (s, n) => String(s || '').slice(0, n);
 
 // lines: [{name, desc, cents, q, digital}]  → returns {id, url}
-export async function createPaypalOrder({ order, lines, shippingCents, physical, email, origin, locale, card }) {
+export async function createPaypalOrder({ order, lines, shippingCents, physical, email, origin, locale, card, sdk }) {
   const itemTotal = lines.reduce((s, l) => s + l.cents * l.q, 0);
   const body = {
     intent: 'CAPTURE',
@@ -44,12 +45,15 @@ export async function createPaypalOrder({ order, lines, shippingCents, physical,
       amount: { currency_code: 'USD', value: usd(itemTotal + shippingCents), breakdown: { item_total: { currency_code: 'USD', value: usd(itemTotal) }, shipping: { currency_code: 'USD', value: usd(shippingCents) } } },
       items: lines.map(l => ({ name: cut(l.name, 127), description: cut(l.desc, 127), quantity: String(l.q), unit_amount: { currency_code: 'USD', value: usd(l.cents) }, category: l.digital ? 'DIGITAL_GOODS' : 'PHYSICAL_GOODS' })),
     }],
-    payment_source: { paypal: { experience_context: {
+    ...(sdk ? {
+      // On-page buttons (JS SDK): the buyer picks card or PayPal in the button itself, so no payment_source here.
+      application_context: { brand_name: 'Futbol Mundo', user_action: 'PAY_NOW', shipping_preference: physical ? 'GET_FROM_FILE' : 'NO_SHIPPING', locale: locale || undefined },
+    } : { payment_source: { paypal: { experience_context: {
       brand_name: 'Futbol Mundo', user_action: 'PAY_NOW', landing_page: card ? 'GUEST_CHECKOUT' : 'LOGIN',
       shipping_preference: physical ? 'GET_FROM_FILE' : 'NO_SHIPPING',
       locale: locale || undefined,
       return_url: `${origin}/?pp=1`, cancel_url: `${origin}/#bag`,
-    }, email_address: email || undefined } },
+    }, email_address: email || undefined } } }),
   };
   const j = await paypal('POST', '/v2/checkout/orders', body, { 'PayPal-Request-Id': order });
   const link = (j.links || []).find(l => l.rel === 'payer-action' || l.rel === 'approve');

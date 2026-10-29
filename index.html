@@ -609,7 +609,7 @@ select.co-input{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg x
 .co-header-logo{font-family:var(--fc);font-weight:800;font-size:20px;letter-spacing:.5px}
 .co-h1{font-family:var(--fc);font-weight:800;text-transform:uppercase;font-size:40px;letter-spacing:0}
 .co-btn-primary{background:var(--ink)}
-.co-pay-btns{display:flex;gap:10px;flex-shrink:0}.co-pay-btns button{white-space:nowrap}.co-btn-pp{background:#FFC439;color:#003087;border:none;border-radius:980px;padding:14px 24px;font-size:15px;font-family:inherit;min-height:46px;cursor:pointer}.co-btn-pp b{font-style:italic;font-weight:800}.co-btn-pp:disabled{opacity:.6}
+.co-pay-btns{display:flex;gap:10px;flex-shrink:0}#pp-buttons{width:100%;max-width:400px;flex-shrink:0}#pp-buttons:empty{display:none}.pp-btn{margin-bottom:6px}.co-pay-btns.hidden-fallback{display:none}.co-pay-btns button{white-space:nowrap}.co-btn-pp{background:#FFC439;color:#003087;border:none;border-radius:980px;padding:14px 24px;font-size:15px;font-family:inherit;min-height:46px;cursor:pointer}.co-btn-pp b{font-style:italic;font-weight:800}.co-btn-pp:disabled{opacity:.6}
 @media(max-width:600px){.co-pay-btns{width:100%}.co-pay-btns button{flex:1;justify-content:center;padding:14px 12px;font-size:14px}}
 .co-input:focus{border-color:var(--pitch);box-shadow:0 0 0 4px rgba(23,128,79,.14)}
 .co-back,.co-line-qty .rm{color:var(--pitch)}
@@ -1379,7 +1379,7 @@ html[dir=rtl] .mc{margin:0 .02em 0 .14em}
         <div id="co-cart-items"></div>
         <div class="co-actions">
           <span class="co-stripe-note">No account needed to pay by card. Secure payment by PayPal.</span>
-          <div class="co-pay-btns"><button class="co-btn-primary" id="co-go" onclick="startStripeCheckout('card')">💳 Pay with card</button><button class="co-btn-pp" id="co-go-pp" onclick="startStripeCheckout('paypal')">Pay with <b>PayPal</b></button></div>
+          <div id="pp-buttons"></div><div class="co-pay-btns"><button class="co-btn-primary" id="co-go" onclick="startStripeCheckout('card')">💳 Pay with card</button><button class="co-btn-pp" id="co-go-pp" onclick="startStripeCheckout('paypal')">Pay with <b>PayPal</b></button></div>
         </div>
       </section>
 
@@ -4334,6 +4334,70 @@ async function saveAdmin(order){
   catch (e) { showToast(e.message); }
 }
 
+</script>
+<script>
+// =====================================================================
+// FUTBOL MUNDO v9 — card form right on the bag page (PayPal JS SDK).
+// The black "Debit or Credit Card" button opens card fields on our page:
+// no PayPal login. The redirect buttons stay as a fallback if the SDK fails.
+// =====================================================================
+const PP_CLIENT_ID = 'BAAcpWVZSv030wUMQde4l21vlth1TeSvuvPbdXFnGPizDEtGHgsZb30mS_RtaHxOGO5wgkDejjGFoXoiuk';
+const PP_LOCALE = { en:'en_US', es:'es_ES', pt:'pt_BR', fr:'fr_FR', de:'de_DE', it:'it_IT', he:'he_IL', ar:'ar_EG' };
+let ppSdk = null, ppRendered = false;
+function coItems(){
+  return cart.map(c => c.pack ? {kind:'points', pts:c.pack, q:c.q}
+    : c.box ? {kind:'box', box:c.box, sz:c.sz, league:c.league, q:c.q}
+    : {kind:'product', pid:c.pid ?? (PRODUCTS.find(p => p.n === c.n) || {}).id, n:c.n, sz:c.sz, cname:c.cname, cnum:c.cnum, q:c.q});
+}
+function loadPaypalSdk(){
+  if (ppSdk) return ppSdk;
+  const loc = PP_LOCALE[(window.I18N && I18N.lang) || 'en'] || 'en_US';
+  ppSdk = new Promise((ok, bad) => {
+    const s = document.createElement('script');
+    s.src = `https://www.paypal.com/sdk/js?client-id=${PP_CLIENT_ID}&currency=USD&intent=capture&components=buttons&enable-funding=card&disable-funding=paylater,credit,venmo&locale=${loc}`;
+    s.setAttribute('data-namespace', 'paypalSdk');
+    s.onload = () => window.paypalSdk ? ok(window.paypalSdk) : bad(new Error('no sdk'));
+    s.onerror = () => bad(new Error('sdk blocked'));
+    document.head.appendChild(s);
+  });
+  ppSdk.catch(() => { ppSdk = null; });
+  return ppSdk;
+}
+async function renderPaypalButtons(){
+  const box = $('#pp-buttons'); if (!box || ppRendered) return;
+  let pp; try { pp = await loadPaypalSdk(); } catch (e) { return; }  // fallback buttons stay visible
+  const common = {
+    onClick: (data, actions) => {
+      if (!cart.length) { showToast('Your bag is empty'); return actions.reject(); }
+      if (ME.ready && !ME.user) {
+        closeCheckout();
+        openAuth('signup', 'Create your free account to check out. We send your Mundo XI codes and order updates to it.', () => openCheckout());
+        return actions.reject();
+      }
+      return actions.resolve();
+    },
+    createOrder: async () => {
+      const r = await fetch('/api/checkout', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({items:coItems(), ship:coShipMethod, lang:I18N.lang, pay:'card', sdk:1})});
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || !j.id) { showToast(j.error || 'Checkout is unavailable right now'); throw new Error(j.error || 'checkout'); }
+      return j.id;
+    },
+    onApprove: data => handleOrderReturn('pp:' + data.orderID),
+    onError: () => showToast('The payment did not go through. Please check the card details and try again'),
+  };
+  const btns = [
+    pp.Buttons(Object.assign({ fundingSource: pp.FUNDING.CARD, style: { shape:'pill', color:'black', label:'pay', height:48 } }, common)),
+    pp.Buttons(Object.assign({ fundingSource: pp.FUNDING.PAYPAL, style: { shape:'pill', color:'gold', label:'paypal', height:48 } }, common)),
+  ].filter(b => b.isEligible());
+  if (!btns.length) return;
+  box.innerHTML = '';
+  for (const b of btns) { const d = document.createElement('div'); d.className = 'pp-btn'; box.appendChild(d); await b.render(d); }
+  ppRendered = true;
+  $('.co-pay-btns')?.classList.add('hidden-fallback');
+  const note = $('.co-stripe-note'); if (note) note.textContent = 'Pay by card right here, no account needed. Secured by PayPal.';
+}
+const _openCheckout9 = openCheckout;
+openCheckout = function(){ const r = _openCheckout9.apply(this, arguments); setTimeout(renderPaypalButtons, 50); return r; };
 </script>
 </body>
 </html>

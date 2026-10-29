@@ -529,5 +529,7 @@
 "No account needed to pay by card. Secure payment by PayPal.": "لا حاجة لحساب للدفع بالبطاقة. دفع آمن عبر PayPal.",
 "💳 Pay with card": "💳 الدفع بالبطاقة",
 "Pay with card": "الدفع بالبطاقة",
-"Pay with": "الدفع عبر"
+"Pay with": "الدفع عبر",
+"Pay by card right here, no account needed. Secured by PayPal.": "ادفع بالبطاقة هنا مباشرة، بدون حساب. محمي بواسطة PayPal.",
+"The payment did not go through. Please check the card details and try again": "لم يكتمل الدفع. تحقق من بيانات البطاقة وحاول مرة أخرى"
 }

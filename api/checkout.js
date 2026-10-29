@@ -91,11 +91,11 @@ export default async function handler(req, res) {
       const shippingCents = !physical ? 0 : method === 'standard' && merch >= FREE_SHIP_OVER * 100 ? 0 : SHIPPING[method];
       const lang = String(body.lang || '').slice(0, 2);
       const LOC = { en:'en-US', es:'es-ES', pt:'pt-BR', fr:'fr-FR', de:'de-DE', it:'it-IT', he:'he-IL', ar:'ar-EG' };
-      const pp = await createPaypalOrder({ order, lines, shippingCents, physical, email: user && user.email, origin, locale: LOC[lang], card: body.pay !== 'paypal' });
-      if (!pp.url) return send(res, 502, { error: 'PayPal did not return a payment page. Please try again' });
+      const pp = await createPaypalOrder({ order, lines, shippingCents, physical, email: user && user.email, origin, locale: LOC[lang], card: body.pay !== 'paypal', sdk: !!body.sdk });
+      if (!pp.url && !body.sdk) return send(res, 502, { error: 'PayPal did not return a payment page. Please try again' });
       const subtotal = lines.reduce((t, l) => t + l.cents * l.q, 0);
       if (dbReady()) await setJSON('pp:' + pp.id, { meta: Object.assign({}, meta, { ship: method }), lines: lines.map(l => ({ name: l.name, q: l.q, amount: l.cents * l.q / 100 })), subtotal, shippingCents }, 'EX', 60 * 60 * 24 * 3);
-      return send(res, 200, { url: pp.url, order, provider: 'paypal' });
+      return send(res, 200, { url: pp.url, id: pp.id, order, provider: 'paypal' });
     }
     const session = await stripe('POST', '/checkout/sessions', params);
     send(res, 200, { url: session.url, order });

@@ -529,5 +529,7 @@
 "No account needed to pay by card. Secure payment by PayPal.": "No necesitas cuenta para pagar con tarjeta. Pago seguro con PayPal.",
 "💳 Pay with card": "💳 Pagar con tarjeta",
 "Pay with card": "Pagar con tarjeta",
-"Pay with": "Pagar con"
+"Pay with": "Pagar con",
+"Pay by card right here, no account needed. Secured by PayPal.": "Paga con tarjeta aquí mismo, sin cuenta. Protegido por PayPal.",
+"The payment did not go through. Please check the card details and try again": "El pago no se completó. Revisa los datos de la tarjeta e inténtalo de nuevo"
 }
