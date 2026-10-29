@@ -2,7 +2,7 @@
 import { send, readJson, fail } from './_lib.js';
 import { redis, dbReady, getUser, saveUser, normEmail, validEmail, hashPw, checkPw, token, publicUser, currentUser, startSession, endSession, sendEmail, emailLayout, siteUrl, getJSON } from './_db.js';
 
-const GIFTS = { 'Club scarf': 3000, 'Match ball': 6000, 'Free jersey': 10000, 'Hat-trick box': 20000, 'Signed shirt draw': 35000 };
+const GIFTS = { 'Club scarf': 9000, 'Match ball': 18000, 'Free jersey': 30000, 'Hat-trick box': 60000, 'Signed shirt draw': 105000 };
 
 async function limited(key, max, secs) {
   const n = await redis('INCR', 'rl:' + key);

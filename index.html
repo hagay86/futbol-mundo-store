@@ -3471,11 +3471,11 @@ function renderMarket(){
   $('#market').innerHTML = G.listings.length ? G.listings.map((l, i) => `<div class="listing">${cardHTML(l.card)}<div class="who">Listed by @${l.owner}</div><div class="wants">Wants a card rated <b>${l.card.rating - 2}+</b></div><button class="btn btn-pitch btn-sm" onclick="pickCard('trade',null,null,${i})">Offer a card</button></div>`).join('') : '<div class="empty">No listings right now. Check back soon.</div>';
 }
 const GIFTS = [
-  {name:'Club scarf', pts:3000, txt:'Knitted scarf from your favourite club.'},
-  {name:'Match ball', pts:6000, txt:'Official-size match ball.'},
-  {name:'Free jersey', pts:10000, txt:'Any jersey in the shop, shipped free.'},
-  {name:'Hat-trick box', pts:20000, txt:'Three mystery shirts and a Hat-trick pack.'},
-  {name:'Signed shirt draw', pts:35000, txt:'An entry into the monthly signed-shirt draw.'},
+  {name:'Club scarf', pts:9000, txt:'Knitted scarf from your favourite club.'},
+  {name:'Match ball', pts:18000, txt:'Official-size match ball.'},
+  {name:'Free jersey', pts:30000, txt:'Any jersey in the shop, shipped free.'},
+  {name:'Hat-trick box', pts:60000, txt:'Three mystery shirts and a Hat-trick pack.'},
+  {name:'Signed shirt draw', pts:105000, txt:'An entry into the monthly signed-shirt draw.'},
 ];
 function renderRewards(){
   $('#rewards').innerHTML = GIFTS.map((g, i) => `<div class="reward"><div class="rp">Ɱ${g.pts.toLocaleString()}</div><b>${g.name}</b><span>${g.txt}</span>
