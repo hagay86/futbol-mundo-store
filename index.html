@@ -4468,7 +4468,8 @@ async function renderPaypalButtons(){
       return j.id;
     },
     onApprove: data => handleOrderReturn('pp:' + data.orderID),
-    onError: () => showToast('The payment did not go through. Please check the card details and try again'),
+    onError: err => { const m = String((err && (err.message || err)) || 'unknown'); try { fetch('/api/clientlog', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({where:'paypal-sdk', msg:m})}); } catch (e) {} showToast('The payment did not go through. Please check the card details and try again'); },
+    onCancel: () => { try { fetch('/api/clientlog', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({where:'paypal-cancel', msg:'buyer closed or PayPal refused'})}); } catch (e) {} },
   };
   const btns = [
     pp.Buttons(Object.assign({ fundingSource: pp.FUNDING.CARD, style: { shape:'pill', color:'black', label:'pay', height:48 } }, common)),

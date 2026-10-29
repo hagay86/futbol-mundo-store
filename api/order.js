@@ -22,7 +22,8 @@ export default async function handler(req, res) {
       const done = await getJSON('order:pp_' + ppId);
       let o = done;
       if (!done) {
-        const cap = await capturePaypalOrder(ppId);
+        let cap; try { cap = await capturePaypalOrder(ppId); } catch (e) { console.log('[order] capture failed', ppId, e.issue || '', e.message); throw e; }
+        console.log('[order] capture', ppId, cap ? 'COMPLETED' : 'not completed');
         if (!cap) return send(res, 200, { paid: false });
         const pu = cap.purchase_units[0], total = Math.round(+pu.payments.captures[0].amount.value * 100);
         o = await processPaidSession({ id: 'pp_' + ppId, payment_status: 'paid', metadata: saved.meta, provider: 'paypal',
