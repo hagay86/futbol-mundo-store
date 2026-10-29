@@ -3,6 +3,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createHmac, createHash } from 'node:crypto';
+import { extraProducts, mergeCatalog } from './_extra.js';
 
 // ---------- Game economy (keep in sync with index.html) ----------
 export const SHIRT_POINTS = 4000;        // enough for one 6-player Gold pack
@@ -10,13 +11,19 @@ export const SCARF_THRESHOLD = 30;       // USD of merchandise for the free scar
 export const FREE_SHIP_OVER = 99;
 export const SHIPPING = { standard: 999, express: 1499, overnight: 2999 }; // cents
 
-let CATALOG = null;
+let CATALOG = null, EXTRA = [];
+// Load the partner feed (Redis) before using catalog(); rebuilds when the feed changes.
+export async function ensureCatalog() {
+  const fresh = await extraProducts();
+  if (fresh !== EXTRA) { EXTRA = fresh; CATALOG = null; }
+  return catalog();
+}
 export function catalog() {
   if (CATALOG) return CATALOG;
   const html = readFileSync(join(process.cwd(), 'index.html'), 'utf8');
   const a = html.indexOf('const PRODUCTS = ') + 'const PRODUCTS = '.length;
   const b = html.indexOf('];\n', a) + 1;
-  const products = JSON.parse(html.slice(a, b));
+  const products = mergeCatalog(JSON.parse(html.slice(a, b)), EXTRA);
   products.forEach((p, i) => { p.id = i; p.shirt = isShirt(p); });
   const boxes = {};
   const boxRe = /\{n:(\d), name:'([^']+)',\s*price:([\d.]+)/g; let m;

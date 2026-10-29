@@ -14,7 +14,7 @@ renderCheckout = function(){
   const m = merchTotal(cart), subtotal = cart.reduce((s, c) => s + c.p * c.q, 0);
   if (!m) { wrap.innerHTML = ''; } else {
     wrap.innerHTML = `<h2 class="co-h2">Shipping method</h2>` + SHIP_OPTS.map(([k, , name, eta]) => { const cost = shipCost(k);
-      return `<label class="co-ship-opt"><input type="radio" name="shipm" value="${k}" ${coShipMethod === k ? 'checked' : ''} onchange="pickShip('${k}')"><div class="co-ship-info"><b>${name}</b><span>${eta}</span></div><div class="co-ship-price">${cost ? money(cost) : '<span class="free">FREE</span>'}</div></label>`; }).join('');
+      return `<label class="co-ship-opt"><input type="radio" name="shipm" value="${k}" ${coShipMethod === k ? 'checked' : ''} onchange="pickShip('${k}')"><div class="co-ship-info"><b>${name}</b></div><div class="co-ship-price">${cost ? money(cost) : '<span class="free">FREE</span>'}</div></label>`; }).join('');
   }
   const ship = shipCost(coShipMethod);
   $('#co-sum-ship').innerHTML = !m ? 'None (digital)' : ship ? money(ship) : '<span style="color:#34c759;font-weight:600">FREE</span>';

@@ -1,9 +1,10 @@
 // POST /api/checkout  → creates a PayPal order (when PayPal is connected) or a Stripe Checkout Session, and returns the payment page URL.
 // Prices are always taken from the catalogue on the server, never from the browser.
 import { randomBytes } from 'node:crypto';
-import { catalog, findProduct, stripe, send, readJson, fail, SCARF_THRESHOLD, FREE_SHIP_OVER, SHIPPING } from './_lib.js';
+import { catalog, ensureCatalog, findProduct, stripe, send, readJson, fail, SCARF_THRESHOLD, FREE_SHIP_OVER, SHIPPING } from './_lib.js';
 import { dbReady, currentUser, setJSON } from './_db.js';
 import { paypalReady, createPaypalOrder } from './_paypal.js';
+import { addonsFor } from './_extra.js';
 
 const COUNTRIES = ['US','CA','MX','GB','IE','FR','DE','ES','PT','IT','NL','BE','LU','AT','CH','DK','SE','NO','FI','IS','PL','CZ','SK','HU','SI','HR','RO','BG','GR','CY','MT','EE','LV','LT','IL','AE','SA','QA','KW','BH','OM','JO','TR','AU','NZ','JP','KR','SG','HK','TW','MY','TH','PH','ID','VN','IN','ZA','NG','KE','EG','MA','BR','AR','CL','CO','PE','UY','PY','EC','CR','PA','DO','GT','JM','PR'];
 const cents = v => Math.round(+v * 100);
@@ -18,6 +19,7 @@ export default async function handler(req, res) {
     const body = await readJson(req);
     const items = Array.isArray(body.items) ? body.items.slice(0, 40) : [];
     if (!items.length) return send(res, 400, { error: 'Your bag is empty' });
+    await ensureCatalog();
     const { boxes, packs } = catalog();
 
     const line_items = [], lines = [];
@@ -43,14 +45,19 @@ export default async function handler(req, res) {
       } else {
         const p = findProduct(+it.pid, String(it.n || ''));
         if (!p) continue;
-        physical = true; merch += cents(p.p) * q; if (p.shirt) shirts += q;
-        const print = clean(it.cname, 18) ? ` · Print: ${clean(it.cname, 18).toUpperCase()} #${clean(it.cnum, 3)}` : '';
-        const desc = `Size ${clean(it.sz, 14)}${print}${p.shirt ? ' · includes a 6-player Mundo XI pack' : ''}`;
+        const opts = {};
+        if (p.opt && it.opts && typeof it.opts === 'object') for (const [label, set] of p.opt) { const v = String(it.opts[label] || ''); if (set.some(o => o[0] === v)) opts[label] = v; }
+        const cname = clean(it.cname, 18);
+        const unit = cents(p.p + addonsFor(p, opts, cname));
+        physical = true; merch += unit * q; if (p.shirt) shirts += q;
+        const print = cname ? ` · Print: ${cname.toUpperCase()} #${clean(it.cnum, 3)}` : '';
+        const extras = Object.entries(opts).filter(([, v]) => !/^no\b/i.test(v)).map(([k, v]) => ` · ${k}: ${v}`).join('');
+        const desc = `Size ${clean(it.sz, 14)}${extras}${print}${p.shirt ? ' · includes a 6-player Mundo XI pack' : ''}`.slice(0, 480);
         const pd = { name: p.n.slice(0, 250), description: desc };
-        lines.push({ name: p.n, desc, cents: cents(p.p), q });
+        lines.push({ name: p.n, desc, cents: unit, q });
         if (/^https:\/\//.test(p.i)) pd.images = [p.i];
-        line_items.push({ quantity: q, price_data: { currency: 'usd', unit_amount: cents(p.p), product_data: pd } });
-        summary.push(`${q}x #${p.id} ${clean(it.sz, 12)}${print}`);
+        line_items.push({ quantity: q, price_data: { currency: 'usd', unit_amount: unit, product_data: pd } });
+        summary.push(`${q}x #${p.id} ${clean(it.sz, 12)}${extras}${print}`);
       }
     }
     if (!line_items.length) return send(res, 400, { error: 'Nothing in your bag can be bought right now' });

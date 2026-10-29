@@ -9,7 +9,7 @@ let ppSdk = null, ppRendered = false;
 function coItems(){
   return cart.map(c => c.pack ? {kind:'points', pts:c.pack, q:c.q}
     : c.box ? {kind:'box', box:c.box, sz:c.sz, league:c.league, q:c.q}
-    : {kind:'product', pid:c.pid ?? (PRODUCTS.find(p => p.n === c.n) || {}).id, n:c.n, sz:c.sz, cname:c.cname, cnum:c.cnum, q:c.q});
+    : {kind:'product', pid:c.pid ?? (PRODUCTS.find(p => p.n === c.n) || {}).id, n:c.n, sz:c.sz, cname:c.cname, cnum:c.cnum, opts:c.opts, q:c.q});
 }
 function loadPaypalSdk(){
   if (ppSdk) return ppSdk;
