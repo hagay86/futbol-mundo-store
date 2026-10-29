@@ -10,6 +10,7 @@ function openGiveaway(){
   <li>The winner picks one jersey from the shop, shipped free. No cash alternative.</li>
   <li>Open to people 18+ (or with a parent's permission) where giveaways like this are allowed. Void where prohibited.</li>
   <li>Run by Futbol Mundo. Not sponsored or endorsed by Instagram, Facebook or Meta.</li></ul>
+  <p style="font-size:13px;margin-top:8px"><a href="/legal/giveaway.html" target="_blank">Full giveaway rules</a></p>
   <div style="margin-top:16px">${ME.user ? '<b style="color:var(--pitch)">✓ You are entered this month.</b>' : '<button class="info-btn" onclick="closeInfo();openAuth(\'signup\', \'Sign up free to enter the monthly jersey giveaway.\')">Sign up and enter</button>'}</div>`);
 }
 // owner tool: draw a winner

@@ -41,8 +41,9 @@ export default async function handler(req, res) {
       const email = normEmail(body.email), name = String(body.name || '').trim().slice(0, 40), pw = String(body.password || '');
       if (!validEmail(email)) return send(res, 400, { error: 'Enter a valid email address' });
       if (pw.length < 8) return send(res, 400, { error: 'Use at least 8 characters for your password' });
+      if (body.terms === false) return send(res, 400, { error: 'Please accept the Terms of Service and Privacy Policy to continue.' });
       if (await limited('su:' + ip, 10, 3600)) return send(res, 429, { error: 'Too many sign-ups. Try again later' });
-      const ok = await redis('SET', 'user:' + email, JSON.stringify({ email, name, ...hashPw(pw), verified: false, spent: 0, created: Date.now() }), 'NX');
+      const ok = await redis('SET', 'user:' + email, JSON.stringify({ email, name, ...hashPw(pw), verified: false, spent: 0, created: Date.now(), termsAccepted: body.terms ? { at: Date.now(), version: '2026-10-29' } : null }), 'NX');
       if (!ok) return send(res, 409, { error: 'That email already has an account. Sign in instead' });
       await startSession(res, email);
       // free monthly jersey giveaway: one entry per new account, no purchase needed

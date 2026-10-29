@@ -109,6 +109,9 @@ button{cursor:pointer}
 .sec-retro .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 #era-chips{margin-top:8px}
 #era-chips,#team-chips{display:none!important}
+.au-terms{display:flex;gap:8px;align-items:flex-start;font-size:13px;line-height:1.4;margin:6px 0 10px;text-align:left}.au-terms input{margin-top:2px;width:18px;height:18px;flex-shrink:0}.au-terms a{color:#17804F;text-decoration:underline}
+.f-legal{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;margin:18px 0 6px}.f-legal a{color:inherit;opacity:.8;text-decoration:underline}
+.co-legal{display:block;width:100%;font-size:12px;color:var(--muted,#6b7280);margin-top:6px}.co-legal a{color:inherit;text-decoration:underline}
 .fut-av svg{width:100%;height:100%;display:block;filter:drop-shadow(0 2cqw 2cqw rgba(0,0,0,.25))}
 
 .ad-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;margin-bottom:6px}
@@ -1381,6 +1384,7 @@ html[dir=rtl] .mc{margin:0 .02em 0 .14em}
       <div><h4>Mundo XI</h4><a onclick="go('game','redeem')">Redeem a code</a><a onclick="openGiveaway()">Jersey giveaway</a><a onclick="go('game','play')">Play a season</a><a onclick="go('game','cups')">Cups</a><a onclick="go('game','packs')">Packs</a><a onclick="openInfo('Mundo XI rules', RULES_TEXT)">Rules</a></div>
       <div><h4>Help</h4><a onclick="openTrack()">Track order</a><a onclick="openSizeGuide()">Size guide</a><a onclick="openHelp()">FAQ</a><a onclick="openInfo('Shipping','Standard delivery: 5–7 business days. Express: 2–3 business days. Free standard shipping on orders over $99.')">Shipping</a></div>
     </div>
+    <div class="f-legal"><a href="/legal/terms.html">Terms of Service</a><a href="/legal/privacy.html">Privacy Policy</a><a href="/legal/returns.html">Shipping &amp; Returns</a><a href="/legal/giveaway.html">Giveaway Rules</a><a href="/legal/accessibility.html">Accessibility</a></div>
     <div class="f-bot"><span>© 2026 Futbol Mundo</span><span>Secure checkout · PayPal, Visa, Mastercard, Amex</span></div>
   </div>
 </footer>
@@ -1458,6 +1462,7 @@ html[dir=rtl] .mc{margin:0 .02em 0 .14em}
         <div id="co-cart-items"></div>
         <div class="co-actions">
           <span class="co-stripe-note">No account needed to pay by card. Secure payment by PayPal.</span>
+          <span class="co-legal">By paying you agree to our <a href="/legal/terms.html" target="_blank">Terms</a> and <a href="/legal/returns.html" target="_blank">Shipping &amp; Returns</a>.</span>
           <div id="pp-buttons"></div><div class="co-pay-btns"><button class="co-btn-primary" id="co-go" onclick="startStripeCheckout('card')">💳 Pay with card</button><button class="co-btn-pp" id="co-go-pp" onclick="startStripeCheckout('paypal')">Pay with <b>PayPal</b></button></div>
         </div>
       </section>
@@ -3867,6 +3872,7 @@ function openAuth(mode = 'signup', reason = '', next = null){
     signup: `<input class="info-input" id="au-name" placeholder="Manager name (optional)" maxlength="40" autocomplete="nickname">
       <input class="info-input" id="au-email" type="email" placeholder="Email" autocomplete="email">
       <input class="info-input" id="au-pw" type="password" placeholder="Password (8+ characters)" autocomplete="new-password">
+      <label class="au-terms"><input type="checkbox" id="au-terms"> <span>I am 18+ (or have a parent's consent) and agree to the <a href="/legal/terms.html" target="_blank">Terms of Service</a> and <a href="/legal/privacy.html" target="_blank">Privacy Policy</a>.</span></label>
       <button class="info-btn" id="au-go" onclick="doAuth('signup')">Create my account</button>
       <p class="auth-fine">🎁 Every new account is entered into this month's <b>free jersey giveaway</b>. No purchase needed. <span class="info-link" onclick="openGiveaway()">Rules</span></p>
       <p class="auth-fine">Your Mundo XI codes and order updates are sent to this email.</p>`,
@@ -3885,10 +3891,11 @@ function openAuth(mode = 'signup', reason = '', next = null){
   setTimeout(() => ($('#au-name') || $('#au-email'))?.focus(), 50);
 }
 async function doAuth(mode){
+  if (mode === 'signup' && $('#au-terms') && !$('#au-terms').checked) { $('#au-err').textContent = 'Please accept the Terms of Service and Privacy Policy to continue.'; return; }
   const btn = $('#au-go'), err = $('#au-err'); err.textContent = ''; btn.disabled = true;
   const email = $('#au-email')?.value.trim(), password = $('#au-pw')?.value || '', name = $('#au-name')?.value.trim();
   try {
-    const j = await api('/api/auth?action=' + mode, {method:'POST', body:{email, password, name}});
+    const j = await api('/api/auth?action=' + mode, {method:'POST', body:{email, password, name, terms:mode === 'signup' ? !!$('#au-terms')?.checked : undefined}});
     if (mode === 'forgot') { $('#info-modal-body').innerHTML = `<h3>Check your email</h3><p>If ${escapeHtml(email)} has an account, a reset link is on its way. It works for 1 hour.</p><button class="info-btn" onclick="closeInfo()">Got it</button>`; return; }
     ME.user = j.user; closeInfo();
     showToast(mode === 'signup' ? `Welcome, ${ME.user.name || 'manager'}! Check your email to confirm it` : 'Signed in');
@@ -5265,6 +5272,7 @@ function openGiveaway(){
   <li>The winner picks one jersey from the shop, shipped free. No cash alternative.</li>
   <li>Open to people 18+ (or with a parent's permission) where giveaways like this are allowed. Void where prohibited.</li>
   <li>Run by Futbol Mundo. Not sponsored or endorsed by Instagram, Facebook or Meta.</li></ul>
+  <p style="font-size:13px;margin-top:8px"><a href="/legal/giveaway.html" target="_blank">Full giveaway rules</a></p>
   <div style="margin-top:16px">${ME.user ? '<b style="color:var(--pitch)">✓ You are entered this month.</b>' : '<button class="info-btn" onclick="closeInfo();openAuth(\'signup\', \'Sign up free to enter the monthly jersey giveaway.\')">Sign up and enter</button>'}</div>`);
 }
 // owner tool: draw a winner
