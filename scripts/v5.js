@@ -334,7 +334,7 @@ function gTab(t){
 function renderGame(){
   seedDemo(); career(); updateStats(); gTab(gCurrent); objCheck();
   const club = $('#g-club'); if (club) club.textContent = ME.user ? `${ME.user.name || ME.user.email.split('@')[0]} FC` : 'Your club';
-  setTimeout(maybeTutorial, 250);
+  setTimeout(() => maybeTutorial(), 250);
 }
 gCurrent = 'home';
 const _renderCollection = renderCollection;

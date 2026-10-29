@@ -62,6 +62,7 @@ export default async function handler(req, res) {
       success_url: `${origin}/?order={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/#bag`,
       allow_promotion_codes: 'true',
+      locale: 'auto',
       billing_address_collection: 'auto',
       metadata: meta,
       customer_email: user ? user.email : undefined,

@@ -1,0 +1,49 @@
+/* ===== v7: languages + Mundo XI landing ===== */
+html.i18n-wait body{visibility:hidden}
+.lang-pick{display:inline-flex;align-items:center;gap:4px;font-size:13px}
+.lang-pick select{background:transparent;border:1px solid currentColor;border-radius:999px;padding:2px 8px;font-size:12px;color:inherit;opacity:.85;cursor:pointer}
+.lang-pick select option{color:#0F1E33}
+.notice{position:relative}
+.notice .lang-pick{position:absolute;right:12px;top:50%;transform:translateY(-50%)}
+html[dir=rtl] .notice .lang-pick{right:auto;left:12px}
+@media (max-width:720px){.notice .lang-pick{display:none}}
+#mnav .lang-pick{margin-top:14px}
+.f-bot .lang-pick{color:#C9D3DF}
+/* RTL: keep cards, pitch, match canvas and codes left-to-right */
+html[dir=rtl] .pcx,html[dir=rtl] .pitch,html[dir=rtl] .mo-stage,html[dir=rtl] .po-cards,html[dir=rtl] .co-code,html[dir=rtl] .acc-code,html[dir=rtl] .tree,html[dir=rtl] #code-in{direction:ltr}
+html[dir=rtl] .hub-tile,html[dir=rtl] .tut-card,html[dir=rtl] .gate{text-align:right}
+html[dir=rtl] .tut-coach{right:auto;left:22px}
+html[dir=rtl] .tut-skip{right:auto;left:18px}
+html[dir=rtl] #view-game .tab{transform:skewX(8deg)}
+html[dir=rtl] .gate-list{margin:0 18px 12px 0}
+html[dir=rtl] .mc{margin:0 .02em 0 .14em}
+/* ---- Mundo XI landing ---- */
+#view-xi{background:#06101E;color:#fff}
+.xi-hero{position:relative;overflow:hidden;padding:72px 0 56px;background:radial-gradient(900px 500px at 75% 30%,rgba(232,183,48,.18),transparent 60%),radial-gradient(800px 600px at 10% 90%,rgba(23,128,79,.28),transparent 60%),linear-gradient(180deg,#071222,#06101E)}
+.xi-hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.025) 0 2px,transparent 2px 60px);pointer-events:none}
+.xi-hero-in{position:relative;display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center}
+.xi-kicker{font-family:var(--fc);font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-size:14px}
+.xi-title{font-family:var(--fc);font-weight:800;font-style:italic;font-size:clamp(68px,11vw,150px);line-height:.85;letter-spacing:-2px;margin:10px 0 14px;background:linear-gradient(180deg,#fff 35%,#9FB6D3);-webkit-background-clip:text;background-clip:text;color:transparent}
+.xi-tag{font-family:var(--fc);font-weight:700;font-size:clamp(24px,3vw,34px);text-transform:uppercase;letter-spacing:.5px}
+.xi-sub{color:#A9B7C8;max-width:34em;margin:10px 0 26px;font-size:17px}
+.xi-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.xi-ctas .btn{height:54px;padding:0 28px;font-size:17px}
+.xi-ctas .btn-ghost{color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.45)}
+.xi-enter{box-shadow:0 10px 30px rgba(232,183,48,.35)}
+.xi-free{margin-top:14px;font-size:13px;color:#7F90A6}
+.xi-cards{position:relative;height:420px}
+.xi-cards .pcx{position:absolute;width:210px;top:50%;left:50%;transition:transform .4s ease}
+.xi-cards .pcx:nth-child(1){transform:translate(-125%,-48%) rotate(-10deg)}
+.xi-cards .pcx:nth-child(2){transform:translate(-50%,-56%) scale(1.12);z-index:2;filter:drop-shadow(0 0 30px rgba(232,183,48,.45)) drop-shadow(0 20px 30px rgba(0,0,0,.5))}
+.xi-cards .pcx:nth-child(3){transform:translate(25%,-48%) rotate(10deg)}
+.xi-steps{padding:56px 0;background:#081527;border-top:1px solid rgba(255,255,255,.06)}
+.xi-steps .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.xi-step{background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015));border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:22px}
+.xi-step b{font-family:var(--fc);font-weight:800;font-size:34px;color:var(--gold)}
+.xi-step h3{font-family:var(--fc);font-weight:800;font-size:26px;text-transform:uppercase;margin:6px 0 8px}
+.xi-step p{color:#A9B7C8;font-size:15px}
+.xi-final{padding:64px 0 80px;text-align:center;background:radial-gradient(600px 300px at 50% 0,rgba(232,183,48,.15),transparent 70%),#06101E}
+.xi-final h2{font-family:var(--fc);font-weight:800;font-size:clamp(40px,6vw,64px);text-transform:uppercase;margin-bottom:20px}
+.xi-final .btn{height:56px;padding:0 34px;font-size:18px}
+@media (max-width:900px){.xi-hero-in{grid-template-columns:1fr}.xi-cards{height:330px;order:-1}.xi-cards .pcx{width:160px}.xi-steps .wrap{grid-template-columns:1fr 1fr}.xi-hero{padding:36px 0 40px}}
+@media (max-width:520px){.xi-steps .wrap{grid-template-columns:1fr}.xi-cards{height:280px}.xi-cards .pcx{width:135px}}
