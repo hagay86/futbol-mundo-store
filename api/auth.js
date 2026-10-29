@@ -45,6 +45,8 @@ export default async function handler(req, res) {
       const ok = await redis('SET', 'user:' + email, JSON.stringify({ email, name, ...hashPw(pw), verified: false, spent: 0, created: Date.now() }), 'NX');
       if (!ok) return send(res, 409, { error: 'That email already has an account. Sign in instead' });
       await startSession(res, email);
+      // free monthly jersey giveaway: one entry per new account, no purchase needed
+      try { await redis('LPUSH', 'giveaway:' + new Date().toISOString().slice(0, 7), email); } catch (e) {}
       const vt = token(); await redis('SET', 'verify:' + vt, email, 'EX', 172800);
       await sendEmail({ to: email, subject: 'Welcome to Futbol Mundo: confirm your email', html: emailLayout(`Welcome${name ? ', ' + name : ''}!`, '<p>Your manager account is ready. Confirm your email, then head to Mundo XI to open your welcome pack.</p><p>Every shirt you buy comes with a 6-player pack, and orders over $30 include a free club scarf.</p>', { url: `${origin}/api/auth?action=verify&t=${vt}`, label: 'Confirm my email' }) });
       return send(res, 200, { user: publicUser(await getUser(email)) });

@@ -8,6 +8,15 @@ export default async function handler(req, res) {
   try {
     const u = await currentUser(req);
     if (!u || !process.env.ADMIN_EMAIL || u.email !== process.env.ADMIN_EMAIL.trim().toLowerCase()) return send(res, 403, { error: 'Owner only' });
+    const q = new URL(req.url, 'http://x').searchParams;
+    if (req.method === 'GET' && q.get('draw')) {
+      const month = /^\d{4}-\d{2}$/.test(q.get('draw')) ? q.get('draw') : new Date().toISOString().slice(0, 7);
+      const list = await redis('LRANGE', 'giveaway:' + month, 0, -1) || [];
+      const uniq = [...new Set(list)];
+      if (!uniq.length) return send(res, 200, { month, entries: 0 });
+      const { randomInt } = await import('node:crypto');
+      return send(res, 200, { month, entries: uniq.length, winner: uniq[randomInt(uniq.length)] });
+    }
     if (req.method === 'GET') {
       const ids = await redis('LRANGE', 'allorders', 0, 99) || [];
       const orders = [];

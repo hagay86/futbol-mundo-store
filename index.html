@@ -1376,7 +1376,7 @@ html[dir=rtl] .mc{margin:0 .02em 0 .14em}
     <div class="f-grid">
       <div><div class="brand">FUTBOL MUNDO</div><p>Jerseys for every fan, and a game that turns your collection into a squad.</p></div>
       <div><h4>Shop</h4><a onclick="go('shop')">All jerseys</a><a onclick="goCat('New Arrivals')">New arrivals</a><a onclick="goCat('Retro')">Retro</a><a onclick="go('home','boxes')">Mystery boxes</a></div>
-      <div><h4>Mundo XI</h4><a onclick="go('game','redeem')">Redeem a code</a><a onclick="go('game','market')">Trade market</a><a onclick="go('game','play')">Play a season</a><a onclick="go('game','cups')">Cups</a><a onclick="go('game','packs')">Packs</a><a onclick="openInfo('Mundo XI rules', RULES_TEXT)">Rules</a></div>
+      <div><h4>Mundo XI</h4><a onclick="go('game','redeem')">Redeem a code</a><a onclick="openGiveaway()">Jersey giveaway</a><a onclick="go('game','play')">Play a season</a><a onclick="go('game','cups')">Cups</a><a onclick="go('game','packs')">Packs</a><a onclick="openInfo('Mundo XI rules', RULES_TEXT)">Rules</a></div>
       <div><h4>Help</h4><a onclick="openTrack()">Track order</a><a onclick="openSizeGuide()">Size guide</a><a onclick="openHelp()">FAQ</a><a onclick="openInfo('Shipping','Standard delivery: 5–7 business days. Express: 2–3 business days. Free standard shipping on orders over $99.')">Shipping</a></div>
     </div>
     <div class="f-bot"><span>© 2026 Futbol Mundo</span><span>Secure checkout · PayPal, Visa, Mastercard, Amex</span></div>
@@ -3866,6 +3866,7 @@ function openAuth(mode = 'signup', reason = '', next = null){
       <input class="info-input" id="au-email" type="email" placeholder="Email" autocomplete="email">
       <input class="info-input" id="au-pw" type="password" placeholder="Password (8+ characters)" autocomplete="new-password">
       <button class="info-btn" id="au-go" onclick="doAuth('signup')">Create my account</button>
+      <p class="auth-fine">🎁 Every new account is entered into this month's <b>free jersey giveaway</b>. No purchase needed. <span class="info-link" onclick="openGiveaway()">Rules</span></p>
       <p class="auth-fine">Your Mundo XI codes and order updates are sent to this email.</p>`,
     login: `<input class="info-input" id="au-email" type="email" placeholder="Email" autocomplete="email">
       <input class="info-input" id="au-pw" type="password" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doAuth('login')">
@@ -5248,6 +5249,30 @@ function grantStarterXI(){
 }
 grantStarterXI();
 if (typeof syncLoad === 'function') { const _syncLoad15 = syncLoad; syncLoad = async function(){ const r = await _syncLoad15.apply(this, arguments); grantStarterXI(); return r; }; }
+</script>
+<script>
+// =====================================================================
+// FUTBOL MUNDO v16 — free monthly jersey giveaway (no purchase needed)
+// =====================================================================
+function openGiveaway(){
+  const end = new Date(); end.setMonth(end.getMonth() + 1, 0);
+  openInfo('Free jersey giveaway', `<p><b>Every month we give away a jersey.</b> Create a free Futbol Mundo account and you're in this month's draw. No purchase needed, and buying does not improve your chances.</p>
+  <ul style="margin:10px 0 0 18px;line-height:1.6;font-size:14px">
+  <li>One entry per person (one account per person).</li>
+  <li>This month's draw closes on ${end.toLocaleDateString(undefined, {day:'numeric', month:'long', year:'numeric'})}. The winner is picked at random within 7 days and contacted by email.</li>
+  <li>The winner picks one jersey from the shop, shipped free. No cash alternative.</li>
+  <li>Open to people 18+ (or with a parent's permission) where giveaways like this are allowed. Void where prohibited.</li>
+  <li>Run by Futbol Mundo. Not sponsored or endorsed by Instagram, Facebook or Meta.</li></ul>
+  <div style="margin-top:16px">${ME.user ? '<b style="color:var(--pitch)">✓ You are entered this month.</b>' : '<button class="info-btn" onclick="closeInfo();openAuth(\'signup\', \'Sign up free to enter the monthly jersey giveaway.\')">Sign up and enter</button>'}</div>`);
+}
+// owner tool: draw a winner
+async function drawGiveaway(){
+  try { const j = await api('/api/admin?draw=' + new Date().toISOString().slice(0, 7)); openInfo('Giveaway draw', j.entries ? `${j.entries} entries in ${j.month}.<br><br>Winner: <b>${escapeHtml(j.winner)}</b><br><br>Email them to pick their jersey.` : 'No entries yet this month.'); } catch (e) { showToast(e.message); }
+}
+const _openAdmin16 = openAdmin;
+openAdmin = async function(){ await _openAdmin16(); const b = $('#info-modal-body h3'); if (b && !$('#gw-draw')) b.insertAdjacentHTML('afterend', '<button class="btn btn-gold btn-sm" id="gw-draw" onclick="drawGiveaway()" style="margin:6px 0 10px">Draw this month\'s jersey giveaway winner</button>'); };
+// deep link: futbolmundoshop.com/#giveaway
+if (location.hash === '#giveaway') { let tries = 0; const t = setInterval(() => { if (!ME.ready && ++tries < 30) return; clearInterval(t); try { go('game'); } catch (e) {} if (!ME.user) openAuth('signup', 'Sign up free to enter the monthly jersey giveaway.'); else openGiveaway(); }, 300); }
 </script>
 </body>
 </html>
