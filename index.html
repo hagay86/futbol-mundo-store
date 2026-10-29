@@ -609,6 +609,8 @@ select.co-input{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg x
 .co-header-logo{font-family:var(--fc);font-weight:800;font-size:20px;letter-spacing:.5px}
 .co-h1{font-family:var(--fc);font-weight:800;text-transform:uppercase;font-size:40px;letter-spacing:0}
 .co-btn-primary{background:var(--ink)}
+.co-pay-btns{display:flex;gap:10px;flex-shrink:0}.co-pay-btns button{white-space:nowrap}.co-btn-pp{background:#FFC439;color:#003087;border:none;border-radius:980px;padding:14px 24px;font-size:15px;font-family:inherit;min-height:46px;cursor:pointer}.co-btn-pp b{font-style:italic;font-weight:800}.co-btn-pp:disabled{opacity:.6}
+@media(max-width:600px){.co-pay-btns{width:100%}.co-pay-btns button{flex:1;justify-content:center;padding:14px 12px;font-size:14px}}
 .co-input:focus{border-color:var(--pitch);box-shadow:0 0 0 4px rgba(23,128,79,.14)}
 .co-back,.co-line-qty .rm{color:var(--pitch)}
 .co-summary{background:var(--chalk)}
@@ -1376,8 +1378,8 @@ html[dir=rtl] .mc{margin:0 .02em 0 .14em}
         <p class="co-sub">Make sure everything looks right before you continue.</p>
         <div id="co-cart-items"></div>
         <div class="co-actions">
-          <span class="co-stripe-note">Pay securely with PayPal or any card on the next page.</span>
-          <button class="co-btn-primary" id="co-go" onclick="startStripeCheckout()">Continue to secure checkout →</button>
+          <span class="co-stripe-note">No account needed to pay by card. Secure payment by PayPal.</span>
+          <div class="co-pay-btns"><button class="co-btn-primary" id="co-go" onclick="startStripeCheckout('card')">💳 Pay with card</button><button class="co-btn-pp" id="co-go-pp" onclick="startStripeCheckout('paypal')">Pay with <b>PayPal</b></button></div>
         </div>
       </section>
 
@@ -3648,15 +3650,15 @@ function renderCheckout(){
 }
 function coChgQty(i, d){ cart[i].q = Math.max(1, Math.min(20, cart[i].q + d)); renderCart(); renderCheckout(); }
 function coRemove(i){ cart.splice(i, 1); renderCart(); if (!cart.length) { closeCheckout(); showToast('Bag emptied'); return; } renderCheckout(); }
-async function startStripeCheckout(){
+async function startStripeCheckout(method){
   if (!cart.length) { showToast('Your bag is empty'); return; }
-  const btn = $('#co-go'), orig = btn.innerHTML;
+  const btn = method === 'paypal' ? $('#co-go-pp') : $('#co-go'), orig = btn.innerHTML;
   btn.disabled = true; btn.innerHTML = '<span class="co-spinner"></span> Opening secure checkout…';
   const items = cart.map(c => c.pack ? {kind:'points', pts:c.pack, q:c.q}
     : c.box ? {kind:'box', box:c.box, sz:c.sz, league:c.league, q:c.q}
     : {kind:'product', pid:c.pid ?? (PRODUCTS.find(p => p.n === c.n) || {}).id, n:c.n, sz:c.sz, cname:c.cname, cnum:c.cnum, q:c.q});
   try {
-    const r = await fetch('/api/checkout', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({items, ship:coShipMethod, lang:I18N.lang})});
+    const r = await fetch('/api/checkout', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({items, ship:coShipMethod, lang:I18N.lang, pay:method === 'paypal' ? 'paypal' : 'card'})});
     const j = await r.json().catch(() => ({}));
     if (!r.ok || !j.url) throw new Error(r.status === 503 ? 'Checkout opens very soon. Please try again later.' : (j.error || 'Checkout is unavailable right now'));
     location.href = j.url;
@@ -3858,9 +3860,9 @@ function useCode(code){ closeInfo(); go('game', 'redeem'); $('#code-in').value =
 
 // ---------------- Checkout needs an account ----------------
 const _startStripe = startStripeCheckout;
-startStripeCheckout = async function(){
-  if (ME.ready && !ME.user) { closeCheckout(); openAuth('signup', 'Create your free account to check out. We send your Mundo XI codes and order updates to it.', () => { openCheckout(); setTimeout(() => startStripeCheckout(), 150); }); return; }
-  return _startStripe();
+startStripeCheckout = async function(method){
+  if (ME.ready && !ME.user) { closeCheckout(); openAuth('signup', 'Create your free account to check out. We send your Mundo XI codes and order updates to it.', () => { openCheckout(); setTimeout(() => startStripeCheckout(method), 150); }); return; }
+  return _startStripe(method);
 };
 async function handleOrderReturn(id){
   history.replaceState(null, '', location.pathname + '#home');

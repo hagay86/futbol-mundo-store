@@ -525,5 +525,9 @@
 "{0} business day": "יום עסקים {0}",
 "FREE": "חינם",
 "Pay securely with PayPal or any card on the next page.": "תשלום מאובטח ב-PayPal או בכל כרטיס אשראי בעמוד הבא.",
-"Secure checkout · PayPal, Visa, Mastercard, Amex": "תשלום מאובטח · PayPal, Visa, Mastercard, Amex"
+"Secure checkout · PayPal, Visa, Mastercard, Amex": "תשלום מאובטח · PayPal, Visa, Mastercard, Amex",
+"No account needed to pay by card. Secure payment by PayPal.": "אין צורך בחשבון כדי לשלם בכרטיס. תשלום מאובטח דרך PayPal.",
+"💳 Pay with card": "💳 תשלום בכרטיס",
+"Pay with card": "תשלום בכרטיס",
+"Pay with": "תשלום עם"
 }

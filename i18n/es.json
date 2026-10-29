@@ -525,5 +525,9 @@
 "{0} business day": "{0} día hábil",
 "FREE": "GRATIS",
 "Pay securely with PayPal or any card on the next page.": "Paga de forma segura con PayPal o cualquier tarjeta en la siguiente página.",
-"Secure checkout · PayPal, Visa, Mastercard, Amex": "Pago seguro · PayPal, Visa, Mastercard, Amex"
+"Secure checkout · PayPal, Visa, Mastercard, Amex": "Pago seguro · PayPal, Visa, Mastercard, Amex",
+"No account needed to pay by card. Secure payment by PayPal.": "No necesitas cuenta para pagar con tarjeta. Pago seguro con PayPal.",
+"💳 Pay with card": "💳 Pagar con tarjeta",
+"Pay with card": "Pagar con tarjeta",
+"Pay with": "Pagar con"
 }
