@@ -56,7 +56,7 @@ async function renderPaypalButtons(){
   for (const b of btns) { const d = document.createElement('div'); d.className = 'pp-btn'; box.appendChild(d); await b.render(d); }
   ppRendered = true;
   $('.co-pay-btns')?.classList.add('hidden-fallback');
-  const note = $('.co-stripe-note'); if (note) note.textContent = 'Pay by card right here, no account needed. Secured by PayPal.';
+  const note = $('.co-stripe-note'); if (note) { const t = 'Pay by card right here, no account needed. Secured by PayPal.'; note.textContent = (window.I18N && I18N.dict && I18N.dict[t]) || t; }
 }
 const _openCheckout9 = openCheckout;
 openCheckout = function(){ const r = _openCheckout9.apply(this, arguments); setTimeout(renderPaypalButtons, 50); return r; };
