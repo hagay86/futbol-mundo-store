@@ -2,6 +2,7 @@
 // Prices are always taken from the catalogue on the server, never from the browser.
 import { randomBytes } from 'node:crypto';
 import { catalog, findProduct, stripe, send, readJson, fail, SCARF_THRESHOLD, FREE_SHIP_OVER, SHIPPING } from './_lib.js';
+import { dbReady, currentUser } from './_db.js';
 
 const COUNTRIES = ['US','CA','MX','GB','IE','FR','DE','ES','PT','IT','NL','BE','LU','AT','CH','DK','SE','NO','FI','IS','PL','CZ','SK','HU','SI','HR','RO','BG','GR','CY','MT','EE','LV','LT','IL','AE','SA','QA','KW','BH','OM','JO','TR','AU','NZ','JP','KR','SG','HK','TW','MY','TH','PH','ID','VN','IN','ZA','NG','KE','EG','MA','BR','AR','CL','CO','PE','UY','PY','EC','CR','PA','DO','GT','JM','PR'];
 const cents = v => Math.round(+v * 100);
@@ -11,6 +12,8 @@ const clean = (s, n = 40) => String(s || '').replace(/[^\p{L}\p{N} .'#\-()/+]/gu
 export default async function handler(req, res) {
   if (req.method !== 'POST') return send(res, 405, { error: 'Use POST' });
   try {
+    const user = await currentUser(req);
+    if (dbReady() && !user) return send(res, 401, { error: 'Please sign in or create an account to check out' });
     const body = await readJson(req);
     const items = Array.isArray(body.items) ? body.items.slice(0, 40) : [];
     if (!items.length) return send(res, 400, { error: 'Your bag is empty' });
@@ -51,7 +54,7 @@ export default async function handler(req, res) {
     const scarf = merch >= SCARF_THRESHOLD * 100;
     const order = 'FM-' + randomBytes(4).toString('hex').toUpperCase().slice(0, 7);
     const origin = (req.headers['x-forwarded-proto'] || 'https') + '://' + (req.headers['x-forwarded-host'] || req.headers.host);
-    const meta = { order, shirts: String(shirts), pts: String(pts), scarf: scarf ? '1' : '0', merch: String(merch) };
+    const meta = { order, shirts: String(shirts), pts: String(pts), scarf: scarf ? '1' : '0', merch: String(merch), uid: user ? user.email : '', items: summary.join(' | ').slice(0, 490) };
 
     const params = {
       mode: 'payment',
@@ -61,9 +64,10 @@ export default async function handler(req, res) {
       allow_promotion_codes: 'true',
       billing_address_collection: 'auto',
       metadata: meta,
+      customer_email: user ? user.email : undefined,
       payment_intent_data: {
         description: `Futbol Mundo ${order}${scarf ? ' · includes FREE club scarf' : ''}`,
-        metadata: Object.assign({}, meta, { status: 'Processing', items: summary.join(' | ').slice(0, 490) }),
+        metadata: Object.assign({}, meta, { status: 'Processing' }),
       },
       custom_text: scarf ? { submit: { message: 'Your order qualifies for a FREE club scarf and a bonus Mundo XI player.' } } : undefined,
     };
