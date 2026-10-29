@@ -5368,6 +5368,8 @@ function hideEmptyNav(){
   const rc = document.getElementById('retro-count'); if (rc && !PRODUCTS.some(p => p.c === 'Retro')) { const sec = rc.closest('section'); if (sec) sec.style.display = 'none'; }
 }
 hideEmptyNav();
+// drop bag items that are no longer sold
+try { const names = new Set(PRODUCTS.map(p => p.n)); const before = cart.length; cart = cart.filter(c => c.box || c.pack || names.has(c.n)); if (cart.length !== before) renderCart(); } catch (e) {}
 </script>
 </body>
 </html>
