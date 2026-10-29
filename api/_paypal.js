@@ -15,12 +15,13 @@ async function token() {
     headers: { Authorization: 'Basic ' + Buffer.from(clientId() + ':' + process.env.PAYPAL_SECRET.trim()).toString('base64'), 'Content-Type': 'application/x-www-form-urlencoded' },
     body: 'grant_type=client_credentials',
   });
-  const j = await r.json();
-  if (!r.ok) throw Object.assign(new Error('PayPal login failed. Check PAYPAL_CLIENT_ID / PAYPAL_SECRET (and PAYPAL_ENV)'), { status: 502 });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error('PayPal login failed: ' + (j.error_description || j.error || r.status)), { status: 502 });
   TOKEN = { v: j.access_token, exp: Date.now() + (j.expires_in || 3000) * 1000 };
   return TOKEN.v;
 }
-export async function paypalCheck(){ try { await token(); return true; } catch (e) { return false; } }
+export async function paypalCheck(){ try { await token(); return true; } catch (e) { return e.message; } }
+export const paypalInfo = () => { const s = (process.env.PAYPAL_SECRET || '').trim(); return { secretLength: s.length, secretLooksLikeClientId: s === clientId(), secretHasSpaces: /\s/.test(process.env.PAYPAL_SECRET || '') }; };
 export async function paypal(method, path, body, extraHeaders = {}) {
   const r = await fetch(BASE() + path, { method, headers: Object.assign({ Authorization: 'Bearer ' + await token(), 'Content-Type': 'application/json' }, extraHeaders), body: body ? JSON.stringify(body) : undefined });
   const j = await r.json().catch(() => ({}));
