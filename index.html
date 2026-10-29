@@ -5080,6 +5080,7 @@ function r3Update(S, dtOverride){
   const bx = b.x - 52.5, bz = b.y - 34; let cp, lk;
   if (R3.cam === 1) { cp = [bx * .6, 70, 34]; lk = [bx * .6, 0, 2]; }
   else if (R3.cam === 2 && c) { cp = [c.x - 52.5 - 16, 9, c.y - 34]; lk = [c.x - 52.5 + 10, 0, c.y - 34]; }
+  else if (R.w < R.h) { cp = [bx, 20, bz + 30]; lk = [bx, 0, bz - 2]; }   // phones held upright: follow the ball closely
   else { cp = [Math.max(-34, Math.min(34, bx)) , 26, 58]; lk = [Math.max(-40, Math.min(40, bx)), 0, bz * .4]; }
   R.camPos.lerp(new R.T.Vector3(...cp), Math.min(1, dt * 2.5)); R.look.lerp(new R.T.Vector3(...lk), Math.min(1, dt * 3));
   R.cam.position.copy(R.camPos); R.cam.lookAt(R.look);
