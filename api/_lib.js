@@ -42,7 +42,12 @@ export function findProduct(pid, name) {
 }
 
 // ---------- Stripe (plain REST, no SDK) ----------
-export function stripeKey() { return process.env.STRIPE_SECRET_KEY || ''; }
+export function stripeKey() {
+  if (process.env.STRIPE_SECRET_KEY) return process.env.STRIPE_SECRET_KEY.trim();
+  // Fallback: a variable that was saved with the key itself as its name.
+  const named = Object.keys(process.env).find(k => /^sk_(live|test)_[A-Za-z0-9]+$/.test(k));
+  return named ? (/^sk_(live|test)_/.test(process.env[named] || '') ? process.env[named].trim() : named) : '';
+}
 function formEncode(obj, prefix, out = []) {
   for (const [k, v] of Object.entries(obj)) {
     if (v === undefined || v === null) continue;
