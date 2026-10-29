@@ -27,7 +27,8 @@ export default async function handler(req, res) {
     const summary = [];
     for (const it of items) {
       const q = clampQ(it.q);
-      if (it.kind === 'points') {
+      if (it.kind === 'points') continue; // Mundo Credits are no longer sold
+      if (false) {
         const price = packs[+it.pts];
         if (!price) continue;
         pts += +it.pts * q;

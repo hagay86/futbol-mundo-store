@@ -1283,7 +1283,7 @@ html[dir=rtl] .mc{margin:0 .02em 0 .14em}
         <div class="score-card"><h3 class="h3">Sell a player</h3><p class="muted" style="margin-bottom:14px">Turn spare cards into Mundo Credits for packs, cups and gifts. The card leaves your club for good.</p>
           <div class="score-rows" id="point-table"></div>
           <button class="btn btn-pri" style="width:100%" onclick="pickCard('cash')">Choose a player to sell</button>
-          <h3 class="h3" style="font-size:22px;margin:24px 0 10px">Buy Mundo Credits</h3><div id="packs-gifts"></div>
+          <div id="packs-gifts"></div>
         </div>
       </div>
     </div>
@@ -2428,7 +2428,7 @@ const CONFIG = {
   PICKS: 8,
   PAGE: 24,
 };
-const RULES_TEXT = 'Every shirt comes with a one-time code worth Ɱ4,000 Mundo Credits, enough for one 6-player Gold pack. Mystery boxes include one code per shirt. Orders over $30 include a free club scarf and a code for a bonus player. Every manager can build a demo squad with gray DEMO players, but matches and cups need 11 real players. Gifts unlock after $30 spent in the shop. Cards come in Bronze (under 65), Silver (65–74), Gold (75–84), Elite (85+) and Icon rarity. Managers begin in Division 10. Each division season is 7 matches against 7 rivals: 3 points for a win, 1 for a draw. The top 2 go up, the bottom 2 go down. Cups start on a fixed clock all day; entry costs Mundo Credits, with one free entry per day, and you play or sim every round yourself. Mundo Credits (Ɱ) come from shirt codes, objectives, winning matches and cups, and selling players, or you can buy them. They pay for packs, cup entries and gifts.';
+const RULES_TEXT = 'Every shirt comes with a one-time code worth Ɱ4,000 Mundo Credits, enough for one 6-player Gold pack. Mystery boxes include one code per shirt. Orders over $30 include a free club scarf and a code for a bonus player. Every manager can build a demo squad with gray DEMO players, but matches and cups need 11 real players. Gifts unlock after $30 spent in the shop. Cards come in Bronze (under 65), Silver (65–74), Gold (75–84), Elite (85+) and Icon rarity. Managers begin in Division 10. Each division season is 7 matches against 7 rivals: 3 points for a win, 1 for a draw. The top 2 go up, the bottom 2 go down. Cups start on a fixed clock all day; entry costs Mundo Credits, with one free entry per day, and you play or sim every round yourself. Mundo Credits (Ɱ) come from shirt codes, objectives, winning matches and cups, and selling players. They pay for packs, cup entries and gifts.';
 
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -2862,7 +2862,7 @@ function genPackCards(type){
 }
 function buyPackPts(type){
   const t = PACK_TYPES[type];
-  if (G.points < t.price) { openInfo('Not enough Mundo Credits', `The ${t.name} costs Ɱ${t.price.toLocaleString()} and you have ${G.points.toLocaleString()}. Win matches and cups, sell players, or buy Mundo Credits.` + pointPacksHTML()); return; }
+  if (G.points < t.price) { openInfo('Not enough Mundo Credits', `The ${t.name} costs Ɱ${t.price.toLocaleString()} and you have ${G.points.toLocaleString()}. Win matches and cups, sell players, or buy a shirt to get more.` + pointPacksHTML()); return; }
   G.points -= t.price; G.packs.push({type, id:newId()}); save();
   openPack(G.packs.length - 1);
 }
@@ -3284,7 +3284,7 @@ function enterCup(id, free){
   if (entryFor(c)) return;
   if (free) { if (!freeLeft() || !c.freeOK) { showToast('Your free entry for today is used'); return; } G.freeDay = todayKey(); }
   else {
-    if (G.points < c.fee) { openInfo('Not enough Mundo Credits', `This cup costs Ɱ${c.fee.toLocaleString()} and you have ${G.points.toLocaleString()}. Win matches, sell players, or buy Mundo Credits.` + pointPacksHTML()); return; }
+    if (G.points < c.fee) { openInfo('Not enough Mundo Credits', `This cup costs Ɱ${c.fee.toLocaleString()} and you have ${G.points.toLocaleString()}. Win matches, sell players, or buy a shirt to get more.` + pointPacksHTML()); return; }
     G.points -= c.fee;
   }
   G.cupEntries.push({cup:c.id, start:nextStart(c), free:!!free});
@@ -3397,7 +3397,7 @@ function renderCups(){
   ${G.cupHistory.length ? `<h3 class="h3" style="font-size:24px;margin-top:32px">Past cups</h3>${G.cupHistory.slice(0, 8).map(r => `<div class="res"><span class="wdl ${r.place === 1 ? 'w' : r.place <= 3 ? 'd' : 'l'}">${r.place === 1 ? '1st' : r.place === 2 ? '2nd' : r.place === 3 ? 'SF' : r.place === 5 ? 'QF' : 'R16'}</span><span>${r.name} · ${new Date(r.start).toLocaleString([], {weekday:'short', hour:'2-digit', minute:'2-digit'})}</span><b>${r.prize ? '+' + r.prize.toLocaleString() : '0'}</b></div>`).join('')}` : ''}`;
   $('#wallet').innerHTML = `<div class="sub">Your Mundo Credits</div><div class="big">Ɱ${G.points.toLocaleString()}</div>
     <div class="score-rows"><div><span>Free cup entry today</span><b>${freeLeft() ? 'Available' : 'Used'}</b></div><div><span>Unlock a player</span><b>+Ɱ25 to +Ɱ800</b></div><div><span>Sell a player</span><b>Ɱ50 to Ɱ5,000</b></div></div>
-    <h3 class="h3" style="font-size:22px;margin:18px 0 10px">Buy Mundo Credits</h3>${pointPacksHTML()}
+    
     <button class="btn btn-ghost" style="width:100%;margin-top:12px" onclick="gTab('rewards')">Sell players for credits</button>`;
 }
 setInterval(() => {
@@ -3410,8 +3410,8 @@ setInterval(() => {
 
 // ---------------- Points (money) ----------------
 const POINT_PACKS = [{pts:1000, price:8.98},{pts:2500, price:17.98, tag:'Popular'},{pts:6000, price:35.98},{pts:15000, price:71.98, tag:'Best value'}];
-function pointPacksHTML(){ return `<div class="packs">${POINT_PACKS.map((p, i) => `<button class="pack" onclick="buyPointPack(${i})">${p.tag ? `<span class="ptag">${p.tag}</span>` : ''}<b>Ɱ${p.pts.toLocaleString()}</b><span>Mundo Credits</span><em>${money(p.price)}</em></button>`).join('')}</div>`; }
-function buyPointPack(i){
+function pointPacksHTML(){ return ''; return `<div class="packs">${POINT_PACKS.map((p, i) => `<button class="pack" onclick="buyPointPack(${i})">${p.tag ? `<span class="ptag">${p.tag}</span>` : ''}<b>Ɱ${p.pts.toLocaleString()}</b><span>Mundo Credits</span><em>${money(p.price)}</em></button>`).join('')}</div>`; }
+function buyPointPack(i){ return;
   const p = POINT_PACKS[i];
   closeInfo();
   addToCart({n:`${p.pts.toLocaleString()} Mundo Credits`, p:p.price, img:pointImg(), sz:'Digital', cname:'', cnum:'', q:1, pack:p.pts});
@@ -4573,6 +4573,12 @@ pdpItem = function(){
   }
   return it;
 };
+try { if (cart.some(c => c.pack)) { cart = cart.filter(c => !c.pack); renderCart(); } } catch (e) {}
+// Browsing shows jerseys first; shorts, pants, training wear and the rest go to the end.
+const NOT_JERSEY = /short|pant|trouser|sock|training|jacket|hoodie|tracksuit|windbreaker|polo|vest|coat|cap\b|hat\b|bag\b|scarf|bottle|slide|shoe|boot|sneaker/i;
+const jerseyRank = p => (p.shirt && !NOT_JERSEY.test(p.n)) ? 0 : 1;
+const _shopList13 = shopList;
+shopList = function(){ const l = _shopList13.apply(this, arguments); return l.map((p, k) => [p, k]).sort((a, b) => jerseyRank(a[0]) - jerseyRank(b[0]) || a[1] - b[1]).map(x => x[0]); };
 const _addToCart11 = addToCart;
 addToCart = function(item){
   const key = JSON.stringify(item.opts || {});
