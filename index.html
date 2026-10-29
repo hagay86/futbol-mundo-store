@@ -1039,6 +1039,17 @@ html[dir=rtl] .mc{margin:0 .02em 0 .14em}
 
 </style>
 <script>try{var l=localStorage.getItem('fm_lang')||sessionStorage.getItem('fm_lang_auto');if(l&&l!=='en')document.documentElement.classList.add('i18n-wait');setTimeout(function(){document.documentElement.classList.remove('i18n-wait')},2500)}catch(e){}</script>
+<style>
+/* ===== v8: PayPal checkout + owner tools ===== */
+#co-ship-wrap{margin-top:22px}
+#co-ship-wrap .co-ship-opt{margin-bottom:8px}
+.adm-list{max-height:60vh;overflow:auto;text-align:left}
+.adm-o{border:1px solid #eee;border-radius:12px;padding:12px;margin-bottom:10px;font-size:13px}
+.adm-top b{font-size:15px;margin-right:8px}.adm-top span{color:#86868b}
+.adm-items{margin:6px 0}.adm-ship{color:#4A5668;margin-bottom:6px}
+.adm-row{display:flex;gap:8px;align-items:center}.adm-row select{height:40px;border-radius:10px;border:1px solid #ddd;padding:0 8px}.adm-row .info-input{margin:0;flex:1}
+
+</style>
 </head>
 <body>
 
@@ -1289,7 +1300,7 @@ html[dir=rtl] .mc{margin:0 .02em 0 .14em}
       <div><h4>Mundo XI</h4><a onclick="go('game','redeem')">Redeem a code</a><a onclick="go('game','market')">Trade market</a><a onclick="go('game','play')">Play a season</a><a onclick="go('game','cups')">Cups</a><a onclick="go('game','packs')">Packs</a><a onclick="openInfo('Mundo XI rules', RULES_TEXT)">Rules</a></div>
       <div><h4>Help</h4><a onclick="openTrack()">Track order</a><a onclick="openSizeGuide()">Size guide</a><a onclick="openHelp()">FAQ</a><a onclick="openInfo('Shipping','Standard delivery: 5–7 business days. Express: 2–3 business days. Free standard shipping on orders over $99.')">Shipping</a></div>
     </div>
-    <div class="f-bot"><span>© 2026 Futbol Mundo</span><span>Secure checkout by Stripe · Card, Apple Pay, Google Pay</span></div>
+    <div class="f-bot"><span>© 2026 Futbol Mundo</span><span>Secure checkout · PayPal, Visa, Mastercard, Amex</span></div>
   </div>
 </footer>
 
@@ -1365,7 +1376,7 @@ html[dir=rtl] .mc{margin:0 .02em 0 .14em}
         <p class="co-sub">Make sure everything looks right before you continue.</p>
         <div id="co-cart-items"></div>
         <div class="co-actions">
-          <span class="co-stripe-note">Shipping, payment and promo codes on the next page, secured by Stripe.</span>
+          <span class="co-stripe-note">Pay securely with PayPal or any card on the next page.</span>
           <button class="co-btn-primary" id="co-go" onclick="startStripeCheckout()">Continue to secure checkout →</button>
         </div>
       </section>
@@ -1391,7 +1402,7 @@ html[dir=rtl] .mc{margin:0 .02em 0 .14em}
       <div class="co-sum-items" id="co-sum-items"></div>
       <div class="co-sum-row"><span>Subtotal</span><span id="co-sum-sub">$0.00</span></div>
       <div class="co-sum-row"><span>Shipping</span><span id="co-sum-ship">—</span></div>
-      <div class="co-sum-row total"><span>Total before shipping</span><span id="co-sum-total">$0.00</span></div>
+      <div class="co-sum-row total"><span>Total</span><span id="co-sum-total">$0.00</span></div>
       <div class="co-secure-badge">
         <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="height:13px"><path d="M3 7V5a5 5 0 0110 0v2h1v8H2V7h1zm2 0h6V5a3 3 0 00-6 0v2z"/></svg>
         Secure encrypted checkout
@@ -3645,7 +3656,7 @@ async function startStripeCheckout(){
     : c.box ? {kind:'box', box:c.box, sz:c.sz, league:c.league, q:c.q}
     : {kind:'product', pid:c.pid ?? (PRODUCTS.find(p => p.n === c.n) || {}).id, n:c.n, sz:c.sz, cname:c.cname, cnum:c.cnum, q:c.q});
   try {
-    const r = await fetch('/api/checkout', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({items})});
+    const r = await fetch('/api/checkout', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({items, ship:coShipMethod, lang:I18N.lang})});
     const j = await r.json().catch(() => ({}));
     if (!r.ok || !j.url) throw new Error(r.status === 503 ? 'Checkout opens very soon. Please try again later.' : (j.error || 'Checkout is unavailable right now'));
     location.href = j.url;
@@ -4265,6 +4276,61 @@ maybeTutorial = function(){ if (currentView === 'game') _maybeTut(); };
 i18nObs.observe(document.body, {childList:true, subtree:true, characterData:true});
 detectLang().then(l => setLang(l, false));
 if (currentView === 'game' && !xiEntered() && !new URLSearchParams(location.search).get('order')) { XI_NEXT = gCurrent; _go('xi', null, false); renderXILanding(); }
+
+</script>
+<script>
+// =====================================================================
+// FUTBOL MUNDO v8 — PayPal checkout (PayPal or guest card), shipping picked
+// on the bag page, PayPal return flow, owner order tools.
+// =====================================================================
+var coShipMethod = 'standard';
+const SHIP_OPTS = [['standard', 9.99, 'Standard delivery', '5–7 business days'], ['express', 14.99, 'Express delivery', '2–3 business days'], ['overnight', 29.99, 'Next-day delivery', '1 business day']];
+function shipCost(method){ const m = merchTotal(cart); if (!m) return 0; const o = SHIP_OPTS.find(x => x[0] === method) || SHIP_OPTS[0]; return method === 'standard' && m >= FREE_SHIP_OVER ? 0 : o[1]; }
+function pickShip(m){ coShipMethod = m; renderCheckout(); }
+const _renderCheckout8 = renderCheckout;
+renderCheckout = function(){
+  _renderCheckout8();
+  let wrap = $('#co-ship-wrap');
+  if (!wrap) { $('#co-cart-items').insertAdjacentHTML('afterend', '<div id="co-ship-wrap"></div>'); wrap = $('#co-ship-wrap'); }
+  const m = merchTotal(cart), subtotal = cart.reduce((s, c) => s + c.p * c.q, 0);
+  if (!m) { wrap.innerHTML = ''; } else {
+    wrap.innerHTML = `<h2 class="co-h2">Shipping method</h2>` + SHIP_OPTS.map(([k, , name, eta]) => { const cost = shipCost(k);
+      return `<label class="co-ship-opt"><input type="radio" name="shipm" value="${k}" ${coShipMethod === k ? 'checked' : ''} onchange="pickShip('${k}')"><div class="co-ship-info"><b>${name}</b><span>${eta}</span></div><div class="co-ship-price">${cost ? money(cost) : '<span class="free">FREE</span>'}</div></label>`; }).join('');
+  }
+  const ship = shipCost(coShipMethod);
+  $('#co-sum-ship').innerHTML = !m ? 'None (digital)' : ship ? money(ship) : '<span style="color:#34c759;font-weight:600">FREE</span>';
+  $('#co-sum-total').textContent = money(subtotal + ship);
+};
+
+// PayPal return: /?pp=1&token=<order id>&PayerID=...
+(function(){
+  const q = new URLSearchParams(location.search);
+  if (q.get('pp') && q.get('token')) setTimeout(() => handleOrderReturn('pp:' + q.get('token')), 50);
+})();
+
+// ---------------- Owner tools ----------------
+const _openAccount8 = openAccount;
+openAccount = async function(){
+  await _openAccount8();
+  if (!ME.user) return;
+  try { const r = await fetch('/api/admin'); if (r.ok) $('.acc-actions')?.insertAdjacentHTML('afterbegin', '<button class="info-btn" style="background:#E8B730;color:#0F1E33" onclick="openAdmin()">Store orders (owner)</button>'); } catch (e) {}
+};
+async function openAdmin(){
+  $('#info-card').classList.add('wide');
+  $('#info-modal-body').innerHTML = '<h3>Store orders</h3><p>Loading…</p>';
+  $('#info-modal').classList.add('open');
+  let j; try { j = await api('/api/admin'); } catch (e) { $('#info-modal-body').innerHTML = `<h3>Store orders</h3><p>${escapeHtml(e.message)}</p>`; return; }
+  const st = ['Processing', 'Shipped', 'Delivered', 'Cancelled'];
+  $('#info-modal-body').innerHTML = `<h3>Store orders</h3><p>Change a status or add a tracking number. The customer gets an email.</p><div class="adm-list">${j.orders.map(o => `
+    <div class="adm-o"><div class="adm-top"><b>${o.order}</b><span>${new Date(o.created).toLocaleString()} · ${money(o.total)} · ${escapeHtml(o.email)} · ${o.provider || ''}</span></div>
+    <div class="adm-items">${o.items.map(i => `${escapeHtml(i.name)} × ${i.q}`).join('<br>')}${o.scarf ? '<br><b>+ FREE club scarf</b>' : ''}</div>
+    ${o.ship ? `<div class="adm-ship">${[o.ship.name, o.ship.address?.line1, o.ship.address?.line2, [o.ship.address?.postal_code, o.ship.address?.city].filter(Boolean).join(' '), o.ship.address?.state, o.ship.address?.country].filter(Boolean).map(escapeHtml).join(', ')}</div>` : ''}
+    <div class="adm-row"><select id="st-${o.order}">${st.map(s => `<option ${s === o.status ? 'selected' : ''}>${s}</option>`).join('')}</select><input class="info-input" id="tr-${o.order}" placeholder="Tracking number" value="${escapeAttr(o.tracking)}"><button class="btn btn-pri btn-sm" onclick="saveAdmin('${o.order}')">Save</button></div></div>`).join('') || '<p>No orders yet.</p>'}</div>`;
+}
+async function saveAdmin(order){
+  try { await api('/api/admin', {method:'POST', body:{order, status:$('#st-' + order).value, tracking:$('#tr-' + order).value}}); showToast(`${order} updated. Customer emailed`); }
+  catch (e) { showToast(e.message); }
+}
 
 </script>
 </body>

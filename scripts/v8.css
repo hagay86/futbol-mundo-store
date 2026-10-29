@@ -1,0 +1,8 @@
+/* ===== v8: PayPal checkout + owner tools ===== */
+#co-ship-wrap{margin-top:22px}
+#co-ship-wrap .co-ship-opt{margin-bottom:8px}
+.adm-list{max-height:60vh;overflow:auto;text-align:left}
+.adm-o{border:1px solid #eee;border-radius:12px;padding:12px;margin-bottom:10px;font-size:13px}
+.adm-top b{font-size:15px;margin-right:8px}.adm-top span{color:#86868b}
+.adm-items{margin:6px 0}.adm-ship{color:#4A5668;margin-bottom:6px}
+.adm-row{display:flex;gap:8px;align-items:center}.adm-row select{height:40px;border-radius:10px;border:1px solid #ddd;padding:0 8px}.adm-row .info-input{margin:0;flex:1}

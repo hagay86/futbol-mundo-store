@@ -516,5 +516,14 @@
 "{0}, Silver": "{0}, כסף",
 "{0}. Demo players can't be sold.": "{0}. אי אפשר למכור שחקני דמו.",
 "{0}: exactly one {1}-player Gold pack. Orders over ${2} add a free club scarf and a bonus player.": "{0}: בדיוק חבילת זהב אחת של {1} שחקנים. בהזמנות מעל ${2} מקבלים צעיף קבוצה ושחקן בונוס במתנה.",
-"{0}: one {1}-player Gold pack.": "{0}: חבילת זהב אחת של {1} שחקנים."
+"{0}: one {1}-player Gold pack.": "{0}: חבילת זהב אחת של {1} שחקנים.",
+"Shipping method": "שיטת משלוח",
+"Standard delivery": "משלוח רגיל",
+"Express delivery": "משלוח אקספרס",
+"Next-day delivery": "משלוח עד למחרת",
+"{0}–{1} business days": "{0}–{1} ימי עסקים",
+"{0} business day": "יום עסקים {0}",
+"FREE": "חינם",
+"Pay securely with PayPal or any card on the next page.": "תשלום מאובטח ב-PayPal או בכל כרטיס אשראי בעמוד הבא.",
+"Secure checkout · PayPal, Visa, Mastercard, Amex": "תשלום מאובטח · PayPal, Visa, Mastercard, Amex"
 }

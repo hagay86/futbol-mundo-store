@@ -83,14 +83,15 @@ export async function processPaidSession(s, origin) {
   for (let i = 0; i < shirts; i++) codes.push({ code: makeCode('P', SHIRT_POINTS, `${s.id}:shirt:${i}`), label: `Shirt ${i + 1}: ${SHIRT_POINTS.toLocaleString('en-US')} Mundo Credits (Ɱ), one 6-player pack` });
   if (pts) codes.push({ code: makeCode('P', pts, `${s.id}:points`), label: `${pts.toLocaleString('en-US')} Mundo Credits (Ɱ) you bought` });
   if (scarf) codes.push({ code: makeCode('S', 0, `${s.id}:scarf`), label: 'Free scarf bonus: 1 Mundo XI player' });
-  let items = [];
-  try { items = (await stripe('GET', `/checkout/sessions/${s.id}/line_items`, { limit: 50 })).data.map(l => ({ name: l.description, q: l.quantity, amount: l.amount_total / 100 })); } catch (e) {}
+  let items = s.items || [];
+  if (!s.items) try { items = (await stripe('GET', `/checkout/sessions/${s.id}/line_items`, { limit: 50 })).data.map(l => ({ name: l.description, q: l.quantity, amount: l.amount_total / 100 })); } catch (e) {}
   const email = normEmail(m.uid || s.customer_details?.email);
   const sendAt = Date.now() + CODE_DELAY_MIN * 60000;
   const order = { id: s.id, order: m.order, email, total: (s.amount_total || 0) / 100, spent: (s.amount_subtotal || 0) / 100, scarf, items, codes, created: Date.now(), sendAt,
-    ship: s.shipping_details || s.collected_information?.shipping_details || null, status: 'Processing' };
+    ship: s.ship || s.shipping_details || s.collected_information?.shipping_details || null, provider: s.provider || 'stripe', status: 'Processing' };
   await setJSON(key, order);
   await redis('SET', 'ordernum:' + m.order, s.id);
+  await redis('LPUSH', 'allorders', s.id);
   if (email) {
     await redis('LPUSH', 'orders:' + email, s.id);
     const u = await getUser(email);

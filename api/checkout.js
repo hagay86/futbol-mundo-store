@@ -1,8 +1,9 @@
-// POST /api/checkout  → creates a Stripe Checkout Session and returns its URL.
+// POST /api/checkout  → creates a PayPal order (when PayPal is connected) or a Stripe Checkout Session, and returns the payment page URL.
 // Prices are always taken from the catalogue on the server, never from the browser.
 import { randomBytes } from 'node:crypto';
 import { catalog, findProduct, stripe, send, readJson, fail, SCARF_THRESHOLD, FREE_SHIP_OVER, SHIPPING } from './_lib.js';
-import { dbReady, currentUser } from './_db.js';
+import { dbReady, currentUser, setJSON } from './_db.js';
+import { paypalReady, createPaypalOrder } from './_paypal.js';
 
 const COUNTRIES = ['US','CA','MX','GB','IE','FR','DE','ES','PT','IT','NL','BE','LU','AT','CH','DK','SE','NO','FI','IS','PL','CZ','SK','HU','SI','HR','RO','BG','GR','CY','MT','EE','LV','LT','IL','AE','SA','QA','KW','BH','OM','JO','TR','AU','NZ','JP','KR','SG','HK','TW','MY','TH','PH','ID','VN','IN','ZA','NG','KE','EG','MA','BR','AR','CL','CO','PE','UY','PY','EC','CR','PA','DO','GT','JM','PR'];
 const cents = v => Math.round(+v * 100);
@@ -19,7 +20,7 @@ export default async function handler(req, res) {
     if (!items.length) return send(res, 400, { error: 'Your bag is empty' });
     const { boxes, packs } = catalog();
 
-    const line_items = [];
+    const line_items = [], lines = [];
     let merch = 0, shirts = 0, pts = 0, physical = false;
     const summary = [];
     for (const it of items) {
@@ -28,6 +29,7 @@ export default async function handler(req, res) {
         const price = packs[+it.pts];
         if (!price) continue;
         pts += +it.pts * q;
+        lines.push({ name: `${(+it.pts).toLocaleString('en-US')} Mundo Credits`, desc: 'Digital: code emailed after payment', cents: cents(price), q, digital: true });
         line_items.push({ quantity: q, price_data: { currency: 'usd', unit_amount: cents(price), product_data: { name: `${(+it.pts).toLocaleString('en-US')} Mundo Credits (Ɱ)`, description: 'Digital: Mundo Credits code emailed to you after payment' } } });
         summary.push(`${q}x ${it.pts} pts`);
       } else if (it.kind === 'box') {
@@ -35,6 +37,7 @@ export default async function handler(req, res) {
         if (!b) continue;
         physical = true; merch += cents(b.price) * q; shirts += b.n * q;
         const desc = `Size ${clean(it.sz, 12)} · ${clean(it.league, 30) || 'Any league'} · includes ${b.n}x 6-player Mundo XI packs`;
+        lines.push({ name: `${b.name} mystery box (${b.n} shirt${b.n > 1 ? 's' : ''})`, desc, cents: cents(b.price), q });
         line_items.push({ quantity: q, price_data: { currency: 'usd', unit_amount: cents(b.price), product_data: { name: `${b.name} mystery box (${b.n} shirt${b.n > 1 ? 's' : ''})`, description: desc } } });
         summary.push(`${q}x box${b.n} ${clean(it.sz, 12)} ${clean(it.league, 20)}`);
       } else {
@@ -44,6 +47,7 @@ export default async function handler(req, res) {
         const print = clean(it.cname, 18) ? ` · Print: ${clean(it.cname, 18).toUpperCase()} #${clean(it.cnum, 3)}` : '';
         const desc = `Size ${clean(it.sz, 14)}${print}${p.shirt ? ' · includes a 6-player Mundo XI pack' : ''}`;
         const pd = { name: p.n.slice(0, 250), description: desc };
+        lines.push({ name: p.n, desc, cents: cents(p.p), q });
         if (/^https:\/\//.test(p.i)) pd.images = [p.i];
         line_items.push({ quantity: q, price_data: { currency: 'usd', unit_amount: cents(p.p), product_data: pd } });
         summary.push(`${q}x #${p.id} ${clean(it.sz, 12)}${print}`);
@@ -81,6 +85,17 @@ export default async function handler(req, res) {
         1: opt('Express delivery', SHIPPING.express, 2, 3),
         2: opt('Next-day delivery', SHIPPING.overnight, 1, 1),
       };
+    }
+    if (paypalReady()) {
+      const method = ['standard', 'express', 'overnight'].includes(body.ship) ? body.ship : 'standard';
+      const shippingCents = !physical ? 0 : method === 'standard' && merch >= FREE_SHIP_OVER * 100 ? 0 : SHIPPING[method];
+      const lang = String(body.lang || '').slice(0, 2);
+      const LOC = { en:'en-US', es:'es-ES', pt:'pt-BR', fr:'fr-FR', de:'de-DE', it:'it-IT', he:'he-IL', ar:'ar-EG' };
+      const pp = await createPaypalOrder({ order, lines, shippingCents, physical, email: user && user.email, origin, locale: LOC[lang] });
+      if (!pp.url) return send(res, 502, { error: 'PayPal did not return a payment page. Please try again' });
+      const subtotal = lines.reduce((t, l) => t + l.cents * l.q, 0);
+      if (dbReady()) await setJSON('pp:' + pp.id, { meta: Object.assign({}, meta, { ship: method }), lines: lines.map(l => ({ name: l.name, q: l.q, amount: l.cents * l.q / 100 })), subtotal, shippingCents }, 'EX', 60 * 60 * 24 * 3);
+      return send(res, 200, { url: pp.url, order, provider: 'paypal' });
     }
     const session = await stripe('POST', '/checkout/sessions', params);
     send(res, 200, { url: session.url, order });

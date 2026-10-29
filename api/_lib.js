@@ -74,7 +74,8 @@ export async function stripe(method, path, params) {
 // ---------- Signed Mundo XI codes ----------
 // Format: MX-TAAA-NNNN-SSSSSSSS  (T = type, AAA = amount/100 in base36, N = nonce, S = signature)
 const ALPHA = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-function secret() { return createHash('sha256').update('fm-codes:' + stripeKey()).digest(); }
+export const secretSeed = () => process.env.CODE_SECRET || process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || process.env.PAYPAL_SECRET || stripeKey();
+function secret() { return createHash('sha256').update('fm-codes:' + secretSeed()).digest(); }
 function b32(buf, n) { let s = ''; for (let i = 0; i < n; i++) s += ALPHA[buf[i] % 32]; return s; }
 function sign(body) { return b32(createHmac('sha256', secret()).update(body).digest(), 8); }
 export function makeCode(type, amount, seed) {
@@ -84,7 +85,7 @@ export function makeCode(type, amount, seed) {
 }
 export function readCode(code) {
   const m = /^MX-([PS])([0-9A-Z]{3})-([A-Z2-9]{4})-([A-Z2-9]{8})$/.exec(String(code || '').trim().toUpperCase());
-  if (!m || !stripeKey()) return null;
+  if (!m || !secretSeed()) return null;
   if (sign(m[1] + m[2] + '-' + m[3]) !== m[4]) return null;
   return { type: m[1] === 'P' ? 'points' : 'scarf', amount: parseInt(m[2], 36) * 100 };
 }

@@ -516,5 +516,14 @@
 "{0}, Silver": "{0}, Argento",
 "{0}. Demo players can't be sold.": "{0}. I giocatori demo non possono essere venduti.",
 "{0}: exactly one {1}-player Gold pack. Orders over ${2} add a free club scarf and a bonus player.": "{0}: esattamente un pacchetto Oro da {1} giocatori. Gli ordini sopra ${2} aggiungono una sciarpa del club gratis e un giocatore bonus.",
-"{0}: one {1}-player Gold pack.": "{0}: un pacchetto Oro da {1} giocatori."
+"{0}: one {1}-player Gold pack.": "{0}: un pacchetto Oro da {1} giocatori.",
+"Shipping method": "Metodo di spedizione",
+"Standard delivery": "Spedizione standard",
+"Express delivery": "Spedizione express",
+"Next-day delivery": "Consegna il giorno dopo",
+"{0}–{1} business days": "{0}–{1} giorni lavorativi",
+"{0} business day": "{0} giorno lavorativo",
+"FREE": "GRATIS",
+"Pay securely with PayPal or any card on the next page.": "Paga in sicurezza con PayPal o qualsiasi carta nella pagina successiva.",
+"Secure checkout · PayPal, Visa, Mastercard, Amex": "Pagamento sicuro · PayPal, Visa, Mastercard, Amex"
 }

@@ -516,5 +516,14 @@
 "{0}, Silver": "{0}، فضي",
 "{0}. Demo players can't be sold.": "{0}. لا يمكن بيع اللاعبين التجريبيين.",
 "{0}: exactly one {1}-player Gold pack. Orders over ${2} add a free club scarf and a bonus player.": "{0}: حزمة ذهبية واحدة بالضبط من {1} لاعبين. الطلبات فوق ${2} تحصل على وشاح نادٍ مجاني ولاعب إضافي.",
-"{0}: one {1}-player Gold pack.": "{0}: حزمة ذهبية واحدة من {1} لاعبين."
+"{0}: one {1}-player Gold pack.": "{0}: حزمة ذهبية واحدة من {1} لاعبين.",
+"Shipping method": "طريقة الشحن",
+"Standard delivery": "توصيل عادي",
+"Express delivery": "توصيل سريع",
+"Next-day delivery": "توصيل في اليوم التالي",
+"{0}–{1} business days": "{0}–{1} أيام عمل",
+"{0} business day": "يوم عمل {0}",
+"FREE": "مجاني",
+"Pay securely with PayPal or any card on the next page.": "ادفع بأمان عبر PayPal أو بأي بطاقة في الصفحة التالية.",
+"Secure checkout · PayPal, Visa, Mastercard, Amex": "دفع آمن · PayPal وVisa وMastercard وAmex"
 }

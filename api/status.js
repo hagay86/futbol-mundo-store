@@ -1,6 +1,7 @@
 // GET /api/status → which services are switched on (never reveals keys).
 import { stripeKey, send } from './_lib.js';
 import { dbReady, emailReady } from './_db.js';
+import { paypalReady, paypalMode } from './_paypal.js';
 
 export default async function handler(req, res) {
   const k = stripeKey();
@@ -14,5 +15,5 @@ export default async function handler(req, res) {
       if (r.ok && stripe === 'live' && j.charges_enabled === false) stripe = 'live (payments not activated yet)';
     } catch (e) {}
   }
-  send(res, 200, { stripe, stripeKeyWorks: stripeOk, stripeAccountName: account, database: dbReady(), email: emailReady() });
+  send(res, 200, { checkout: paypalReady() ? 'paypal' : k ? 'stripe' : 'none', paypal: paypalReady() ? paypalMode() : 'not connected', stripe, stripeKeyWorks: stripeOk, stripeAccountName: account, database: dbReady(), email: emailReady() });
 }
