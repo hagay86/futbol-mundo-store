@@ -20,6 +20,7 @@ async function token() {
   TOKEN = { v: j.access_token, exp: Date.now() + (j.expires_in || 3000) * 1000 };
   return TOKEN.v;
 }
+export async function paypalCheck(){ try { await token(); return true; } catch (e) { return false; } }
 export async function paypal(method, path, body, extraHeaders = {}) {
   const r = await fetch(BASE() + path, { method, headers: Object.assign({ Authorization: 'Bearer ' + await token(), 'Content-Type': 'application/json' }, extraHeaders), body: body ? JSON.stringify(body) : undefined });
   const j = await r.json().catch(() => ({}));
