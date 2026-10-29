@@ -2451,7 +2451,7 @@ PRODUCTS.forEach((p, i) => {
       if (cat === p.c) continue;
       for (const t of TEAMS_BY_LEAGUE[cat]) if (_matchAny(name, t.match)) { matched = {cat, team:t.name}; break outer; }
     }
-    if (matched && !['World Cup 2026','New Arrivals','Kids','Retro','Other Leagues','NBA','NHL','MLB','Rugby','Accessories','Shoes'].includes(p.c)) p.c = matched.cat;
+    if (matched && !p.x && !['World Cup 2026','New Arrivals','Kids','Retro','Other Leagues','NBA','NHL','MLB','Rugby','Accessories','Shoes'].includes(p.c)) p.c = matched.cat;
   }
   if (matched) p.t = matched.team;
   p.shirt = isShirt(p);
