@@ -549,5 +549,21 @@
 "Type the name to print, or pick another option": "اكتب الاسم للطباعة أو اختر خيارًا آخر",
 ") come from shirt codes, objectives, winning matches and cups, and selling players. They pay for packs, cup entries and gifts.": ") تحصل عليها من رموز القمصان والمهام والفوز بالمباريات والكؤوس وبيع اللاعبين. وتُستخدم لشراء الحزم ودخول الكؤوس والهدايا.",
 "Shirt {0} size": "مقاس القميص {0}",
-"Choose a size for every shirt in the box": "اختر مقاسًا لكل قميص في الصندوق"
+"Choose a size for every shirt in the box": "اختر مقاسًا لكل قميص في الصندوق",
+"Delivery details": "تفاصيل التوصيل",
+"Full name": "الاسم الكامل",
+"Country": "الدولة",
+"Choose your country": "اختر دولتك",
+"Phone (with country code)": "الهاتف (مع رمز الدولة)",
+"Address": "العنوان",
+"Apartment, floor (optional)": "الشقة، الطابق (اختياري)",
+"City": "المدينة",
+"State / region (if any)": "الولاية / المنطقة (إن وجدت)",
+"Postal code (if any)": "الرمز البريدي (إن وجد)",
+"We ship worldwide. The courier may call this number about your delivery.": "نشحن إلى جميع أنحاء العالم. قد يتصل المندوب بهذا الرقم.",
+"Enter your full name": "أدخل اسمك الكامل",
+"Enter a phone number with the country code": "أدخل رقم هاتف مع رمز الدولة",
+"Enter your street address": "أدخل عنوانك",
+"Enter your city": "أدخل مدينتك",
+"Please fill in your delivery details": "يرجى ملء تفاصيل التوصيل"
 }

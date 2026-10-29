@@ -27,7 +27,7 @@ export default async function handler(req, res) {
         const pu = cap.purchase_units[0], total = Math.round(+pu.payments.captures[0].amount.value * 100);
         o = await processPaidSession({ id: 'pp_' + ppId, payment_status: 'paid', metadata: saved.meta, provider: 'paypal',
           customer_details: { email: cap.payer?.email_address || saved.meta.uid }, amount_total: total, amount_subtotal: saved.subtotal,
-          items: saved.lines, ship: paypalShip(cap) }, siteUrl(req));
+          items: saved.lines, ship: saved.addr ? { name: saved.addr.name, phone: saved.addr.phone, address: { line1: saved.addr.line1, line2: saved.addr.line2, city: saved.addr.city, state: saved.addr.state, postal_code: saved.addr.zip, country: saved.addr.country } } : paypalShip(cap) }, siteUrl(req));
       }
       return reply(res, saved.meta, o, { email: o?.email || saved.meta.uid || '', total: o?.total ?? 0, spent: o?.spent ?? 0, items: saved.lines });
     }

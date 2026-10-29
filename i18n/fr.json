@@ -549,5 +549,21 @@
 "Type the name to print, or pick another option": "Saisissez le nom à floquer ou choisissez une autre option",
 ") come from shirt codes, objectives, winning matches and cups, and selling players. They pay for packs, cup entries and gifts.": ") proviennent des codes maillot, des objectifs, des victoires en match et en coupe et de la vente de joueurs. Ils servent à payer les packs, les inscriptions aux coupes et les cadeaux.",
 "Shirt {0} size": "Taille maillot {0}",
-"Choose a size for every shirt in the box": "Choisissez une taille pour chaque maillot de la box"
+"Choose a size for every shirt in the box": "Choisissez une taille pour chaque maillot de la box",
+"Delivery details": "Informations de livraison",
+"Full name": "Nom complet",
+"Country": "Pays",
+"Choose your country": "Choisissez votre pays",
+"Phone (with country code)": "Téléphone (avec indicatif)",
+"Address": "Adresse",
+"Apartment, floor (optional)": "Appartement, étage (facultatif)",
+"City": "Ville",
+"State / region (if any)": "État / région (le cas échéant)",
+"Postal code (if any)": "Code postal (le cas échéant)",
+"We ship worldwide. The courier may call this number about your delivery.": "Nous livrons dans le monde entier. Le livreur peut appeler ce numéro.",
+"Enter your full name": "Saisissez votre nom complet",
+"Enter a phone number with the country code": "Saisissez un numéro avec l'indicatif",
+"Enter your street address": "Saisissez votre adresse",
+"Enter your city": "Saisissez votre ville",
+"Please fill in your delivery details": "Remplissez vos informations de livraison"
 }

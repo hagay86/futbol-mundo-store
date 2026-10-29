@@ -43,7 +43,7 @@ async function openAdmin(){
   $('#info-modal-body').innerHTML = `<h3>Store orders</h3><p>Change a status or add a tracking number. The customer gets an email.</p><div class="adm-list">${j.orders.map(o => `
     <div class="adm-o"><div class="adm-top"><b>${o.order}</b><span>${new Date(o.created).toLocaleString()} · ${money(o.total)} · ${escapeHtml(o.email)} · ${o.provider || ''}</span></div>
     <div class="adm-items">${o.items.map(i => `${escapeHtml(i.name)} × ${i.q}`).join('<br>')}${o.scarf ? '<br><b>+ FREE club scarf</b>' : ''}</div>
-    ${o.ship ? `<div class="adm-ship">${[o.ship.name, o.ship.address?.line1, o.ship.address?.line2, [o.ship.address?.postal_code, o.ship.address?.city].filter(Boolean).join(' '), o.ship.address?.state, o.ship.address?.country].filter(Boolean).map(escapeHtml).join(', ')}</div>` : ''}
+    ${o.ship ? `<div class="adm-ship">${[o.ship.name, o.ship.phone && '☎ ' + o.ship.phone, o.ship.address?.line1, o.ship.address?.line2, [o.ship.address?.postal_code, o.ship.address?.city].filter(Boolean).join(' '), o.ship.address?.state, o.ship.address?.country].filter(Boolean).map(escapeHtml).join(', ')}</div>` : ''}
     <div class="adm-row"><select id="st-${o.order}">${st.map(s => `<option ${s === o.status ? 'selected' : ''}>${s}</option>`).join('')}</select><input class="info-input" id="tr-${o.order}" placeholder="Tracking number" value="${escapeAttr(o.tracking)}"><button class="btn btn-pri btn-sm" onclick="saveAdmin('${o.order}')">Save</button></div></div>`).join('') || '<p>No orders yet.</p>'}</div>`;
 }
 async function saveAdmin(order){

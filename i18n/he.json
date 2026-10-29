@@ -549,5 +549,21 @@
 "Type the name to print, or pick another option": "הקלידו את השם להדפסה, או בחרו אפשרות אחרת",
 ") come from shirt codes, objectives, winning matches and cups, and selling players. They pay for packs, cup entries and gifts.": ") מגיעים מקודי חולצות, ממשימות, מניצחונות במשחקים ובגביעים וממכירת שחקנים. משלמים איתם על חבילות, כניסה לגביעים ומתנות.",
 "Shirt {0} size": "מידה לחולצה {0}",
-"Choose a size for every shirt in the box": "בחרו מידה לכל חולצה בקופסה"
+"Choose a size for every shirt in the box": "בחרו מידה לכל חולצה בקופסה",
+"Delivery details": "פרטי משלוח",
+"Full name": "שם מלא",
+"Country": "מדינה",
+"Choose your country": "בחרו מדינה",
+"Phone (with country code)": "טלפון (עם קידומת מדינה)",
+"Address": "כתובת",
+"Apartment, floor (optional)": "דירה, קומה (לא חובה)",
+"City": "עיר",
+"State / region (if any)": "מחוז / אזור (אם יש)",
+"Postal code (if any)": "מיקוד (אם יש)",
+"We ship worldwide. The courier may call this number about your delivery.": "אנחנו שולחים לכל העולם. השליח עשוי להתקשר למספר הזה.",
+"Enter your full name": "הקלידו שם מלא",
+"Enter a phone number with the country code": "הקלידו טלפון עם קידומת מדינה",
+"Enter your street address": "הקלידו כתובת",
+"Enter your city": "הקלידו עיר",
+"Please fill in your delivery details": "מלאו את פרטי המשלוח"
 }

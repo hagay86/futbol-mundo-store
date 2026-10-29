@@ -95,15 +95,22 @@ export default async function handler(req, res) {
         2: opt('Next-day delivery', SHIPPING.overnight, 1, 1),
       };
     }
+    // Delivery details typed on our bag page (any country, phone with country code)
+    let addr = null;
+    if (physical && body.addr && typeof body.addr === 'object') {
+      const a = body.addr, t = (v, n) => String(v || '').replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, n);
+      addr = { name: t(a.name, 80), phone: t(a.phone, 24).replace(/[^\d+ ()-]/g, ''), line1: t(a.line1, 100), line2: t(a.line2, 100), city: t(a.city, 60), state: t(a.state, 60), zip: t(a.zip, 20), country: t(a.country, 2).toUpperCase() };
+      if (!/^[A-Z]{2}$/.test(addr.country) || addr.name.length < 3 || addr.line1.length < 3 || addr.city.length < 2 || addr.phone.replace(/\D/g, '').length < 7) return send(res, 400, { error: 'Please fill in your delivery details' });
+    }
     if (paypalReady()) {
       const method = ['standard', 'express', 'overnight'].includes(body.ship) ? body.ship : 'standard';
       const shippingCents = !physical ? 0 : method === 'standard' && merch >= FREE_SHIP_OVER * 100 ? 0 : SHIPPING[method];
       const lang = String(body.lang || '').slice(0, 2);
       const LOC = { en:'en-US', es:'es-ES', pt:'pt-BR', fr:'fr-FR', de:'de-DE', it:'it-IT', he:'he-IL', ar:'ar-EG' };
-      const pp = await createPaypalOrder({ order, lines, shippingCents, physical, email: user && user.email, origin, locale: LOC[lang], card: body.pay !== 'paypal', sdk: !!body.sdk });
+      const pp = await createPaypalOrder({ order, lines, shippingCents, physical, email: user && user.email, origin, locale: LOC[lang], card: body.pay !== 'paypal', sdk: !!body.sdk, addr });
       if (!pp.url && !body.sdk) return send(res, 502, { error: 'PayPal did not return a payment page. Please try again' });
       const subtotal = lines.reduce((t, l) => t + l.cents * l.q, 0);
-      if (dbReady()) await setJSON('pp:' + pp.id, { meta: Object.assign({}, meta, { ship: method }), lines: lines.map(l => ({ name: l.name, q: l.q, amount: l.cents * l.q / 100 })), subtotal, shippingCents }, 'EX', 60 * 60 * 24 * 3);
+      if (dbReady()) await setJSON('pp:' + pp.id, { meta: Object.assign({}, meta, { ship: method }), lines: lines.map(l => ({ name: l.name, q: l.q, amount: l.cents * l.q / 100 })), subtotal, shippingCents, addr }, 'EX', 60 * 60 * 24 * 3);
       return send(res, 200, { url: pp.url, id: pp.id, order, provider: 'paypal' });
     }
     const session = await stripe('POST', '/checkout/sessions', params);

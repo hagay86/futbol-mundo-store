@@ -36,10 +36,11 @@ async function renderPaypalButtons(){
         openAuth('signup', 'Create your free account to check out. We send your Mundo XI codes and order updates to it.', () => openCheckout());
         return actions.reject();
       }
+      if (typeof coAddrValid === 'function' && !coAddrValid()) return actions.reject();
       return actions.resolve();
     },
     createOrder: async () => {
-      const r = await fetch('/api/checkout', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({items:coItems(), ship:coShipMethod, lang:I18N.lang, pay:'card', sdk:1})});
+      const r = await fetch('/api/checkout', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({items:coItems(), ship:coShipMethod, lang:I18N.lang, pay:'card', sdk:1, addr:coAddrData()})});
       const j = await r.json().catch(() => ({}));
       if (!r.ok || !j.id) { showToast(j.error || 'Checkout is unavailable right now'); throw new Error(j.error || 'checkout'); }
       return j.id;

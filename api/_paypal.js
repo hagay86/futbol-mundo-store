@@ -36,7 +36,7 @@ const usd = c => (c / 100).toFixed(2);
 const cut = (s, n) => String(s || '').slice(0, n);
 
 // lines: [{name, desc, cents, q, digital}]  → returns {id, url}
-export async function createPaypalOrder({ order, lines, shippingCents, physical, email, origin, locale, card, sdk }) {
+export async function createPaypalOrder({ order, lines, shippingCents, physical, email, origin, locale, card, sdk, addr }, plain) {
   const itemTotal = lines.reduce((s, l) => s + l.cents * l.q, 0);
   const body = {
     intent: 'CAPTURE',
@@ -55,7 +55,20 @@ export async function createPaypalOrder({ order, lines, shippingCents, physical,
       return_url: `${origin}/?pp=1`, cancel_url: `${origin}/#bag`,
     }, email_address: email || undefined } } }),
   };
-  const j = await paypal('POST', '/v2/checkout/orders', body, { 'PayPal-Request-Id': order });
+  // Prefill the buyer's country and delivery address from our form (falls back to PayPal's own form if PayPal rejects it)
+  if (addr && !plain) {
+    const pa = { address_line_1: addr.line1.slice(0, 300), admin_area_2: addr.city.slice(0, 120), country_code: addr.country };
+    if (addr.line2) pa.address_line_2 = addr.line2.slice(0, 300);
+    if (addr.state) pa.admin_area_1 = addr.state.slice(0, 300);
+    if (addr.zip) pa.postal_code = addr.zip.slice(0, 60);
+    if (physical) body.purchase_units[0].shipping = { name: { full_name: addr.name.slice(0, 300) }, address: pa };
+    const [given, ...rest] = addr.name.split(' ');
+    if (sdk) { body.application_context.shipping_preference = physical ? 'SET_PROVIDED_ADDRESS' : 'NO_SHIPPING'; body.payer = { name: { given_name: given.slice(0, 140), surname: (rest.join(' ') || given).slice(0, 140) }, address: { country_code: addr.country }, email_address: email || undefined }; }
+    else body.payment_source.paypal.experience_context.shipping_preference = physical ? 'SET_PROVIDED_ADDRESS' : 'NO_SHIPPING';
+  }
+  let j;
+  try { j = await paypal('POST', '/v2/checkout/orders', body, { 'PayPal-Request-Id': order + (plain ? '-p' : '') }); }
+  catch (e) { if (addr && !plain && e.status === 400) return createPaypalOrder({ order, lines, shippingCents, physical, email, origin, locale, card, sdk, addr }, true); throw e; }
   const link = (j.links || []).find(l => l.rel === 'payer-action' || l.rel === 'approve');
   return { id: j.id, url: link && link.href };
 }
