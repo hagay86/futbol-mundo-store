@@ -3,7 +3,7 @@
 // The Client ID is public by design (PayPal exposes it in browsers); only PAYPAL_SECRET must stay private.
 const LIVE_CLIENT_ID = 'BAAcpWVZSv030wUMQde4l21vlth1TeSvuvPbdXFnGPizDEtGHgsZb30mS_RtaHxOGO5wgkDejjGFoXoiuk';
 const clientId = () => (process.env.PAYPAL_CLIENT_ID || LIVE_CLIENT_ID).trim();
-export const paypalReady = () => !!(clientId() && process.env.PAYPAL_SECRET);
+export const paypalReady = () => { const sec = (process.env.PAYPAL_SECRET || '').trim(); return !!(clientId() && sec && sec !== clientId()); };
 export const paypalMode = () => (process.env.PAYPAL_ENV || '').toLowerCase().startsWith('sand') ? 'sandbox' : 'live';
 const BASE = () => paypalMode() === 'sandbox' ? 'https://api-m.sandbox.paypal.com' : 'https://api-m.paypal.com';
 
