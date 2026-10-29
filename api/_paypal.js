@@ -1,6 +1,9 @@
 // PayPal Orders v2 (redirect flow, no SDK). Buyers can pay with a PayPal account or as a guest with a card.
 // Env: PAYPAL_CLIENT_ID, PAYPAL_SECRET, PAYPAL_ENV ('sandbox' for testing; anything else = live).
-export const paypalReady = () => !!(process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_SECRET);
+// The Client ID is public by design (PayPal exposes it in browsers); only PAYPAL_SECRET must stay private.
+const LIVE_CLIENT_ID = 'BAAcpWVZSv030wUMQde4l21vlth1TeSvuvPbdXFnGPizDEtGHgsZb30mS_RtaHxOGO5wgkDejjGFoXoiuk';
+const clientId = () => (process.env.PAYPAL_CLIENT_ID || LIVE_CLIENT_ID).trim();
+export const paypalReady = () => !!(clientId() && process.env.PAYPAL_SECRET);
 export const paypalMode = () => (process.env.PAYPAL_ENV || '').toLowerCase().startsWith('sand') ? 'sandbox' : 'live';
 const BASE = () => paypalMode() === 'sandbox' ? 'https://api-m.sandbox.paypal.com' : 'https://api-m.paypal.com';
 
@@ -9,7 +12,7 @@ async function token() {
   if (TOKEN && TOKEN.exp > Date.now() + 60000) return TOKEN.v;
   const r = await fetch(BASE() + '/v1/oauth2/token', {
     method: 'POST',
-    headers: { Authorization: 'Basic ' + Buffer.from(process.env.PAYPAL_CLIENT_ID.trim() + ':' + process.env.PAYPAL_SECRET.trim()).toString('base64'), 'Content-Type': 'application/x-www-form-urlencoded' },
+    headers: { Authorization: 'Basic ' + Buffer.from(clientId() + ':' + process.env.PAYPAL_SECRET.trim()).toString('base64'), 'Content-Type': 'application/x-www-form-urlencoded' },
     body: 'grant_type=client_credentials',
   });
   const j = await r.json();
