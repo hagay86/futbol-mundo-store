@@ -1,0 +1,6 @@
+{
+  "name": "futbol-mundo-store",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" }
+}

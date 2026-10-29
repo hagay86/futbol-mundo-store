@@ -771,10 +771,47 @@ select.co-input{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg x
 }
 </style>
 
+<style>
+/* ===== v4: demo players, play gate, scarf, Stripe checkout ===== */
+.pcx.demo{filter:grayscale(1);opacity:.78;box-shadow:0 0 0 3px #9AA3AD,0 10px 22px rgba(15,30,51,.12)}
+.pcx.demo .demo-tag{position:absolute;top:44%;left:-12%;right:-12%;z-index:4;transform:rotate(-24deg);background:rgba(15,30,51,.86);color:#fff;font-family:var(--fc);font-weight:800;font-size:clamp(13px,1.6vw,20px);letter-spacing:4px;text-align:center;padding:3px 0;pointer-events:none}
+.demo-banner{background:#1B2B42;color:#DCE3EC;border-top:1px solid rgba(255,255,255,.08)}
+.demo-banner.hidden{display:none}
+.demo-in{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding-top:12px;padding-bottom:12px;font-size:14px}
+.demo-in span:nth-child(2){flex:1;min-width:220px}
+.demo-in .btn-ghost{color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)}
+.demo-pill{background:#9AA3AD;color:var(--ink);font-family:var(--fc);font-weight:800;letter-spacing:2px;padding:2px 10px;border-radius:999px;font-size:13px}
+.gate{text-align:left}
+.gate p{margin-bottom:12px}
+.gate-meter{display:flex;align-items:center;gap:12px;margin:14px 0}
+.gate-bar{flex:1;height:10px;border-radius:999px;background:#E3E8E2;overflow:hidden}
+.gate-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pitch),var(--gold));border-radius:999px}
+.gate-list{margin:0 0 12px 18px;font-size:14px;line-height:1.55;color:var(--ink-2)}
+.gate-list li{margin-bottom:4px}
+.gate-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.gift-lock{grid-column:1/-1;background:#FFF8E3;border:1px solid #F0D68A;border-radius:var(--r-md);padding:18px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px}
+.gift-lock b{font-size:16px}
+.gift-lock span{color:var(--ink-2);font-size:14px;flex:1 1 260px}
+.reward.locked{opacity:.6}
+.scarf-ok,.scarf-todo{margin-top:10px;padding:10px 12px;border-radius:10px;font-size:13px;line-height:1.4}
+.scarf-ok{background:#E6F4EC;color:#0E5E39;font-weight:600}
+.scarf-todo{background:#FFF8E3;color:#6B5310}
+.cart-xi{font-size:13px}
+.co-stripe-note{font-size:13px;color:#86868b;max-width:320px}
+.co-scarf-ico{width:44px;height:44px;border-radius:8px;background:#F4F6F3;display:grid;place-items:center;font-size:22px;flex-shrink:0}
+.redeem-points{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.redeem-points b{font-family:var(--fc);font-weight:800;font-size:56px;color:var(--pitch);line-height:1}
+.redeem-points .btn{margin-top:12px}
+.acc-orders{text-align:left;max-height:260px;overflow:auto;margin-bottom:6px}
+.acc-order{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f0f0f0}
+.acc-order span{display:block;font-size:12px;color:#86868b}
+@media (max-width:600px){.co-actions{flex-direction:column-reverse;align-items:stretch;gap:10px}.co-stripe-note{max-width:none;text-align:center}}
+
+</style>
 </head>
 <body>
 
-<div class="notice"><b>Every shirt unlocks a player.</b> Your order includes a one-time Mundo XI code for each jersey. Free shipping over $99.</div>
+<div class="notice"><b>Every shirt comes with a 6-player Mundo XI pack.</b> Free club scarf + bonus player on orders over $30. Free shipping over $99.</div>
 
 <header class="hdr">
   <div class="wrap hdr-in">
@@ -814,7 +851,7 @@ select.co-input{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg x
     <div class="wrap hero-grid">
       <div>
         <h1><span>Wear the shirt.</span><span>Own the player.</span></h1>
-        <p>Jerseys from every major league and national team. Each one comes with a one-time code that unlocks that player in Mundo XI, our collect-and-trade game with a grand prize at the end of the season.</p>
+        <p>Jerseys from every major league and national team. Every shirt comes with a 6-player pack for Mundo XI, our collect-and-trade football game with a grand prize at the end of the season.</p>
         <div class="hero-ctas">
           <button class="btn btn-pri" onclick="go('shop')">Shop jerseys</button>
           <button class="btn btn-ghost" onclick="go('home','boxes')">Try a mystery box</button>
@@ -860,7 +897,7 @@ select.co-input{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg x
   <section class="sec sec-ink" id="boxes">
     <div class="wrap">
       <div class="sec-head">
-        <div><h2>Mystery boxes</h2><p>Pick how many shirts, your size and a league if you have a favourite. We choose the kits. Every box comes with a pack code: open it in Mundo XI to reveal the players inside, FIFA style.</p></div>
+        <div><h2>Mystery boxes</h2><p>Pick how many shirts, your size and a league if you have a favourite. We choose the kits. Every shirt in the box comes with its own 6-player Mundo XI pack.</p></div>
       </div>
       <div class="boxes" id="box-list"></div>
       <p class="box-note">Shirts are current-season or retro jerseys, never kids' kits or training wear. No repeats of the same team inside one box.</p>
@@ -872,11 +909,11 @@ select.co-input{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg x
       <div>
         <div class="sec-head" style="margin-bottom:0"><div><h2>Mundo XI</h2><p>The shirts you buy become your squad.</p></div></div>
         <ol class="steps">
-          <li><span class="sn">1</span><div><b>Buy a shirt</b><span>Choose a player on the jersey, or let a mystery box surprise you. You get one code per shirt.</span></div></li>
-          <li><span class="sn">2</span><div><b>Redeem and open packs</b><span>Shirt codes unlock that player. Box codes unlock packs. Big players arrive with a walkout.</span></div></li>
-          <li><span class="sn">3</span><div><b>Play, sim, climb</b><span>Start in Division 10. Play matches yourself or watch them on fast-forward, win cups and get promoted.</span></div></li>
+          <li><span class="sn">1</span><div><b>Buy a shirt</b><span>Every shirt brings 4,000 points: one 6-player Gold pack. Orders over $30 add a free club scarf and a bonus player.</span></div></li>
+          <li><span class="sn">2</span><div><b>Redeem and open packs</b><span>Your codes land in your game. Open packs and watch big signings walk out. Try squad building with free demo players first.</span></div></li>
+          <li><span class="sn">3</span><div><b>Play, sim, climb</b><span>With 11 real players you start in Division 10. Play matches yourself or on fast-forward, win cups and get promoted.</span></div></li>
         </ol>
-        <div class="hero-ctas"><button class="btn btn-pitch" onclick="go('game')">Open Mundo XI</button><button class="btn btn-ghost" onclick="go('game','redeem')">Redeem a code</button></div>
+        <div class="hero-ctas"><button class="btn btn-pitch" onclick="go('game')">Open Mundo XI</button><button class="btn btn-ghost" onclick="go('game','squad')">Build a demo squad</button></div>
       </div>
       <div class="xi-visual">
         <div class="card-fan" id="card-fan"></div>
@@ -974,9 +1011,9 @@ select.co-input{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg x
       <div class="redeem">
         <div>
           <h2>Redeem a code</h2>
-          <p>Every shirt comes with a code for that player. Mystery boxes come with a pack code. Each code works once.</p>
-          <div class="code-row"><input id="code-in" placeholder="MX-XXXX-XXXX" maxlength="14" aria-label="Code" onkeydown="if(event.key==='Enter')redeemCode()"><button class="btn btn-pitch" onclick="redeemCode()">Redeem</button></div>
-          <p style="margin:12px 0 0;font-size:14px">No code yet? Try a demo <button class="link" onclick="demoCode()">shirt code</button> or <button class="link" onclick="demoCode('box3')">mystery box code</button>.</p>
+          <p>Codes from your order confirmation. Shirt codes add 4,000 points (a 6-player pack); scarf codes add a bonus player. Each code works once per device.</p>
+          <div class="code-row"><input id="code-in" placeholder="MX-P014-XXXX-XXXXXXXX" maxlength="24" aria-label="Code" onkeydown="if(event.key==='Enter')redeemCode()"><button class="btn btn-pitch" onclick="redeemCode()">Redeem</button></div>
+          <p style="margin:12px 0 0;font-size:14px">No code yet? Every jersey comes with one. <button class="link" onclick="go('shop')">Shop jerseys</button></p>
         </div>
         <div class="redeem-result" id="redeem-result"><div class="redeem-empty">Your new player appears here</div></div>
       </div>
@@ -1021,7 +1058,7 @@ select.co-input{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg x
       <div><h4>Mundo XI</h4><a onclick="go('game','redeem')">Redeem a code</a><a onclick="go('game','market')">Trade market</a><a onclick="go('game','play')">Play a season</a><a onclick="go('game','cups')">Cups</a><a onclick="go('game','packs')">Packs</a><a onclick="openInfo('Mundo XI rules', RULES_TEXT)">Rules</a></div>
       <div><h4>Help</h4><a onclick="openTrack()">Track order</a><a onclick="openSizeGuide()">Size guide</a><a onclick="openHelp()">FAQ</a><a onclick="openInfo('Shipping','Standard delivery: 5–7 business days. Express: 2–3 business days. Free standard shipping on orders over $99.')">Shipping</a></div>
     </div>
-    <div class="f-bot"><span>© 2026 Futbol Mundo</span><span>Secure checkout · Card, PayPal, Apple Pay, Google Pay</span></div>
+    <div class="f-bot"><span>© 2026 Futbol Mundo</span><span>Secure checkout by Stripe · Card, Apple Pay, Google Pay</span></div>
   </div>
 </footer>
 
@@ -1052,7 +1089,7 @@ select.co-input{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg x
     <div class="pdp-league" id="pdp-league"></div>
     <div class="pdp-name" id="pdp-name"></div>
     <div class="pdp-price-row"><span class="pdp-price" id="pdp-price"></span><span class="pdp-orig" id="pdp-orig"></span><span class="pdp-save" id="pdp-save"></span></div>
-    <div class="xi-perk" id="pdp-perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z"/></svg><span id="pdp-perk-txt">Includes a one-time Mundo XI code for the player you choose.</span></div>
+    <div class="xi-perk" id="pdp-perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M12 7.5l1.4 2.9 3.1.4-2.3 2.2.6 3.1-2.8-1.5-2.8 1.5.6-3.1-2.3-2.2 3.1-.4z"/></svg><span id="pdp-perk-txt">Includes a 6-player Mundo XI pack.</span></div>
     <div class="pdp-section"><div class="pdp-label">Size <a onclick="openSizeGuide()">Size guide</a></div><div class="size-grid" id="pdp-sizes"></div></div>
     <div class="pdp-section" id="player-section">
       <div class="pdp-label">Choose a player</div>
@@ -1082,9 +1119,8 @@ select.co-input{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg x
     <div class="co-header-logo">FUTBOL MUNDO</div>
     <div class="co-steps">
       <div class="co-step-dot active" data-step="1"><span class="num"><span>1</span></span><span class="lbl">Bag</span></div>
-      <div class="co-step-dot" data-step="2"><span class="num"><span>2</span></span><span class="lbl">Shipping</span></div>
-      <div class="co-step-dot" data-step="3"><span class="num"><span>3</span></span><span class="lbl">Payment</span></div>
-      <div class="co-step-dot" data-step="4"><span class="num"><span>4</span></span><span class="lbl">Done</span></div>
+      <div class="co-step-dot" data-step="2"><span class="num"><span>2</span></span><span class="lbl">Pay securely</span></div>
+      <div class="co-step-dot" data-step="4"><span class="num"><span>3</span></span><span class="lbl">Done</span></div>
     </div>
     <button class="co-close" onclick="closeCheckout()" aria-label="Close">✕</button>
   </header>
@@ -1097,131 +1133,9 @@ select.co-input{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg x
         <h1 class="co-h1">Review your bag.</h1>
         <p class="co-sub">Make sure everything looks right before you continue.</p>
         <div id="co-cart-items"></div>
-        <div class="co-promo">
-          <input class="co-input" id="promo-code" placeholder="Promo code" autocomplete="off">
-          <button class="co-btn-secondary" onclick="applyPromo()">Apply</button>
-        </div>
         <div class="co-actions">
-          <span></span>
-          <button class="co-btn-primary" onclick="goToStep(2)">Continue to Shipping →</button>
-        </div>
-      </section>
-
-      <!-- STEP 2 — Shipping -->
-      <section class="co-step" data-step="2">
-        <h1 class="co-h1">Where to?</h1>
-        <p class="co-sub">We'll use this to deliver your order and send you updates.</p>
-
-        <h2 class="co-h2">Contact</h2>
-        <input class="co-input" id="ship-email" type="email" placeholder="Email address" autocomplete="email">
-
-        <h2 class="co-h2">Delivery address</h2>
-        <div class="co-grid-2">
-          <input class="co-input" id="ship-fname" placeholder="First name" autocomplete="given-name">
-          <input class="co-input" id="ship-lname" placeholder="Last name" autocomplete="family-name">
-        </div>
-        <input class="co-input" id="ship-addr" placeholder="Street address" autocomplete="address-line1">
-        <input class="co-input" id="ship-addr2" placeholder="Apt, suite, etc. (optional)" autocomplete="address-line2">
-        <div class="co-grid-3">
-          <input class="co-input" id="ship-city" placeholder="City" autocomplete="address-level2">
-          <input class="co-input" id="ship-state" placeholder="State" autocomplete="address-level1">
-          <input class="co-input" id="ship-zip" placeholder="ZIP" autocomplete="postal-code">
-        </div>
-        <select class="co-input" id="ship-country" autocomplete="country-name">
-          <option>United States</option><option>Canada</option><option>United Kingdom</option><option>Mexico</option><option>Spain</option><option>France</option><option>Germany</option><option>Italy</option><option>Netherlands</option><option>Argentina</option><option>Brazil</option><option>Australia</option><option>Japan</option><option>Other</option>
-        </select>
-        <input class="co-input" id="ship-phone" type="tel" placeholder="Phone number" autocomplete="tel">
-
-        <h2 class="co-h2">Shipping method</h2>
-        <label class="co-ship-opt">
-          <input type="radio" name="shipmethod" value="standard" checked onchange="updateShipping(this.value)">
-          <div class="co-ship-info"><b>Standard delivery</b><span>5–7 business days</span></div>
-          <div class="co-ship-price" id="ship-std-price">$9.99</div>
-        </label>
-        <label class="co-ship-opt">
-          <input type="radio" name="shipmethod" value="express" onchange="updateShipping(this.value)">
-          <div class="co-ship-info"><b>Express delivery</b><span>2–3 business days</span></div>
-          <div class="co-ship-price">$14.99</div>
-        </label>
-        <label class="co-ship-opt">
-          <input type="radio" name="shipmethod" value="overnight" onchange="updateShipping(this.value)">
-          <div class="co-ship-info"><b>Next-day delivery</b><span>1 business day · order before 2pm</span></div>
-          <div class="co-ship-price">$29.99</div>
-        </label>
-
-        <div class="co-actions">
-          <button class="co-back" onclick="goToStep(1)">← Back to bag</button>
-          <button class="co-btn-primary" onclick="goToStep(3)">Continue to Payment →</button>
-        </div>
-      </section>
-
-      <!-- STEP 3 — Payment -->
-      <section class="co-step" data-step="3">
-        <h1 class="co-h1">How would you like to pay?</h1>
-        <p class="co-sub">All transactions are encrypted and secure.</p>
-
-        <div class="co-pay-tabs">
-          <button class="co-pay-method active" data-method="card" onclick="selectPay('card')">
-            <svg viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="30" height="20" rx="3" stroke="currentColor" stroke-width="1.4"/><rect x="1" y="6" width="30" height="3" fill="currentColor"/><rect x="5" y="14" width="8" height="2" fill="currentColor"/></svg>
-            <span>Card</span>
-          </button>
-          <button class="co-pay-method" data-method="paypal" onclick="selectPay('paypal')">
-            <svg viewBox="0 0 60 22" xmlns="http://www.w3.org/2000/svg"><text x="0" y="16" font-family="Arial Black,Arial" font-weight="900" font-size="14" fill="#003087">Pay</text><text x="26" y="16" font-family="Arial Black,Arial" font-weight="900" font-size="14" fill="#0070ba">Pal</text></svg>
-            <span>PayPal</span>
-          </button>
-          <button class="co-pay-method" data-method="apple" onclick="selectPay('apple')">
-            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-            <span>Apple Pay</span>
-          </button>
-          <button class="co-pay-method" data-method="google" onclick="selectPay('google')">
-            <svg viewBox="0 0 60 22" xmlns="http://www.w3.org/2000/svg"><text x="0" y="16" font-family="-apple-system,Inter,Arial" font-weight="700" font-size="14" fill="#4285f4">G</text><text x="10" y="16" font-family="-apple-system,Inter,Arial" font-weight="700" font-size="14" fill="#ea4335">o</text><text x="20" y="16" font-family="-apple-system,Inter,Arial" font-weight="700" font-size="14" fill="#fbbc04">o</text><text x="30" y="16" font-family="-apple-system,Inter,Arial" font-weight="700" font-size="14" fill="#4285f4">g</text><text x="40" y="16" font-family="-apple-system,Inter,Arial" font-weight="700" font-size="14" fill="#34a853">l</text><text x="46" y="16" font-family="-apple-system,Inter,Arial" font-weight="700" font-size="14" fill="#ea4335">e</text></svg>
-            <span>Google Pay</span>
-          </button>
-        </div>
-
-        <div class="co-pay-panel active" data-method="card">
-          <input class="co-input" id="pay-cnum" placeholder="Card number" maxlength="19" inputmode="numeric" oninput="fmtCard(this)" autocomplete="cc-number">
-          <div class="co-grid-2">
-            <input class="co-input" id="pay-exp" placeholder="MM/YY" maxlength="5" inputmode="numeric" oninput="fmtExp(this)" autocomplete="cc-exp">
-            <input class="co-input" id="pay-cvv" placeholder="CVV" maxlength="4" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'')" autocomplete="cc-csc">
-          </div>
-          <input class="co-input" id="pay-cname" placeholder="Cardholder name" autocomplete="cc-name">
-          <label class="co-checkbox"><input type="checkbox" id="pay-billsame" checked> Billing address same as shipping</label>
-        </div>
-
-        <div class="co-pay-panel" data-method="paypal">
-          <div class="co-pay-info">
-            <svg viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg"><text x="0" y="22" font-family="Arial Black,Arial" font-weight="900" font-size="22" fill="#003087">Pay</text><text x="44" y="22" font-family="Arial Black,Arial" font-weight="900" font-size="22" fill="#0070ba">Pal</text></svg>
-            <div>You'll be redirected to <b>PayPal</b> to complete your purchase securely.</div>
-          </div>
-        </div>
-
-        <div class="co-pay-panel" data-method="apple">
-          <div class="co-pay-info">
-            <svg viewBox="0 0 24 24" fill="#1d1d1f" xmlns="http://www.w3.org/2000/svg"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-            <div>Confirm with <b>Touch ID</b>, <b>Face ID</b>, or your passcode to pay with Apple Pay.</div>
-          </div>
-        </div>
-
-        <div class="co-pay-panel" data-method="google">
-          <div class="co-pay-info">
-            <svg viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg"><text x="0" y="22" font-family="-apple-system,Inter,Arial" font-weight="700" font-size="22" fill="#4285f4">G</text><text x="14" y="22" font-family="-apple-system,Inter,Arial" font-weight="700" font-size="22" fill="#ea4335">o</text><text x="28" y="22" font-family="-apple-system,Inter,Arial" font-weight="700" font-size="22" fill="#fbbc04">o</text><text x="42" y="22" font-family="-apple-system,Inter,Arial" font-weight="700" font-size="22" fill="#4285f4">g</text><text x="56" y="22" font-family="-apple-system,Inter,Arial" font-weight="700" font-size="22" fill="#34a853">l</text><text x="64" y="22" font-family="-apple-system,Inter,Arial" font-weight="700" font-size="22" fill="#ea4335">e</text><text x="78" y="22" font-family="-apple-system,Inter,Arial" font-weight="700" font-size="22" fill="#5f6368"> Pay</text></svg>
-            <div>Use <b>Google Pay</b> for fast, secure checkout with your saved cards.</div>
-          </div>
-        </div>
-
-        <div class="co-trust">
-          <div class="badge"><svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8 1l5 2v4c0 3.5-2.2 6.4-5 7-2.8-.6-5-3.5-5-7V3l5-2zm0 4a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"/></svg> 256-bit SSL</div>
-          <div class="badge"><svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h10v8H3V6zm2-2a3 3 0 016 0v2H5V4z" stroke="currentColor" stroke-width="1.2" fill="none"/></svg> PCI-DSS Level 1</div>
-          <div class="badge">Powered by <b>Stripe</b></div>
-        </div>
-
-        <div class="co-actions">
-          <button class="co-back" onclick="goToStep(2)">← Back to shipping</button>
-          <button class="co-btn-primary" id="co-pay-btn" onclick="processOrder()">
-            <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="height:14px"><path d="M3 7V5a5 5 0 0110 0v2h1v8H2V7h1zm2 0h6V5a3 3 0 00-6 0v2z"/></svg>
-            Pay <span id="pay-total">$0.00</span>
-          </button>
+          <span class="co-stripe-note">Shipping, payment and promo codes on the next page, secured by Stripe.</span>
+          <button class="co-btn-primary" id="co-go" onclick="startStripeCheckout()">Continue to secure checkout →</button>
         </div>
       </section>
 
@@ -1245,10 +1159,8 @@ select.co-input{appearance:none;background:#fff url("data:image/svg+xml,%3Csvg x
       <h3>Order Summary</h3>
       <div class="co-sum-items" id="co-sum-items"></div>
       <div class="co-sum-row"><span>Subtotal</span><span id="co-sum-sub">$0.00</span></div>
-      <div class="co-sum-row" id="co-sum-promo-row" style="display:none"><span style="color:#34c759">Promo</span><span id="co-sum-promo" style="color:#34c759">−$0.00</span></div>
       <div class="co-sum-row"><span>Shipping</span><span id="co-sum-ship">—</span></div>
-      <div class="co-sum-row"><span>Estimated tax</span><span id="co-sum-tax">$0.00</span></div>
-      <div class="co-sum-row total"><span>Total</span><span id="co-sum-total">$0.00</span></div>
+      <div class="co-sum-row total"><span>Total before shipping</span><span id="co-sum-total">$0.00</span></div>
       <div class="co-secure-badge">
         <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="height:13px"><path d="M3 7V5a5 5 0 0110 0v2h1v8H2V7h1zm2 0h6V5a3 3 0 00-6 0v2z"/></svg>
         Secure encrypted checkout
@@ -1846,7 +1758,7 @@ function openTrack() {
     <input class="info-input" id="track-num" placeholder="Order number (e.g. FM-X3J9PQ)">
     <input class="info-input" id="track-email" type="email" placeholder="Email used at checkout">
     <button class="info-btn" onclick="doTrack()">Track order</button>
-    <p style="text-align:center;margin-top:14px;margin-bottom:0;font-size:12px;color:#86868b">Lost your order number? <span class="info-link" onclick="openInfo('Find your order number','Your order number was sent in the confirmation email at checkout. Search your inbox for &quot;Futbol Mundo&quot; or contact support@futbolmundo.com.')">Find it here</span></p>
+    <p style="text-align:center;margin-top:14px;margin-bottom:0;font-size:12px;color:#86868b">Lost your order number? <span class="info-link" onclick="openInfo('Find your order number','Your order number was sent in the confirmation email at checkout. Search your inbox for &quot;Futbol Mundo&quot; or contact support@futbolmundoshop.com.')">Find it here</span></p>
   `;
   document.getElementById('info-modal').classList.add('open');
 }
@@ -2217,11 +2129,11 @@ if (typeof module !== 'undefined') module.exports = MX;
 // =====================================================================
 const CONFIG = {
   BOXES: [
-    {n:1, name:'Debut',     price:35.98, perks:['1 surprise jersey','Debut pack: 1 shirt player + 2 bonus cards']},
-    {n:2, name:'Brace',     price:66.58, perks:['2 jerseys, 2 different teams','Brace pack: 2 shirt players + 2 bonus cards']},
-    {n:3, name:'Hat-trick', price:95.38, perks:['3 jerseys, 3 different teams','Hat-trick pack: 3 shirt players + 3 bonus cards','At least 1 Elite player (85+)'], featured:true},
-    {n:4, name:'Póker',     price:120.58, perks:['4 jerseys incl. 1 retro classic','Póker pack: 4 shirt players + 3 bonus cards','1 Elite player guaranteed']},
-    {n:5, name:'Manita',    price:143.98, perks:['5 jerseys incl. 1 retro classic','Manita pack: 5 shirt players + 4 bonus cards','1 Icon guaranteed, with walkout']},
+    {n:1, name:'Debut',     price:35.98, perks:['1 surprise jersey','1 six-player Mundo XI pack','Free club scarf + bonus player']},
+    {n:2, name:'Brace',     price:66.58, perks:['2 jerseys, 2 different teams','2 six-player packs: 12 players, enough to play','Free club scarf + bonus player']},
+    {n:3, name:'Hat-trick', price:95.38, perks:['3 jerseys, 3 different teams','3 six-player packs: 18 players','Free club scarf + bonus player'], featured:true},
+    {n:4, name:'Póker',     price:120.58, perks:['4 jerseys incl. 1 retro classic','4 six-player packs: 24 players','Free club scarf + bonus player']},
+    {n:5, name:'Manita',    price:143.98, perks:['5 jerseys incl. 1 retro classic','5 six-player packs: 30 players','Free club scarf + bonus player']},
   ],
   PRIZE_TITLE: 'Win Division 1',
   PRIZE_TEXT: 'Every manager starts in Division 10. Win your games to get promoted, open packs and sign better players. Lift the Division 1 title before the season closes and you qualify for the grand prize: a trip for two to a top-flight match, flights and hotel included.',
@@ -2231,7 +2143,7 @@ const CONFIG = {
   PICKS: 8,
   PAGE: 24,
 };
-const RULES_TEXT = 'One code per shirt, each code redeemable once. Mystery boxes come with a pack code. Cards come in Bronze (under 65), Silver (65–74), Gold (75–84), Elite (85+) and Icon rarity. Every new manager gets a free starter pack and begins in Division 10. Each division season is 7 matches against 7 rivals: 3 points for a win, 1 for a draw. The top 2 go up, the bottom 2 go down. Cups start on a fixed clock all day; entry costs points, with one free entry per day, and you play or sim every round yourself. Points come from unlocking players, winning matches and cups, selling players, or buying points packs. Points buy packs, cup entries and gifts.';
+const RULES_TEXT = 'Every shirt comes with a one-time code worth 4,000 points, enough for one 6-player Gold pack. Mystery boxes include one code per shirt. Orders over $30 include a free club scarf and a code for a bonus player. Every manager can build a demo squad with gray DEMO players, but matches and cups need 11 real players. Gifts unlock after $30 spent in the shop. Cards come in Bronze (under 65), Silver (65–74), Gold (75–84), Elite (85+) and Icon rarity. Managers begin in Division 10. Each division season is 7 matches against 7 rivals: 3 points for a win, 1 for a draw. The top 2 go up, the bottom 2 go down. Cups start on a fixed clock all day; entry costs points, with one free entry per day, and you play or sim every round yourself. Points come from unlocking players, winning matches and cups, selling players, or buying points packs. Points buy packs, cup entries and gifts.';
 
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -2311,7 +2223,7 @@ function productCard(p){
   return `<button class="pcard" onclick="openP(${p.id})">
     <div class="img">${tag}<img src="${thumb(p.i)}" alt="${escapeAttr(p.n)}" loading="lazy" decoding="async"></div>
     <div class="meta"><div class="team">${escapeHtml(p.t || p.g || p.c)}</div><div class="name">${escapeHtml(p.n)}</div>
-    <div class="price">${money(p.p)}${p.o && +p.o > +p.p ? `<s>${money(p.o)}</s>` : ''}</div>${p.shirt ? '<div class="xi">+ Mundo XI player code</div>' : ''}</div>
+    <div class="price">${money(p.p)}${p.o && +p.o > +p.p ? `<s>${money(p.o)}</s>` : ''}</div>${p.shirt ? '<div class="xi">+ 6-player Mundo XI pack</div>' : ''}</div>
   </button>`;
 }
 let pdpProduct = null;
@@ -2320,8 +2232,8 @@ function openP(id){
   openPDP(p.n, p.p, p.o, p.i, p.l, p.t ? `${p.t} · ${p.c}` : p.c);
   $('#pdp-perk').classList.toggle('hidden', !p.shirt);
   $('#pdp-perk-txt').textContent = currentPlayers.length
-    ? 'Includes a one-time Mundo XI code for the player you choose below.'
-    : 'Includes a one-time Mundo XI code. Add a name and number to pick your player.';
+    ? 'Includes a 6-player Mundo XI pack (4,000 points). Orders over $30 add a free scarf + bonus player.'
+    : 'Includes a 6-player Mundo XI pack (4,000 points). Orders over $30 add a free scarf + bonus player.';
 }
 function wishCurrent(){ if (pdpProduct) addToWishlist(pdpProduct.n, pdpProduct.p, pdpProduct.i); }
 
@@ -2571,9 +2483,9 @@ function cardHTML(c){
 const shortName = n => n.length <= 12 ? n : n.split(' ').slice(-1)[0];
 
 // ---------------- State ----------------
-const G = Object.assign({cards:[], squad:{}, points:0, gifts:[], used:[], issued:{}, listings:null, mine:[], packs:[], cupEntries:[], cupLive:[], cupHistory:[], trophies:[]}, store.get('fm_xi', {}));
+const G = Object.assign({cards:[], squad:{}, points:0, gifts:[], used:[], issued:{}, listings:null, mine:[], packs:[], cupEntries:[], cupLive:[], cupHistory:[], trophies:[]}, store.get('fm_xi2', {}));
 if (!Array.isArray(G.cupLive)) G.cupLive = [];
-function save(){ store.set('fm_xi', G); updateStats(); }
+function save(){ store.set('fm_xi2', G); updateStats(); }
 function genCode(){ const a = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; const r = n => Array.from({length:n}, () => a[Math.floor(Math.random()*a.length)]).join(''); return `MX-${r(4)}-${r(4)}`; }
 function updateStats(){
   const el = $('#st-points'); if (!el) return;
@@ -2768,8 +2680,8 @@ function renderSquad(){
   const s = teamScore();
   $('#score-card').innerHTML = `<div class="sub">Team rating</div><div class="big">${s.xi.length ? s.total.toFixed(1) : '–'}</div>
     <div class="score-rows"><div><span>Players picked</span><b>${s.xi.length} / 11</b></div><div><span>Average rating</span><b>${s.base.toFixed(1)}</b></div><div><span>Chemistry bonus</span><b>+${(s.chem * .5).toFixed(1)}</b></div></div>
-    <p class="muted" style="font-size:14px;margin-bottom:16px">You need all 11 places filled to play. Players out of position play worse in matches. Teammates from the same club or nation add chemistry.</p>
-    <button class="btn btn-pri" style="width:100%" onclick="autoPick()">${G.cards.length ? 'Pick my best eleven' : 'Open your starter pack'}</button>`;
+    <p class="muted" style="font-size:14px;margin-bottom:16px">Gray cards are demo players: build with them, but matches need 11 real players. Players out of position play worse in matches. Teammates from the same club or nation add chemistry.</p>
+    <button class="btn btn-pri" style="width:100%" onclick="autoPick()">Pick my best eleven</button>`;
 }
 function autoPick(silent){
   if (!G.cards.length) { gTab('packs'); return; }
@@ -3275,13 +3187,321 @@ function renderGame(){
   career(); updateStats(); gTab(gCurrent);
 }
 
+// (init moved to the v4 script below)
+
+</script>
+<script>
+// =====================================================================
+// FUTBOL MUNDO v4 — real Stripe checkout, signed Mundo XI codes,
+// demo mode (gray DEMO players, play locked until 11 real players),
+// 6-player pack per shirt, free scarf + bonus player over $30, gifts over $30.
+// =====================================================================
+const SHIRT_POINTS = 4000;           // = one 6-player Gold pack
+const SCARF_MIN = 30;                // USD of merchandise for the free scarf / gifts unlock
+const SUPPORT_EMAIL = 'support@futbolmundoshop.com';
+G.orders = G.orders || []; G.spent = G.spent || 0;
+
+// ---------------- Helpers ----------------
+const isDemo = c => !!(c && c.demo);
+const realCards = () => G.cards.filter(c => !c.demo);
+const realInXI = () => teamScore().xi.filter(c => !c.demo).length;
+const canPlay = () => squadFull() && realInXI() === 11;
+const merchTotal = items => items.filter(c => !c.pack).reduce((s, c) => s + c.p * c.q, 0);
+const shirtCount = items => items.reduce((s, c) => s + (c.box ? c.box * c.q : c.pack ? 0 : (PRODUCTS[c.pid ?? -1] || PRODUCTS.find(p => p.n === c.n) || {}).shirt ? c.q : 0), 0);
+function decodeCode(code){
+  const m = /^MX-([PS])([0-9A-Z]{3})-[A-Z2-9]{4}-[A-Z2-9]{8}$/.exec(code);
+  return m ? {type:m[1] === 'P' ? 'points' : 'scarf', amount:parseInt(m[2], 36) * 100} : null;
+}
+
+// ---------------- Cards: demo look ----------------
+function cardHTML(c){
+  const r = rarityOf(c);
+  return `<div class="pcx r-${r.k}${c.demo ? ' demo' : ''}" title="${escapeAttr(c.player)} · ${c.demo ? 'Demo player' : r.label}">
+    ${c.demo ? '<div class="demo-tag">DEMO</div>' : ''}
+    <div class="top"><div class="rt">${c.rating}</div><div class="ps">${c.pos}</div></div>
+    <div class="no">#${c.num}</div>
+    <div class="shirt"><img src="${c.img}" alt="" loading="lazy"></div>
+    <div class="nm">${escapeHtml(c.player)}</div><div class="tm">${escapeHtml(c.team)}</div>
+    <div class="rar">${c.demo ? 'Demo' : r.label}</div></div>`;
+}
+function seedDemo(){
+  if (G.demoSeeded) return;
+  G.demoSeeded = true;
+  const plan = ['GK','GK','DEF','DEF','DEF','DEF','DEF','DEF','DEF','DEF','MID','MID','MID','MID','MID','MID','FWD','FWD','FWD','FWD','FWD','FWD'];
+  plan.forEach(pos => { const c = randomCard({lo:64, hi:86, skew:1.2, pos}); c.demo = true; G.cards.push(c); });
+  autoPick(true); save();
+}
+function autoPick(silent){
+  if (!G.cards.length) { gTab('packs'); return; }
+  G.squad = {}; const used = new Set();
+  const sorted = G.cards.slice().sort((a, b) => (a.demo - b.demo) || b.rating - a.rating);
+  const keys = slotKeys();
+  keys.forEach(s => { const c = sorted.find(c => !used.has(c.id) && c.pos === s.pos); if (c) { G.squad[s.key] = c.id; used.add(c.id); } });
+  keys.forEach(s => { if (G.squad[s.key]) return; const c = sorted.find(c => !used.has(c.id)); if (c) { G.squad[s.key] = c.id; used.add(c.id); } });
+  save(); if (!silent) { renderSquad(); showToast(realCards().length ? 'Best eleven picked, real players first' : 'Demo eleven picked'); }
+}
+
+// ---------------- The play gate ----------------
+function showPlayGate(){
+  const real = realCards().length, inXI = realInXI(), pct = Math.min(100, real / 11 * 100);
+  const needShirts = Math.max(0, Math.ceil((11 - real) / 6));
+  const body = real >= 11
+    ? `You have ${real} real players but only ${inXI} of them are in your eleven. Swap the gray demo players out and you're ready.<div class="gate-btns"><button class="btn btn-pitch" onclick="closeInfo();autoPick();gTab('squad')">Use my real players</button></div>`
+    : `Your demo squad is just a preview. To play matches and enter cups, every place in your eleven needs a <b>real</b> player.
+      <div class="gate-meter"><div class="gate-bar"><i style="width:${pct}%"></i></div><b>${real}/11 real players</b></div>
+      <ul class="gate-list"><li><b>Every shirt</b> comes with ${SHIRT_POINTS.toLocaleString()} points: one 6-player Gold pack.</li><li><b>Orders over $${SCARF_MIN}</b> add a free club scarf and a bonus player.</li><li>Scarf + 1 shirt = 7 players. One more shirt and you can play.</li></ul>
+      <p style="margin:0">${needShirts ? `About <b>${needShirts} more shirt${needShirts > 1 ? 's' : ''}</b> gets you on the pitch.` : ''}</p>
+      <div class="gate-btns"><button class="btn btn-pitch" onclick="closeInfo();go('shop')">Shop jerseys</button>${G.points >= PACK_TYPES.gold.price ? `<button class="btn btn-gold" onclick="closeInfo();gTab('packs')">Open a 6-player pack</button>` : ''}<button class="btn btn-ghost" onclick="closeInfo();go('game','redeem')">I have a code</button></div>`;
+  $('#info-modal-body').innerHTML = `<h3>You need 11 real players to play</h3><div class="gate">${body}</div>`;
+  $('#info-modal').classList.add('open');
+}
+const _openMatch = openMatch;
+openMatch = function(o){ if (!canPlay()) { closeMatch(); return showPlayGate(); } return _openMatch(o); };
+const _enterCup = enterCup;
+enterCup = function(id, free){ if (!canPlay()) return showPlayGate(); return _enterCup(id, free); };
+function demoBanner(){
+  const el = $('#demo-banner'); if (!el) return;
+  if (canPlay()) { el.innerHTML = ''; el.classList.add('hidden'); return; }
+  const real = realCards().length;
+  el.classList.remove('hidden');
+  el.innerHTML = `<div class="wrap demo-in"><span class="demo-pill">DEMO</span><span><b>You're managing a demo squad.</b> Gray cards are demo players. Real players: <b>${real}/11</b>. Every shirt brings a 6-player pack.</span><button class="btn btn-gold btn-sm" onclick="go('shop')">Shop jerseys</button><button class="btn btn-ghost btn-sm" onclick="showPlayGate()">How it works</button></div>`;
+}
+const _updateStats = updateStats;
+updateStats = function(){ _updateStats(); demoBanner(); };
+
+// ---------------- Card picker: demo cards can't be sold, listed or traded ----------------
+function pickCard(mode, slotKey, pos, listingIdx){
+  pickCtx = {mode, slotKey, pos, listingIdx};
+  const pool = mode === 'slot' ? G.cards : realCards();
+  if (!pool.length) { openInfo(mode === 'slot' ? 'No players yet' : 'No real players yet', mode === 'slot' ? 'Redeem a code to get players.' : 'Demo players can\'t be sold, listed or traded. Every shirt you buy comes with a 6-player pack of real players.'); return; }
+  const inSquad = new Set(Object.values(G.squad));
+  const cards = pool.slice().sort((a, b) => (pos ? (b.pos === pos) - (a.pos === pos) : 0) || (a.demo - b.demo) || b.rating - a.rating);
+  const titles = {slot:`Choose a ${pos === 'GK' ? 'goalkeeper' : pos === 'DEF' ? 'defender' : pos === 'MID' ? 'midfielder' : 'forward'}`, trade:'Choose a card to offer', cash:'Choose a player to sell', list:'Choose a card to list'};
+  $('#info-card').classList.add('wide');
+  $('#info-modal-body').innerHTML = `<h3>${titles[mode]}</h3>
+    <p>${mode === 'slot' ? 'Real players are shown before demo players.' : mode === 'cash' ? 'Sale prices: ' + RARITY.map(r => r.label + ' ' + r.pts.toLocaleString()).join(', ') + '. Demo players can\'t be sold.' : mode === 'trade' ? 'They\'ll accept a card within 2 rating points of theirs, or better.' : 'Other fans can send offers for listed cards.'}</p>
+    ${slotKey && G.squad[slotKey] ? '<button class="btn btn-ghost btn-sm" style="margin-bottom:16px" onclick="clearSlot()">Empty this slot</button>' : ''}
+    <div class="col-grid">${cards.map(c => `<div class="col-item"><div onclick="choose('${c.id}')" role="button" tabindex="0">${cardHTML(c)}</div>${inSquad.has(c.id) ? '<span class="muted" style="font-size:12px;text-align:center">In your eleven</span>' : ''}</div>`).join('')}</div>`;
+  $('#info-modal').classList.add('open');
+}
+const _choose = choose;
+choose = function(id){ const c = cardById(id); if (isDemo(c) && pickCtx.mode !== 'slot') { showToast('Demo players can\'t leave your club'); return; } return _choose(id); };
+function renderCollection(){
+  const el = $('#collection');
+  const sorted = G.cards.slice().sort((a, b) => (a.demo - b.demo) || b.rating - a.rating);
+  const inXI = new Set(Object.values(G.squad));
+  el.innerHTML = `<div class="sec-head" style="margin-bottom:18px"><div><h3 class="h3" style="margin:0">Your club · ${realCards().length} real players</h3><p style="margin-top:6px">Plus ${G.cards.length - realCards().length} demo players (gray) to try squad building.</p></div><button class="btn btn-pri btn-sm" onclick="autoPick();gTab('squad')">Pick my best eleven</button></div>
+    <div class="col-grid">${sorted.map(c => `<div class="col-item">${cardHTML(c)}<div class="acts">${c.demo ? '<button disabled style="opacity:.6">Demo player</button>' : inXI.has(c.id) ? '<button disabled style="opacity:.6">In your eleven</button>' : `<button onclick="pickCtx={mode:'cash'};choose('${c.id}')">Sell for ${rarityOf(c).pts.toLocaleString()}</button>`}</div></div>`).join('')}</div>`;
+}
+
+// ---------------- Gifts: unlocked after $30 spent ----------------
+function renderRewards(){
+  const open = G.spent >= SCARF_MIN;
+  $('#rewards').innerHTML = (open ? '' : `<div class="gift-lock"><b>Gifts unlock after you spend $${SCARF_MIN} in the shop.</b><span>You've spent $${G.spent.toFixed(2)} so far. Any order over $${SCARF_MIN} also comes with a free club scarf.</span><button class="btn btn-pitch btn-sm" onclick="go('shop')">Shop jerseys</button></div>`) +
+    GIFTS.map((g, i) => `<div class="reward${open ? '' : ' locked'}"><div class="rp">${g.pts.toLocaleString()}</div><b>${g.name}</b><span>${g.txt}</span>
+    <button class="btn ${open && G.points >= g.pts ? 'btn-pri' : 'btn-ghost'} btn-sm" onclick="claimGift(${i})">${!open ? `Unlocks at $${SCARF_MIN} spent` : G.points >= g.pts ? 'Claim gift' : `${(g.pts - G.points).toLocaleString()} points to go`}</button></div>`).join('') +
+    (G.gifts.length ? `<div class="reward" style="background:var(--turf)"><b>Claimed</b><span>${G.gifts.map(escapeHtml).join('<br>')}</span></div>` : '');
+  $('#point-table').innerHTML = RARITY.map(r => `<div><span>${r.label}</span><b>${r.pts.toLocaleString()} pts</b></div>`).join('');
+  $('#packs-gifts').innerHTML = pointPacksHTML();
+}
+function claimGift(i){
+  const g = GIFTS[i];
+  if (G.spent < SCARF_MIN) { openInfo('Gifts are locked', `Gifts unlock once you've spent $${SCARF_MIN} in the shop. You've spent $${G.spent.toFixed(2)} so far.`); return; }
+  if (G.points < g.pts) { showToast(`You need ${(g.pts - G.points).toLocaleString()} more points`); return; }
+  const claim = 'GF-' + Date.now().toString(36).toUpperCase().slice(-6);
+  const order = G.orders[0] ? G.orders[0].order : '';
+  G.points -= g.pts; G.gifts.push(`${g.name} · ${claim}`); save(); renderRewards();
+  const subject = encodeURIComponent(`Gift claim ${claim}: ${g.name}`);
+  const mbody = encodeURIComponent(`Hi Futbol Mundo,\n\nI'd like to claim: ${g.name}\nClaim ID: ${claim}\nOrder number: ${order}\n\nShipping address:\n`);
+  openInfo('Gift claimed', `Your claim ID is <b>${claim}</b>. Send it to <a class="info-link" href="mailto:${SUPPORT_EMAIL}?subject=${subject}&body=${mbody}">${SUPPORT_EMAIL}</a> with your order number${order ? ` (<b>${order}</b>)` : ''} and we'll ship your ${escapeHtml(g.name.toLowerCase())}.`);
+}
+
+// ---------------- Redeem (codes are checked by the server) ----------------
+function applyCode(code, info, quiet){
+  G.used.push(code);
+  if (info.type === 'points') {
+    G.points += info.amount; save();
+    const packs = Math.floor(G.points / PACK_TYPES.gold.price);
+    $('#redeem-result').innerHTML = `<div class="redeem-points"><b>+${info.amount.toLocaleString()}</b><span>points added</span>${packs ? `<button class="btn btn-gold" onclick="buyPackPts('gold')">Open a 6-player Gold pack</button>` : ''}</div>`;
+    return `+${info.amount.toLocaleString()} points`;
+  }
+  const card = randomCard({lo:66, hi:84, skew:1.4});
+  G.cards.push(card); save();
+  const show = () => { $('#redeem-result').innerHTML = cardHTML(card); };
+  isWalkout(card) && !quiet ? walkout(card, show) : show();
+  return `${card.player} joined your club`;
+}
+async function redeemCode(){
+  const inp = $('#code-in'); const code = inp.value.trim().toUpperCase().replace(/\s/g, '');
+  if (!/^MX-[PS][0-9A-Z]{3}-[A-Z2-9]{4}-[A-Z2-9]{8}$/.test(code)) { showToast('Codes look like MX-P014-AB2C-DE3F4G5H'); inp.focus(); return; }
+  if (G.used.includes(code)) { showToast('That code has already been redeemed'); return; }
+  const btn = inp.nextElementSibling; btn.disabled = true;
+  try {
+    const r = await fetch('/api/redeem', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({code})});
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.error || 'That code did not work');
+    inp.value = ''; showToast(applyCode(code, j)); renderGame();
+  } catch (e) { showToast(e.message); }
+  btn.disabled = false;
+}
+
+// ---------------- Game entry ----------------
+function renderGame(){
+  seedDemo(); career(); updateStats(); gTab(gCurrent);
+}
+const _renderPacks = renderPacks;
+renderPacks = function(){ _renderPacks(); const p = $('#packs-main > p.muted:last-child'); if (p) p.innerHTML = `Every shirt you buy comes with ${SHIRT_POINTS.toLocaleString()} points: exactly one 6-player Gold pack. Orders over $${SCARF_MIN} add a free club scarf and a bonus player.`; };
+
+// ---------------- Product pages & cart ----------------
+function pdpItem(){
+  const sz = getSelSize();
+  if (!sz) { showToast('Please select a size'); return null; }
+  const o = document.getElementById('pdp-overlay');
+  return {n:o.dataset.name, p:parseFloat(o.dataset.price), img:o.dataset.img, sz, pid:pdpProduct ? pdpProduct.id : undefined,
+    cname:document.getElementById('pdp-cname').value.trim(), cnum:document.getElementById('pdp-cnum').value.trim(), q:pdpQty};
+}
+function pdpAddToCart(){ const it = pdpItem(); if (!it) return; addToCart(it); closePDP(); showToast('Added to your bag'); setTimeout(toggleCart, 300); }
+function pdpBuyNow(){ const it = pdpItem(); if (!it) return; addToCart(it); closePDP(); openCheckout(); }
+function scarfNote(items){
+  const m = merchTotal(items);
+  if (!m) return '';
+  return m >= SCARF_MIN ? `<div class="scarf-ok">🧣 Free club scarf + bonus Mundo XI player included</div>` : `<div class="scarf-todo">Add <b>${money(SCARF_MIN - m)}</b> more for a free club scarf + bonus player</div>`;
+}
+const _renderCart2 = renderCart;
+renderCart = function(){
+  _renderCart2();
+  const s = shirtCount(cart), el = $('#cart-xi');
+  if (el) el.innerHTML = (s ? `This order unlocks <b>${s} six-player pack${s > 1 ? 's' : ''}</b> (${s * 6} Mundo XI players)` : '') + scarfNote(cart);
+};
+
+// ---------------- Checkout (Stripe) ----------------
+function setCoStep(n){
+  coStep = n;
+  $$('#co-overlay .co-step').forEach(s => s.classList.toggle('active', +s.dataset.step === n));
+  $$('#co-overlay .co-step-dot').forEach(d => { const s = +d.dataset.step; d.classList.toggle('active', s === n); d.classList.toggle('done', s < n); });
+}
+function openCheckout(){
+  if (!cart.length) { showToast('Your bag is empty'); return; }
+  setCoStep(1); renderCheckout();
+  $('#co-overlay').classList.add('open'); document.body.style.overflow = 'hidden';
+}
+function renderCheckout(){
+  const subtotal = cart.reduce((s, c) => s + c.p * c.q, 0), m = merchTotal(cart);
+  $('#co-cart-items').innerHTML = cart.length ? cart.map((c, i) => `
+      <div class="co-line">
+        <img src="${c.img}" alt="${escapeAttr(c.n)}" onerror="this.style.background='#f5f5f7'">
+        <div class="co-line-info">
+          <div class="co-line-name">${escapeHtml(c.n)}</div>
+          <div class="co-line-meta">${c.pack ? 'Digital points' : 'Size ' + escapeHtml(c.sz)}${c.cname ? ' · ' + escapeHtml(c.cname) + ' #' + escapeHtml(c.cnum || '') : ''}</div>
+          <div class="co-line-qty"><button onclick="coChgQty(${i},-1)" aria-label="Decrease">−</button><span class="qv">${c.q}</span><button onclick="coChgQty(${i},1)" aria-label="Increase">+</button><button class="rm" onclick="coRemove(${i})">Remove</button></div>
+        </div>
+        <div class="co-line-price">${money(c.p * c.q)}</div>
+      </div>`).join('') + scarfNote(cart) : '<p class="co-empty">Your bag is empty.</p>';
+  $('#co-sum-items').innerHTML = cart.map(c => `
+    <div class="co-sum-item"><img src="${c.img}" alt=""><div class="co-sum-item-info"><div class="co-sum-item-name">${escapeHtml(c.n)}</div><div class="co-sum-item-meta">${c.pack ? 'Digital' : 'Size ' + escapeHtml(c.sz)} · Qty ${c.q}</div></div><div class="co-sum-item-price">${money(c.p * c.q)}</div></div>`).join('') +
+    (m >= SCARF_MIN ? `<div class="co-sum-item"><div class="co-scarf-ico">🧣</div><div class="co-sum-item-info"><div class="co-sum-item-name">Club scarf + bonus player</div><div class="co-sum-item-meta">Free gift</div></div><div class="co-sum-item-price">$0.00</div></div>` : '');
+  $('#co-sum-sub').textContent = money(subtotal);
+  $('#co-sum-ship').innerHTML = !m ? 'None (digital)' : m >= FREE_SHIP_OVER ? '<span style="color:#34c759;font-weight:600">FREE standard</span>' : 'From $9.99, chosen next';
+  $('#co-sum-total').textContent = money(subtotal);
+}
+function coChgQty(i, d){ cart[i].q = Math.max(1, Math.min(20, cart[i].q + d)); renderCart(); renderCheckout(); }
+function coRemove(i){ cart.splice(i, 1); renderCart(); if (!cart.length) { closeCheckout(); showToast('Bag emptied'); return; } renderCheckout(); }
+async function startStripeCheckout(){
+  if (!cart.length) { showToast('Your bag is empty'); return; }
+  const btn = $('#co-go'), orig = btn.innerHTML;
+  btn.disabled = true; btn.innerHTML = '<span class="co-spinner"></span> Opening secure checkout…';
+  const items = cart.map(c => c.pack ? {kind:'points', pts:c.pack, q:c.q}
+    : c.box ? {kind:'box', box:c.box, sz:c.sz, league:c.league, q:c.q}
+    : {kind:'product', pid:c.pid ?? (PRODUCTS.find(p => p.n === c.n) || {}).id, n:c.n, sz:c.sz, cname:c.cname, cnum:c.cnum, q:c.q});
+  try {
+    const r = await fetch('/api/checkout', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({items})});
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok || !j.url) throw new Error(r.status === 503 ? 'Checkout opens very soon. Please try again later.' : (j.error || 'Checkout is unavailable right now'));
+    location.href = j.url;
+  } catch (e) { showToast(e.message); btn.disabled = false; btn.innerHTML = orig; }
+}
+async function handleOrderReturn(id){
+  history.replaceState(null, '', location.pathname + '#home');
+  setCoStep(4);
+  $('#co-overlay').classList.add('open'); document.body.style.overflow = 'hidden';
+  $('#conf-num').textContent = '…'; $('#conf-email').textContent = 'your email';
+  $('#conf-summary').innerHTML = '<p class="co-sub" style="text-align:center">Confirming your payment…</p>'; $('#conf-codes').innerHTML = '';
+  let j = null;
+  for (let t = 0; t < 6; t++) {
+    try { const r = await fetch('/api/order?id=' + encodeURIComponent(id)); j = await r.json(); if (r.ok && j.paid) break; } catch (e) {}
+    await new Promise(res => setTimeout(res, 1500));
+  }
+  if (!j || !j.paid) { $('#conf-summary').innerHTML = `<p class="co-sub" style="text-align:center">We couldn't confirm this payment yet. If you were charged, email ${SUPPORT_EMAIL} and we'll sort it out.</p>`; return; }
+  const fresh = !G.orders.some(o => o.id === id);
+  const added = [];
+  if (fresh) {
+    G.orders.unshift({id, order:j.order, total:j.total, at:Date.now(), email:j.email});
+    G.spent += j.spent;
+    j.codes.forEach(c => { if (!G.used.includes(c.code)) { const info = decodeCode(c.code); if (info) added.push(applyCode(c.code, info, true)); } });
+    save(); cart = []; renderCart();
+  }
+  $('#conf-num').textContent = j.order;
+  $('#conf-email').textContent = j.email || 'your email';
+  $('#conf-summary').innerHTML = j.items.map(it => `<div class="cs-item"><div></div><div class="cs-item-info"><div>${escapeHtml(it.name)}</div><div class="meta">Qty ${it.q}</div></div><div>${money(it.amount)}</div></div>`).join('') +
+    `<div class="cs-item" style="border-top:1px solid #d2d2d7;padding-top:12px;margin-top:8px;font-weight:600"><div></div><div class="cs-item-info">Total paid</div><div>${money(j.total)}</div></div>` +
+    (j.scarf ? `<div class="scarf-ok" style="margin-top:12px">🧣 A free club scarf ships with this order</div>` : '');
+  const pts = j.codes.reduce((s, c) => s + ((decodeCode(c.code) || {}).type === 'points' ? decodeCode(c.code).amount : 0), 0);
+  $('#conf-codes').innerHTML = j.codes.length ? `<div class="co-codes"><h3>Added to your Mundo XI</h3>
+    <p>${pts ? `<b>${pts.toLocaleString()} points</b>, enough for ${Math.floor(pts / PACK_TYPES.gold.price)} six-player pack${Math.floor(pts / PACK_TYPES.gold.price) === 1 ? '' : 's'}` : ''}${j.scarf ? `${pts ? ', plus ' : ''}<b>a bonus player</b> from your free scarf` : ''}. ${fresh ? 'They are already in your game on this device.' : 'These were added when you first opened this page.'} Keep the codes to use them on another device instead.</p>
+    ${j.codes.map(o => `<div class="co-code"><b>${o.code}</b><span>${escapeHtml(o.label)}</span></div>`).join('')}
+    <button class="co-btn-primary" style="margin-top:10px" onclick="closeCheckout();go('game','packs')">Open my packs in Mundo XI</button></div>` : '';
+}
+
+// ---------------- Account, orders, tracking, wishlist ----------------
+function openAccount(){
+  const rows = G.orders.map(o => `<div class="acc-order"><div><b>${o.order}</b><span>${new Date(o.at).toLocaleDateString()} · ${money(o.total)}</span></div><button class="btn btn-ghost btn-sm" onclick="trackOrder('${o.order}','${escapeAttr(o.email || '')}')">Track</button></div>`).join('');
+  $('#info-modal-body').innerHTML = `<h3>Your orders</h3>
+    ${rows ? `<div class="acc-orders">${rows}</div>` : '<p>Orders you place on this device show up here. Your receipt and order number are also emailed to you by Stripe.</p>'}
+    <div class="score-rows" style="text-align:left;margin:14px 0"><div><span>Spent in the shop</span><b>${money(G.spent)}</b></div><div><span>Real Mundo XI players</span><b>${realCards().length}</b></div><div><span>Points</span><b>${G.points.toLocaleString()}</b></div></div>
+    <button class="info-btn" onclick="openTrack()">Track another order</button>
+    <p style="text-align:center;margin-top:14px;margin-bottom:0;font-size:12px">Questions? <a class="info-link" href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a></p>`;
+  $('#info-modal').classList.add('open');
+}
+function openTrack(){
+  $('#info-modal-body').innerHTML = `<h3>Track your order</h3>
+    <p>Enter your order number (starts with FM-) and the email you used at checkout.</p>
+    <input class="info-input" id="track-num" placeholder="Order number (e.g. FM-1A2B3C4)">
+    <input class="info-input" id="track-email" type="email" placeholder="Email used at checkout">
+    <button class="info-btn" onclick="doTrack()">Track order</button>
+    <p style="text-align:center;margin-top:14px;margin-bottom:0;font-size:12px;color:#86868b">Your order number is in your confirmation email. Lost it? <a class="info-link" href="mailto:${SUPPORT_EMAIL}">Email us</a></p>`;
+  $('#info-modal').classList.add('open');
+}
+function doTrack(){ trackOrder($('#track-num').value, $('#track-email').value); }
+async function trackOrder(num, email){
+  num = String(num || '').trim().toUpperCase();
+  if (!num) { showToast('Enter your order number'); return; }
+  try {
+    const r = await fetch(`/api/track?order=${encodeURIComponent(num)}&email=${encodeURIComponent(email || '')}`);
+    const j = await r.json();
+    if (!r.ok) throw new Error(j.error || 'Order not found');
+    const tr = j.tracking ? (/^https?:\/\//.test(j.tracking) ? `<a class="info-link" href="${escapeAttr(j.tracking)}" target="_blank" rel="noopener">Track the parcel</a>` : `Tracking number: <b>${escapeHtml(j.tracking)}</b>`) : 'You will get a tracking number by email as soon as it ships.';
+    openInfo('Order ' + j.order, `<b>Status:</b> ${escapeHtml(j.status)}<br>Placed ${new Date(j.placed).toLocaleDateString()} · ${money(j.total)}<br><br>${tr}`);
+  } catch (e) { showToast(e.message); }
+}
+wishlist = store.get('fm_wish', []);
+function addToWishlist(n, p, img){
+  if (wishlist.find(w => w.n === n)) { showToast('Already in your wishlist'); return; }
+  wishlist.push({n, p, img, pid:pdpProduct ? pdpProduct.id : undefined}); store.set('fm_wish', wishlist); updateWishCount(); showToast('♥ Added to wishlist');
+}
+function removeWish(i){ wishlist.splice(i, 1); store.set('fm_wish', wishlist); updateWishCount(); openWishlist(); }
+
 // ---------------- Init ----------------
+(function(){
+  const gh = $('.g-hero'); if (gh && !$('#demo-banner')) gh.insertAdjacentHTML('afterend', '<div id="demo-banner" class="demo-banner hidden"></div>');
+})();
 cart = store.get('fm_cart', []);
 renderCart();
 updateWishCount();
 renderHero(); renderPicks(); renderBest(); renderRetro(); renderBoxes(); renderLeagueTiles(); renderPrize();
 checkCups();
 routeFromHash();
+if (location.hash === '#bag' && cart.length) setTimeout(toggleCart, 200);
+(function(){ const id = new URLSearchParams(location.search).get('order'); if (id) handleOrderReturn(id); })();
 
 </script>
 </body>
