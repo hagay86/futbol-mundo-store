@@ -40,11 +40,13 @@ export function transform(raw) {
   return out;
 }
 
-let CACHE = null, CACHE_AT = 0;
+let CACHE = null, CACHE_AT = 0, CACHE_VER = '';
 export async function extraProducts() {
-  if (CACHE && Date.now() - CACHE_AT < 5 * 60 * 1000) return CACHE;
   if (!dbReady()) return CACHE || [];
   try {
+    const ver = String((await redis('GET', 'cat:ver')) || '');
+    if (CACHE && ver === CACHE_VER && Date.now() - CACHE_AT < 30 * 60 * 1000) return CACHE;
+    CACHE_VER = ver;
     const n = +(await redis('GET', 'cat:n')) || 0;
     if (!n) return (CACHE = []);
     let s = '';
