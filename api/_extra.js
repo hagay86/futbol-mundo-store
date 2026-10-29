@@ -16,6 +16,7 @@ const isKids = n => /\bkids?\b|\bbaby\b|\binfant\b|\byouth\b/i.test(n);
 // raw = {sets, rows}; row = [mid, name, priceUSD, league, team, gallery[], [[propName, setIndex]], customFlag]
 export function transform(raw) {
   const out = [];
+  if (raw && Array.isArray(raw.curated)) return raw.curated.filter(p => p && p.n && p.p > 0 && p.mid && Array.isArray(p.sz)).map(p => Object.assign({}, p, { x: 1, cur: 1 }));
   if (!raw || !Array.isArray(raw.rows)) return out;
   for (const [mid, name, price, bc0, bc1, gal, props] of raw.rows) {
     if (!name || !price || !gal || !gal.length || SKIP_BC.test(bc0 || '')) continue;
@@ -57,6 +58,7 @@ export async function extraProducts() {
 export const midOf = p => p.mid || +((String(p.l || '').match(/-p(\d+)\.html/) || [])[1] || 0);
 export function mergeCatalog(staticList, extra) {
   if (!extra.length) return staticList;
+  if (extra[0].cur) return extra.slice();   // curated catalogue: only these products are sold
   const ids = new Set(extra.map(p => p.mid));
   return staticList.filter(p => !ids.has(midOf(p))).concat(extra);
 }

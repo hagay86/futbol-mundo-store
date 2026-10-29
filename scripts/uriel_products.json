@@ -1,0 +1,912 @@
+[
+{
+"he": "קריסטל פאלאס בית – 26/27",
+"team": "Crystal Palace",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "קריסטל פאלאס חוץ – 26/27",
+"team": "Crystal Palace",
+"league": "Premier League",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "ניוקאסל חוץ – 26/27",
+"team": "Newcastle United",
+"league": "Premier League",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "ניוקאסל בית – 26/27",
+"team": "Newcastle United",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "קומו חוץ – 26/27",
+"team": "Como",
+"league": "Serie A",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "קומו בית – 26/27",
+"team": "Como",
+"league": "Serie A",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "ווסטהאם בית – 26/27",
+"team": "West Ham United",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "ווסטהאם חוץ – 26/27",
+"team": "West Ham United",
+"league": "Premier League",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "ווסטהאם שלישית – 26/27",
+"team": "West Ham United",
+"league": "Premier League",
+"kit": "Third",
+"variant": "Adult"
+},
+{
+"he": "מנצ׳סטר יונייטד שלישית – 26/27",
+"team": "Manchester United",
+"league": "Premier League",
+"kit": "Third",
+"variant": "Adult"
+},
+{
+"he": "יובנטוס שלישית – 26/27",
+"team": "Juventus",
+"league": "Serie A",
+"kit": "Third",
+"variant": "Adult"
+},
+{
+"he": "חולצה ארוכה – מנצ׳סטר יונייטד ספיישל 26/27",
+"team": "Manchester United",
+"league": "Premier League",
+"kit": "Special Edition",
+"variant": "Long Sleeve"
+},
+{
+"he": "יובנטוס חוץ – 26/27",
+"team": "Juventus",
+"league": "Serie A",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "אתלטיקו מדריד בית – 26/27",
+"team": "Atletico Madrid",
+"league": "La Liga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "אייאקס חוץ – 26/27",
+"team": "Ajax",
+"league": "Other Leagues",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "שחטאר דונייצק חוץ – 26/27",
+"team": "Shakhtar Donetsk",
+"league": "Other Leagues",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "פארמה חוץ – 26/27",
+"team": "Parma",
+"league": "Serie A",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "פארמה בית – 26/27",
+"team": "Parma",
+"league": "Serie A",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "סנדרלנד חוץ – 26/27",
+"team": "Sunderland",
+"league": "Premier League",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "ליידס יונייטד חוץ – 26/27",
+"team": "Leeds United",
+"league": "Premier League",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "ליידס יונייטד בית – 26/27",
+"team": "Leeds United",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "איינדהובן חוץ – 26/27",
+"team": "PSV Eindhoven",
+"league": "Other Leagues",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "פורטו בית – 26/27",
+"team": "FC Porto",
+"league": "Other Leagues",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "גלאטסראיי בית – 26/27",
+"team": "Galatasaray",
+"league": "Other Leagues",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "פיינורד בית – 26/27",
+"team": "Feyenoord",
+"league": "Other Leagues",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "שחטאר דונייצק בית – 26/27",
+"team": "Shakhtar Donetsk",
+"league": "Other Leagues",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "אייאקס שלישית – 26/27",
+"team": "Ajax",
+"league": "Other Leagues",
+"kit": "Third",
+"variant": "Adult"
+},
+{
+"he": "פורטו שלישית – 26/27",
+"team": "FC Porto",
+"league": "Other Leagues",
+"kit": "Third",
+"variant": "Adult"
+},
+{
+"he": "דינמו זאגרב בית – 26/27",
+"team": "Dinamo Zagreb",
+"league": "Other Leagues",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "קלאב ברוז’ בית – 26/27",
+"team": "Club Brugge",
+"league": "Other Leagues",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "פורטו חוץ – 26/27",
+"team": "FC Porto",
+"league": "Other Leagues",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "מארסיי בית – 26/27",
+"team": "Marseille",
+"league": "Ligue 1",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "לאנס בית – 26/27",
+"team": "Lens",
+"league": "Ligue 1",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "מארסיי חולצת שוער – 26/27",
+"team": "Marseille",
+"league": "Ligue 1",
+"kit": "Goalkeeper",
+"variant": "Adult"
+},
+{
+"he": "מונאקו בית – 26/27",
+"team": "Monaco",
+"league": "Ligue 1",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "ראן בית – 26/27",
+"team": "Rennes",
+"league": "Ligue 1",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "לאנס חוץ – 26/27",
+"team": "Lens",
+"league": "Ligue 1",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "מארסיי חוץ – 26/27",
+"team": "Marseille",
+"league": "Ligue 1",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "אוניון ברלין בית – 26/27",
+"team": "Union Berlin",
+"league": "Bundesliga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "רד בול לייפציג בית – 26/27",
+"team": "RB Leipzig",
+"league": "Bundesliga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "מנשנגלדבאך בית – 26/27",
+"team": "Borussia Monchengladbach",
+"league": "Bundesliga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "סט פאולי בית – 26/27",
+"team": "St. Pauli",
+"league": "Bundesliga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "פרנקפורט בית – 26/27",
+"team": "Eintracht Frankfurt",
+"league": "Bundesliga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "ורדר ברמן שלישית – 26/27",
+"team": "Werder Bremen",
+"league": "Bundesliga",
+"kit": "Third",
+"variant": "Adult"
+},
+{
+"he": "בורוסיה דורטמונד שוער – 26/27",
+"team": "Borussia Dortmund",
+"league": "Bundesliga",
+"kit": "Goalkeeper",
+"variant": "Adult"
+},
+{
+"he": "קלן בית – 26/27",
+"team": "FC Koln",
+"league": "Bundesliga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "באיירן מינכן שוער – 26/27",
+"team": "Bayern Munich",
+"league": "Bundesliga",
+"kit": "Goalkeeper",
+"variant": "Adult"
+},
+{
+"he": "באייר לברקוזן חוץ – 26/27",
+"team": "Bayer Leverkusen",
+"league": "Bundesliga",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "לאציו בית – 26/27",
+"team": "Lazio",
+"league": "Serie A",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "לאציו שלישית – 26/27",
+"team": "Lazio",
+"league": "Serie A",
+"kit": "Third",
+"variant": "Adult"
+},
+{
+"he": "לאציו חוץ – 26/27",
+"team": "Lazio",
+"league": "Serie A",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "מילאן חולצת שוער – 26/27",
+"team": "AC Milan",
+"league": "Serie A",
+"kit": "Goalkeeper",
+"variant": "Adult"
+},
+{
+"he": "פיורנטינה בית – 26/27",
+"team": "Fiorentina",
+"league": "Serie A",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "נאפולי בית – 26/27",
+"team": "Napoli",
+"league": "Serie A",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "טורינו בית – 26/27",
+"team": "Torino",
+"league": "Serie A",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "בולוניה בית – 26/27",
+"team": "Bologna",
+"league": "Serie A",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "פאלרמו בית – 26/27",
+"team": "Palermo",
+"league": "Serie A",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "יובנטוס בית – 26/27",
+"team": "Juventus",
+"league": "Serie A",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "ג’ירונה בית – 26/27",
+"team": "Girona",
+"league": "La Liga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "ריאל בטיס בית – 26/27",
+"team": "Real Betis",
+"league": "La Liga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "ריאל סוסיאדד בית – 26/27",
+"team": "Real Sociedad",
+"league": "La Liga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "ולנסיה בית – 26/27",
+"team": "Valencia",
+"league": "La Liga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "חטאפה בית – 26/27",
+"team": "Getafe",
+"league": "La Liga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "ולנסיה שלישית – 26/27",
+"team": "Valencia",
+"league": "La Liga",
+"kit": "Third",
+"variant": "Adult"
+},
+{
+"he": "אתלטיק בילבאו בית – 26/27",
+"team": "Athletic Bilbao",
+"league": "La Liga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "ריאל סוסיאדד חוץ – 26/27",
+"team": "Real Sociedad",
+"league": "La Liga",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "סלטה ויגו בית – 26/27",
+"team": "Celta Vigo",
+"league": "La Liga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "מלאגה בית – 26/27",
+"team": "Malaga",
+"league": "La Liga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "אתלטיק בילבאו חוץ – 26/27",
+"team": "Athletic Bilbao",
+"league": "La Liga",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "ריאל מדריד שוער – 26/27",
+"team": "Real Madrid",
+"league": "La Liga",
+"kit": "Goalkeeper",
+"variant": "Adult"
+},
+{
+"he": "מנצ׳סטר סיטי שוער – 26/27",
+"team": "Manchester City",
+"league": "Premier League",
+"kit": "Goalkeeper",
+"variant": "Adult"
+},
+{
+"he": "ליברפול חולצת שוער – 26/27",
+"team": "Liverpool",
+"league": "Premier League",
+"kit": "Goalkeeper",
+"variant": "Adult"
+},
+{
+"he": "צ׳לסי חולצת שוער – 26/27",
+"team": "Chelsea",
+"league": "Premier League",
+"kit": "Goalkeeper",
+"variant": "Adult"
+},
+{
+"he": "אסטון וילה בית – 26/27",
+"team": "Aston Villa",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "ארסנל חימום – עונת 26/27",
+"team": "Arsenal",
+"league": "Premier League",
+"kit": "Pre-Match",
+"variant": "Adult"
+},
+{
+"he": "חליפת ילדים – טוטנהאם בית 26/27",
+"team": "Tottenham Hotspur",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Kids Kit"
+},
+{
+"he": "חליפת ילדים – אייאקס בית 26/27",
+"team": "Ajax",
+"league": "Other Leagues",
+"kit": "Home",
+"variant": "Kids Kit"
+},
+{
+"he": "חליפת ילדים – ליון בית 26/27",
+"team": "Lyon",
+"league": "Ligue 1",
+"kit": "Home",
+"variant": "Kids Kit"
+},
+{
+"he": "חליפת ילדים – נאפולי בית 26/27",
+"team": "Napoli",
+"league": "Serie A",
+"kit": "Home",
+"variant": "Kids Kit"
+},
+{
+"he": "חליפת ילדים – צ׳לסי בית 26/27",
+"team": "Chelsea",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Kids Kit"
+},
+{
+"he": "חליפת ילדים – ארסנל בית 26/27",
+"team": "Arsenal",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Kids Kit"
+},
+{
+"he": "חולצה ארוכה – בורוסיה דורטמונד בית 26/27",
+"team": "Borussia Dortmund",
+"league": "Bundesliga",
+"kit": "Home",
+"variant": "Long Sleeve"
+},
+{
+"he": "חולצה ארוכה – ריאל מדריד בית 26/27",
+"team": "Real Madrid",
+"league": "La Liga",
+"kit": "Home",
+"variant": "Long Sleeve"
+},
+{
+"he": "חולצה ארוכה – באיירן מינכן בית 26/27",
+"team": "Bayern Munich",
+"league": "Bundesliga",
+"kit": "Home",
+"variant": "Long Sleeve"
+},
+{
+"he": "חולצה ארוכה – ארסנל בית 26/27",
+"team": "Arsenal",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Long Sleeve"
+},
+{
+"he": "חולצה ארוכה – ליברפול בית 26/27",
+"team": "Liverpool",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Long Sleeve"
+},
+{
+"he": "חולצה ארוכה – מנצ׳סטר סיטי בית 26/27",
+"team": "Manchester City",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Long Sleeve"
+},
+{
+"he": "חולצה ארוכה – מנצ׳סטר יונייטד בית 26/27",
+"team": "Manchester United",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Long Sleeve"
+},
+{
+"he": "חולצה ארוכה – טוטנהאם בית 26/27",
+"team": "Tottenham Hotspur",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Long Sleeve"
+},
+{
+"he": "חליפת ילדים – ברצלונה בית 26/27",
+"team": "Barcelona",
+"league": "La Liga",
+"kit": "Home",
+"variant": "Kids Kit"
+},
+{
+"he": "חליפת ילדים – פריז סן ז’רמן חוץ 26/27",
+"team": "Paris Saint-Germain",
+"league": "Ligue 1",
+"kit": "Away",
+"variant": "Kids Kit"
+},
+{
+"he": "חליפת ילדים – פריז סן ז’רמן בית 26/27",
+"team": "Paris Saint-Germain",
+"league": "Ligue 1",
+"kit": "Home",
+"variant": "Kids Kit"
+},
+{
+"he": "חליפת ילדים – ליברפול בית 26/27",
+"team": "Liverpool",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Kids Kit"
+},
+{
+"he": "חליפת ילדים – בורוסיה דורטמונד בית 26/27",
+"team": "Borussia Dortmund",
+"league": "Bundesliga",
+"kit": "Home",
+"variant": "Kids Kit"
+},
+{
+"he": "חליפת ילדים – ריאל מדריד בית 26/27",
+"team": "Real Madrid",
+"league": "La Liga",
+"kit": "Home",
+"variant": "Kids Kit"
+},
+{
+"he": "חליפת ילדים – מנצ׳סטר יונייטד בית 26/27",
+"team": "Manchester United",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Kids Kit"
+},
+{
+"he": "בנפיקה בית – 26/27",
+"team": "Benfica",
+"league": "Other Leagues",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "אייאקס בית – 26/27",
+"team": "Ajax",
+"league": "Other Leagues",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "באיירן מינכן בית – 26/27",
+"team": "Bayern Munich",
+"league": "Bundesliga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "באיירן מינכן חוץ – 26/27",
+"team": "Bayern Munich",
+"league": "Bundesliga",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "בורוסיה דורטמונד בית – 26/27",
+"team": "Borussia Dortmund",
+"league": "Bundesliga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "פריז סן ז’רמן בית – 26/27",
+"team": "Paris Saint-Germain",
+"league": "Ligue 1",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "פריז סן ז’רמן חוץ – 26/27",
+"team": "Paris Saint-Germain",
+"league": "Ligue 1",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "ליון חוץ – 26/27",
+"team": "Lyon",
+"league": "Ligue 1",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "אינטר בית – 26/27",
+"team": "Inter Milan",
+"league": "Serie A",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "מילאן בית – 26/27",
+"team": "AC Milan",
+"league": "Serie A",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "אינטר חוץ – 26/27",
+"team": "Inter Milan",
+"league": "Serie A",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "מילאן חוץ – 26/27",
+"team": "AC Milan",
+"league": "Serie A",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "מילאן שלישית – 26/27",
+"team": "AC Milan",
+"league": "Serie A",
+"kit": "Third",
+"variant": "Adult"
+},
+{
+"he": "ארסנל בית – 26/27",
+"team": "Arsenal",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "ארסנל חוץ – 26/27",
+"team": "Arsenal",
+"league": "Premier League",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "מנצ׳סטר יונייטד חוץ – 26/27",
+"team": "Manchester United",
+"league": "Premier League",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "ליברפול בית – 26/27",
+"team": "Liverpool",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "צ׳לסי בית – 26/27",
+"team": "Chelsea",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "ליברפול שלישית – 26/27",
+"team": "Liverpool",
+"league": "Premier League",
+"kit": "Third",
+"variant": "Adult"
+},
+{
+"he": "ליברפול חוץ – 26/27",
+"team": "Liverpool",
+"league": "Premier League",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "צ’לסי חוץ – 26/27",
+"team": "Chelsea",
+"league": "Premier League",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "טוטנהאם חוץ – 26/27",
+"team": "Tottenham Hotspur",
+"league": "Premier League",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "ארסנל שלישית – 26/27",
+"team": "Arsenal",
+"league": "Premier League",
+"kit": "Third",
+"variant": "Adult"
+},
+{
+"he": "מנצ’סטר סיטי בית – 26/27",
+"team": "Manchester City",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "מנצ’סטר סיטי שלישית – 26/27",
+"team": "Manchester City",
+"league": "Premier League",
+"kit": "Third",
+"variant": "Adult"
+},
+{
+"he": "מנצ’סטר יונייטד בית – 26/27",
+"team": "Manchester United",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "טוטנהאם בית – 26/27",
+"team": "Tottenham Hotspur",
+"league": "Premier League",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "ריאל מדריד שלישית – 26/27",
+"team": "Real Madrid",
+"league": "La Liga",
+"kit": "Third",
+"variant": "Adult"
+},
+{
+"he": "ריאל מדריד חוץ – 26/27",
+"team": "Real Madrid",
+"league": "La Liga",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "אתלטיקו מדריד חוץ – 26/27",
+"team": "Atletico Madrid",
+"league": "La Liga",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "ריאל מדריד בית – 26/27",
+"team": "Real Madrid",
+"league": "La Liga",
+"kit": "Home",
+"variant": "Adult"
+},
+{
+"he": "ברצלונה שלישית – 26/27",
+"team": "Barcelona",
+"league": "La Liga",
+"kit": "Third",
+"variant": "Adult"
+},
+{
+"he": "ברצלונה חוץ – 26/27",
+"team": "Barcelona",
+"league": "La Liga",
+"kit": "Away",
+"variant": "Adult"
+},
+{
+"he": "ברצלונה בית – 26/27",
+"team": "Barcelona",
+"league": "La Liga",
+"kit": "Home",
+"variant": "Adult"
+}
+]
