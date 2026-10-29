@@ -28,7 +28,7 @@ export default async function handler(req, res) {
         const price = packs[+it.pts];
         if (!price) continue;
         pts += +it.pts * q;
-        line_items.push({ quantity: q, price_data: { currency: 'usd', unit_amount: cents(price), product_data: { name: `${(+it.pts).toLocaleString('en-US')} Mundo XI points`, description: 'Digital: added to your Mundo XI wallet after payment' } } });
+        line_items.push({ quantity: q, price_data: { currency: 'usd', unit_amount: cents(price), product_data: { name: `${(+it.pts).toLocaleString('en-US')} Mundo Credits (Ɱ)`, description: 'Digital: Mundo Credits code emailed to you after payment' } } });
         summary.push(`${q}x ${it.pts} pts`);
       } else if (it.kind === 'box') {
         const b = boxes[+it.box];

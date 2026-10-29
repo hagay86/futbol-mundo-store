@@ -964,6 +964,16 @@ button.hub-tile:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(232,1
 @media (max-width:480px){.hdr .wrap{padding:0 12px}.brand{font-size:19px;gap:7px}.brand-mark{width:26px;height:26px}.hdr-actions{gap:0}.hdr-actions .icon-btn{width:36px;height:36px}.hdr-actions .icon-btn svg{width:20px;height:20px}}
 @media (max-width:360px){.brand{font-size:16px}.brand-mark{display:none}}
 </style>
+<style>
+/* ===== v6: Mundo Credits coin sign ===== */
+.mc{display:inline-block;width:1.08em;height:1.08em;margin:0 .14em 0 .02em;vertical-align:-.16em;color:transparent;overflow:hidden;font-size:inherit;line-height:1;flex-shrink:0;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23FFF1B8'/%3E%3Cstop offset='.45' stop-color='%23E8B730'/%3E%3Cstop offset='1' stop-color='%239C700E'/%3E%3C/linearGradient%3E%3ClinearGradient id='h' x1='0' y1='1' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23C9971F'/%3E%3Cstop offset='1' stop-color='%23FFE597'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='15.4' fill='url(%23g)'/%3E%3Ccircle cx='16' cy='16' r='12.6' fill='url(%23h)' stroke='%237A5608' stroke-opacity='.55' stroke-width='.9'/%3E%3Cpath d='M9.6 22.2V10.4l6.4 6.9 6.4-6.9v11.8' fill='none' stroke='%230F1E33' stroke-width='2.7' stroke-linejoin='round' stroke-linecap='round'/%3E%3Cpath d='M7.2 14.9h17.6M7.2 18.3h17.6' stroke='%230F1E33' stroke-width='1.25' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='6.6' r='1.1' fill='%230F1E33'/%3E%3C/svg%3E") center/contain no-repeat;
+  filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.25))}
+.hub-tile b .mc,.score-card .big .mc,.g-stat b .mc,.redeem-points b .mc{width:.82em;height:.82em;vertical-align:-.02em;margin-right:.08em}
+span.mc{font-size:inherit!important;color:transparent!important;font-weight:inherit!important;letter-spacing:0!important;padding:0!important;border:0!important;text-transform:none!important}
+.mc-legend{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#9FB0C6}
+
+</style>
 </head>
 <body>
 
@@ -1065,7 +1075,7 @@ button.hub-tile:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(232,1
       <div>
         <div class="sec-head" style="margin-bottom:0"><div><h2>Mundo XI</h2><p>The shirts you buy become your squad.</p></div></div>
         <ol class="steps">
-          <li><span class="sn">1</span><div><b>Buy a shirt</b><span>Every shirt brings 4,000 points: one 6-player Gold pack. Orders over $30 add a free club scarf and a bonus player.</span></div></li>
+          <li><span class="sn">1</span><div><b>Buy a shirt</b><span>Every shirt brings Ɱ4,000 Mundo Credits: one 6-player Gold pack. Orders over $30 add a free club scarf and a bonus player.</span></div></li>
           <li><span class="sn">2</span><div><b>Redeem and open packs</b><span>Your codes land in your game. Open packs and watch big signings walk out. Try squad building with free demo players first.</span></div></li>
           <li><span class="sn">3</span><div><b>Play, sim, climb</b><span>With 11 real players you start in Division 10. Play matches yourself or on fast-forward, win cups and get promoted.</span></div></li>
         </ol>
@@ -1122,7 +1132,7 @@ button.hub-tile:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(232,1
         <div class="g-stats">
           <div class="g-stat"><b id="st-div">10</b><span>Division</span></div>
           <div class="g-stat"><b id="st-score">0</b><span>Team rating</span></div>
-          <div class="g-stat"><b class="gold" id="st-points">0</b><span>Points</span></div>
+          <div class="g-stat"><b class="gold" id="st-points">0</b><span>Mundo Credits</span></div>
         </div>
       </div>
       <div class="tabs" role="tablist">
@@ -1132,7 +1142,7 @@ button.hub-tile:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(232,1
         <button class="tab" data-tab="packs" onclick="gTab('packs')">Packs<span class="tab-pill" id="pack-count" style="display:none">0</span></button>
         <button class="tab" data-tab="collection" onclick="gTab('collection')">Club</button>
         <button class="tab" data-tab="market" onclick="gTab('market')">Trade market</button>
-        <button class="tab" data-tab="rewards" onclick="gTab('rewards')">Points &amp; gifts</button>
+        <button class="tab" data-tab="rewards" onclick="gTab('rewards')">Credits &amp; gifts</button>
         <button class="tab" data-tab="redeem" onclick="gTab('redeem')">Redeem code</button>
       </div>
     </div>
@@ -1156,10 +1166,10 @@ button.hub-tile:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(232,1
     <div class="panel" data-panel="rewards">
       <div class="split">
         <div><h3 class="h3">Gifts</h3><div class="rewards" id="rewards"></div></div>
-        <div class="score-card"><h3 class="h3">Sell a player</h3><p class="muted" style="margin-bottom:14px">Turn spare cards into points for packs, cups and gifts. The card leaves your club for good.</p>
+        <div class="score-card"><h3 class="h3">Sell a player</h3><p class="muted" style="margin-bottom:14px">Turn spare cards into Mundo Credits for packs, cups and gifts. The card leaves your club for good.</p>
           <div class="score-rows" id="point-table"></div>
           <button class="btn btn-pri" style="width:100%" onclick="pickCard('cash')">Choose a player to sell</button>
-          <h3 class="h3" style="font-size:22px;margin:24px 0 10px">Buy points</h3><div id="packs-gifts"></div>
+          <h3 class="h3" style="font-size:22px;margin:24px 0 10px">Buy Mundo Credits</h3><div id="packs-gifts"></div>
         </div>
       </div>
     </div>
@@ -1167,7 +1177,7 @@ button.hub-tile:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(232,1
       <div class="redeem">
         <div>
           <h2>Redeem a code</h2>
-          <p>Codes from your order confirmation. Shirt codes add 4,000 points (a 6-player pack); scarf codes add a bonus player. Each code works once per device.</p>
+          <p>Codes from your order confirmation. Shirt codes add Ɱ4,000 Mundo Credits (a 6-player pack); scarf codes add a bonus player. Each code works once per device.</p>
           <div class="code-row"><input id="code-in" placeholder="MX-P014-XXXX-XXXXXXXX" maxlength="24" aria-label="Code" onkeydown="if(event.key==='Enter')redeemCode()"><button class="btn btn-pitch" onclick="redeemCode()">Redeem</button></div>
           <p style="margin:12px 0 0;font-size:14px">No code yet? Every jersey comes with one. <button class="link" onclick="go('shop')">Shop jerseys</button></p>
         </div>
@@ -2299,7 +2309,7 @@ const CONFIG = {
   PICKS: 8,
   PAGE: 24,
 };
-const RULES_TEXT = 'Every shirt comes with a one-time code worth 4,000 points, enough for one 6-player Gold pack. Mystery boxes include one code per shirt. Orders over $30 include a free club scarf and a code for a bonus player. Every manager can build a demo squad with gray DEMO players, but matches and cups need 11 real players. Gifts unlock after $30 spent in the shop. Cards come in Bronze (under 65), Silver (65–74), Gold (75–84), Elite (85+) and Icon rarity. Managers begin in Division 10. Each division season is 7 matches against 7 rivals: 3 points for a win, 1 for a draw. The top 2 go up, the bottom 2 go down. Cups start on a fixed clock all day; entry costs points, with one free entry per day, and you play or sim every round yourself. Points come from unlocking players, winning matches and cups, selling players, or buying points packs. Points buy packs, cup entries and gifts.';
+const RULES_TEXT = 'Every shirt comes with a one-time code worth Ɱ4,000 Mundo Credits, enough for one 6-player Gold pack. Mystery boxes include one code per shirt. Orders over $30 include a free club scarf and a code for a bonus player. Every manager can build a demo squad with gray DEMO players, but matches and cups need 11 real players. Gifts unlock after $30 spent in the shop. Cards come in Bronze (under 65), Silver (65–74), Gold (75–84), Elite (85+) and Icon rarity. Managers begin in Division 10. Each division season is 7 matches against 7 rivals: 3 points for a win, 1 for a draw. The top 2 go up, the bottom 2 go down. Cups start on a fixed clock all day; entry costs Mundo Credits, with one free entry per day, and you play or sim every round yourself. Mundo Credits (Ɱ) come from shirt codes, objectives, winning matches and cups, and selling players, or you can buy them. They pay for packs, cup entries and gifts.';
 
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -2388,8 +2398,8 @@ function openP(id){
   openPDP(p.n, p.p, p.o, p.i, p.l, p.t ? `${p.t} · ${p.c}` : p.c);
   $('#pdp-perk').classList.toggle('hidden', !p.shirt);
   $('#pdp-perk-txt').textContent = currentPlayers.length
-    ? 'Includes a 6-player Mundo XI pack (4,000 points). Orders over $30 add a free scarf + bonus player.'
-    : 'Includes a 6-player Mundo XI pack (4,000 points). Orders over $30 add a free scarf + bonus player.';
+    ? 'Includes a 6-player Mundo XI pack (Ɱ4,000 Mundo Credits). Orders over $30 add a free scarf + bonus player.'
+    : 'Includes a 6-player Mundo XI pack (Ɱ4,000 Mundo Credits). Orders over $30 add a free scarf + bonus player.';
 }
 function wishCurrent(){ if (pdpProduct) addToWishlist(pdpProduct.n, pdpProduct.p, pdpProduct.i); }
 
@@ -2645,7 +2655,7 @@ function save(){ store.set('fm_xi2', G); updateStats(); }
 function genCode(){ const a = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; const r = n => Array.from({length:n}, () => a[Math.floor(Math.random()*a.length)]).join(''); return `MX-${r(4)}-${r(4)}`; }
 function updateStats(){
   const el = $('#st-points'); if (!el) return;
-  el.textContent = G.points.toLocaleString();
+  el.textContent = 'Ɱ' + G.points.toLocaleString();
   $('#st-score').textContent = teamScore().xi.length ? teamScore().total.toFixed(1) : '–';
   $('#st-div').textContent = G.career ? G.career.div : 10;
   const pc = $('#pack-count'); pc.textContent = G.packs.length; pc.style.display = G.packs.length ? '' : 'none';
@@ -2670,7 +2680,7 @@ function issueCodes(){
   });
   save();
   const el = document.getElementById('conf-codes');
-  const packHtml = packPts ? `<div class="co-codes"><h3>+${packPts.toLocaleString()} points added</h3><p>They're already in your Mundo XI wallet.</p></div>` : '';
+  const packHtml = packPts ? `<div class="co-codes"><h3>+Ɱ${packPts.toLocaleString()} added</h3><p>They're already in your Mundo XI wallet.</p></div>` : '';
   if (el) el.innerHTML = packHtml + (out.length ? `<div class="co-codes"><h3>Your Mundo XI codes</h3><p>Each code works once. We've also emailed them to you.</p>
     ${out.map(o => `<div class="co-code"><b>${o.code}</b><span>${escapeHtml(o.label)}</span></div>`).join('')}
     <button class="co-btn-primary" style="margin-top:10px" onclick="closeCheckout();go('game','redeem');document.getElementById('code-in').value='${out[0].code}'">Redeem in Mundo XI</button></div>` : '');
@@ -2691,7 +2701,7 @@ function redeemCode(){
   const card = Object.assign({}, item, {id:newId()});
   const bonus = rarityOf(card).unlock;
   G.cards.push(card); G.points += bonus; save();
-  const show = () => { $('#redeem-result').innerHTML = cardHTML(card); showToast(`${card.player} joined your club. +${bonus} points`); };
+  const show = () => { $('#redeem-result').innerHTML = cardHTML(card); showToast(`${card.player} joined your club. +Ɱ${bonus}`); };
   isWalkout(card) ? walkout(card, show) : show();
 }
 function demoCode(type){
@@ -2733,7 +2743,7 @@ function genPackCards(type){
 }
 function buyPackPts(type){
   const t = PACK_TYPES[type];
-  if (G.points < t.price) { openInfo('Not enough points', `The ${t.name} costs ${t.price.toLocaleString()} points and you have ${G.points.toLocaleString()}. Win matches and cups, sell players, or buy points.` + pointPacksHTML()); return; }
+  if (G.points < t.price) { openInfo('Not enough Mundo Credits', `The ${t.name} costs Ɱ${t.price.toLocaleString()} and you have ${G.points.toLocaleString()}. Win matches and cups, sell players, or buy Mundo Credits.` + pointPacksHTML()); return; }
   G.points -= t.price; G.packs.push({type, id:newId()}); save();
   openPack(G.packs.length - 1);
 }
@@ -2769,7 +2779,7 @@ function revealNext(){
 }
 function poDone(){
   const more = G.packs.length;
-  $('#po-actions').innerHTML = `<span style="align-self:center;color:#AEB9C7;font-size:14px">+${PO.bonus} points for new signings</span>
+  $('#po-actions').innerHTML = `<span style="align-self:center;color:#AEB9C7;font-size:14px">+Ɱ${PO.bonus} for new signings</span>
     ${more ? `<button class="btn btn-gold" onclick="openPack(0)">Open next pack (${more})</button>` : ''}
     <button class="btn btn-ghost" onclick="closePack('squad')">Pick my eleven</button><button class="btn btn-pri" style="background:#fff;color:var(--ink)" onclick="closePack()">Done</button>`;
 }
@@ -2777,10 +2787,10 @@ function closePack(tab){ $('#pack-ov').classList.remove('open'); document.body.s
 function renderPacks(){
   const mine = G.packs.map((p, i) => `<div class="my-pack">${packArt(p.type)}<button class="btn btn-gold btn-sm" onclick="openPack(${i})">Open</button></div>`).join('');
   $('#packs-main').innerHTML = `${G.packs.length ? `<h3 class="h3">Your unopened packs</h3><div class="my-packs">${mine}</div>` : ''}
-    <div class="sec-head" style="margin-bottom:18px"><div><h3 class="h3" style="margin:0">Pack store</h3><p style="margin-top:6px">Spend points on packs. You have <b>${G.points.toLocaleString()}</b> points.</p></div><button class="btn btn-ghost btn-sm" onclick="gTab('rewards')">Get more points</button></div>
+    <div class="sec-head" style="margin-bottom:18px"><div><h3 class="h3" style="margin:0">Pack store</h3><p style="margin-top:6px">Spend Mundo Credits on packs. You have <b>Ɱ${G.points.toLocaleString()}</b> Mundo Credits.</p></div><button class="btn btn-ghost btn-sm" onclick="gTab('rewards')">Get more credits</button></div>
     <div class="pack-store">${['bronze','silver','gold','premium','icon'].map(k => { const t = PACK_TYPES[k];
-      return `<div class="pk">${packArt(k)}<b>${t.name}</b><span>${t.sub} · ${t.txt}</span><div class="pk-price">${t.price.toLocaleString()} pts</div>
-      <button class="btn ${G.points >= t.price ? 'btn-pitch' : 'btn-ghost'}" onclick="buyPackPts('${k}')">${G.points >= t.price ? 'Buy and open' : 'Need ' + (t.price - G.points).toLocaleString() + ' more'}</button></div>`; }).join('')}</div>
+      return `<div class="pk">${packArt(k)}<b>${t.name}</b><span>${t.sub} · ${t.txt}</span><div class="pk-price">Ɱ${t.price.toLocaleString()}</div>
+      <button class="btn ${G.points >= t.price ? 'btn-pitch' : 'btn-ghost'}" onclick="buyPackPts('${k}')">${G.points >= t.price ? 'Buy and open' : 'Need Ɱ' + (t.price - G.points).toLocaleString() + ' more'}</button></div>`; }).join('')}</div>
     <p class="muted" style="margin-top:18px;font-size:14px">Mystery boxes from the shop come with their own pack: the shirts' players plus bonus cards, with Elite and Icon guarantees on bigger boxes.</p>`;
 }
 
@@ -2859,7 +2869,7 @@ function pickCard(mode, slotKey, pos, listingIdx){
   const titles = {slot:`Choose a ${pos === 'GK' ? 'goalkeeper' : pos === 'DEF' ? 'defender' : pos === 'MID' ? 'midfielder' : 'forward'}`, trade:'Choose a card to offer', cash:'Choose a player to sell', list:'Choose a card to list'};
   $('#info-card').classList.add('wide');
   $('#info-modal-body').innerHTML = `<h3>${titles[mode]}</h3>
-    <p>${mode === 'slot' ? 'Players in their natural position are shown first.' : mode === 'cash' ? 'Sale prices: ' + RARITY.map(r => r.label + ' ' + r.pts.toLocaleString()).join(', ') + '.' : mode === 'trade' ? 'They\'ll accept a card within 2 rating points of theirs, or better.' : 'Other fans can send offers for listed cards.'}</p>
+    <p>${mode === 'slot' ? 'Players in their natural position are shown first.' : mode === 'cash' ? 'Sale prices: ' + RARITY.map(r => r.label + ' Ɱ' + r.pts.toLocaleString()).join(', ') + '.' : mode === 'trade' ? 'They\'ll accept a card within 2 rating points of theirs, or better.' : 'Other fans can send offers for listed cards.'}</p>
     ${slotKey && G.squad[slotKey] ? '<button class="btn btn-ghost btn-sm" style="margin-bottom:16px" onclick="clearSlot()">Empty this slot</button>' : ''}
     <div class="col-grid">${cards.map(c => `<div class="col-item"><div onclick="choose('${c.id}')" role="button" tabindex="0">${cardHTML(c)}</div>${inSquad.has(c.id) ? '<span class="muted" style="font-size:12px;text-align:center">In your eleven</span>' : ''}</div>`).join('')}</div>`;
   $('#info-modal').classList.add('open');
@@ -2874,7 +2884,7 @@ function choose(id){
   } else if (ctx.mode === 'cash') {
     const pts = rarityOf(c).pts;
     G.cards = G.cards.filter(x => x.id !== id); G.mine = G.mine.filter(x => x !== id); G.points += pts; save(); closeInfo(); renderGame();
-    showToast(`Sold ${c.player} for ${pts.toLocaleString()} points`);
+    showToast(`Sold ${c.player} for Ɱ${pts.toLocaleString()}`);
   } else if (ctx.mode === 'list') {
     if (G.mine.includes(id)) { showToast('That card is already listed'); return; }
     G.mine.push(id); save(); closeInfo(); renderMarket(); showToast(`${c.player} listed on the market`);
@@ -3009,7 +3019,7 @@ function endMatch(){
     ${r.pens ? `<p>${r.pens[0] > r.pens[1] ? 'Won' : 'Lost'} ${r.pens[0]}–${r.pens[1]} on penalties</p>` : ''}
     <div class="scorers"><div><b>Your XI</b><br>${sc(0)}</div><div><b>@${escapeHtml(M.oppName)}</b><br>${sc(1)}</div></div>
     <div class="mo-stats">${bar('Possession %', poss, 100 - poss)}${bar('Shots', st.shots[0], st.shots[1])}${bar('Passes completed', st.comp[0], st.comp[1])}${bar('Tackles won', st.tackles[0], st.tackles[1])}</div>
-    ${reward ? `<p style="color:var(--pitch);font-weight:600;margin-bottom:12px">+${reward.toLocaleString()} points</p>` : ''}
+    ${reward ? `<p style="color:var(--pitch);font-weight:600;margin-bottom:12px">+Ɱ${reward.toLocaleString()}</p>` : ''}
     <button class="btn btn-pri" style="width:100%" onclick="finishMatchFlow()">Continue</button></div>`);
 }
 function finishMatchFlow(){ const m = M; closeMatch(); m.onDone && m.onDone(m.result); }
@@ -3091,7 +3101,7 @@ function afterCareer(opp, r){
     if (pos === 1) G.trophies.push(`Division ${C.div} champions · Season ${C.season}`);
     save();
     const msg = pos === 1 && C.div === 1 ? 'Division 1 champions! You qualify for the grand prize.' : move === 'up' ? `Promoted to Division ${C.div - 1}!` : move === 'down' ? `Relegated to Division ${C.div + 1}.` : `You stay in Division ${C.div}.`;
-    openInfo(`Season over: ${ordinal(pos)} place`, `${msg} Season bonus: +${bonus.toLocaleString()} points.`);
+    openInfo(`Season over: ${ordinal(pos)} place`, `${msg} Season bonus: +Ɱ${bonus.toLocaleString()}.`);
   }
   save(); renderSeason();
 }
@@ -3109,14 +3119,14 @@ function renderSeason(){
   } else if (C.done) {
     const d = C.done;
     main = `<div class="next-match"><div style="color:#AEB9C7">Season ${C.season} complete</div>
-      <div class="nm-teams" style="grid-template-columns:1fr"><div><b style="font-size:56px">${ordinal(d.pos)} place</b><span>${d.move === 'up' ? `Promoted to Division ${C.div - 1}` : d.move === 'down' ? `Relegated to Division ${C.div + 1}` : `Staying in Division ${C.div}`} · +${d.bonus.toLocaleString()} points</span></div></div>
+      <div class="nm-teams" style="grid-template-columns:1fr"><div><b style="font-size:56px">${ordinal(d.pos)} place</b><span>${d.move === 'up' ? `Promoted to Division ${C.div - 1}` : d.move === 'down' ? `Relegated to Division ${C.div + 1}` : `Staying in Division ${C.div}`} · +Ɱ${d.bonus.toLocaleString()}</span></div></div>
       <button class="btn btn-gold" style="width:100%" onclick="nextSeason()">Start season ${C.season + 1}</button></div>`;
   } else {
     const opp = C.order[C.round], os = strOf(opp);
     main = `<div class="next-match"><div style="display:flex;justify-content:space-between;color:#AEB9C7;font-size:14px"><span>Division ${C.div} · Season ${C.season}</span><span>Matchday ${C.round + 1} of ${SEASON_TEAMS - 1}</span></div>
       <div class="nm-teams"><div><b>Your XI</b><span>Rating ${me.total.toFixed(1)}</span></div><div class="nm-vs">VS</div><div><b>@${escapeHtml(opp)}</b><span>Rating ${os.toFixed(1)}</span></div></div>
       <div class="nm-btns"><button class="btn btn-gold" onclick="careerPlay('play')">Play<small>you control it</small></button><button class="btn btn-pitch" onclick="careerPlay('sim')">Sim<small>watch fast-forward</small></button><button class="btn btn-ghost" style="color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.6)" onclick="careerPlay('instant')">Result<small>skip to the score</small></button></div>
-      <p style="color:#8FA0B5;font-size:13px;margin-top:14px;position:relative;z-index:1">Win +${matchReward(C.div, {win:true})} points · draw +${matchReward(C.div, {draw:true})} · Division ${C.div} teams are rated ${Math.round(lo)}–${Math.round(hi)}</p></div>`;
+      <p style="color:#8FA0B5;font-size:13px;margin-top:14px;position:relative;z-index:1">Win +Ɱ${matchReward(C.div, {win:true})} · draw +Ɱ${matchReward(C.div, {draw:true})} · Division ${C.div} teams are rated ${Math.round(lo)}–${Math.round(hi)}</p></div>`;
   }
   const rows = standings();
   const res = C.results.slice().reverse().map(r => { const k = r.gf > r.ga ? 'w' : r.gf === r.ga ? 'd' : 'l';
@@ -3128,7 +3138,7 @@ function renderSeason(){
   $('#season-side').innerHTML = `<div class="score-card"><div class="div-badge"><b>${C.div}</b>Division ${C.div}</div>
     <div class="ladder">${Array.from({length:10}, (_, i) => `<i class="${10 - i > C.div ? 'done' : 10 - i === C.div ? 'cur' : ''}"></i>`).join('')}</div>
     <p class="muted" style="font-size:13px">Division 10 → Division 1</p>
-    <div class="score-rows"><div><span>Your rating</span><b>${me.xi.length ? me.total.toFixed(1) : '–'}</b></div><div><span>Points</span><b>${G.points.toLocaleString()}</b></div></div>
+    <div class="score-rows"><div><span>Your rating</span><b>${me.xi.length ? me.total.toFixed(1) : '–'}</b></div><div><span>Mundo Credits</span><b>Ɱ${G.points.toLocaleString()}</b></div></div>
     <button class="btn btn-ghost" style="width:100%" onclick="gTab('packs')">Open packs to get stronger</button>
     ${G.trophies.length ? `<h3 class="h3" style="font-size:22px;margin:22px 0 4px">Trophies</h3><div class="trophies">${G.trophies.map(t => `<span>🏆 ${escapeHtml(t)}</span>`).join('')}</div>` : ''}
     ${res ? `<h3 class="h3" style="font-size:22px;margin:22px 0 4px">Results</h3>${res}` : ''}</div>`;
@@ -3155,7 +3165,7 @@ function enterCup(id, free){
   if (entryFor(c)) return;
   if (free) { if (!freeLeft() || !c.freeOK) { showToast('Your free entry for today is used'); return; } G.freeDay = todayKey(); }
   else {
-    if (G.points < c.fee) { openInfo('Not enough points', `This cup costs ${c.fee.toLocaleString()} points and you have ${G.points.toLocaleString()}. Win matches, sell players, or buy points.` + pointPacksHTML()); return; }
+    if (G.points < c.fee) { openInfo('Not enough Mundo Credits', `This cup costs Ɱ${c.fee.toLocaleString()} and you have ${G.points.toLocaleString()}. Win matches, sell players, or buy Mundo Credits.` + pointPacksHTML()); return; }
     G.points -= c.fee;
   }
   G.cupEntries.push({cup:c.id, start:nextStart(c), free:!!free});
@@ -3220,7 +3230,7 @@ function finishCup(L, champ){
   G.points += L.prize;
   if (place === 1) G.trophies.push(`${L.name} winner`);
   G.cupHistory.unshift({name:L.name, start:L.start, place, prize:L.prize}); G.cupHistory = G.cupHistory.slice(0, 20);
-  setTimeout(() => openInfo(place === 1 ? `${L.name} champions!` : `${L.name}: ${placeText(place)}`, `${L.prize ? `You won ${L.prize.toLocaleString()} points.` : 'No prize this time.'} ${place === 1 ? 'A new trophy for your cabinet.' : `@${escapeHtml(champ.name)} lifted the cup.`}`), 300);
+  setTimeout(() => openInfo(place === 1 ? `${L.name} champions!` : `${L.name}: ${placeText(place)}`, `${L.prize ? `You won Ɱ${L.prize.toLocaleString()}.` : 'No prize this time.'} ${place === 1 ? 'A new trophy for your cabinet.' : `@${escapeHtml(champ.name)} lifted the cup.`}`), 300);
 }
 const placeText = p => ({1:'Champions!', 2:'Runner-up', 3:'Semi-finalist', 5:'Quarter-finalist', 9:'Out in the round of 16'})[p];
 function treeHTML(L){
@@ -3246,7 +3256,7 @@ function liveCupHTML(L){
   const mine = L.done ? null : r.find(m => (m.a.me || m.b.me) && m.x === undefined);
   const opp = mine && (mine.a.me ? mine.b : mine.a);
   const action = L.done
-    ? `<div style="display:flex;gap:10px;align-items:center"><b style="font-family:var(--fc);font-size:26px;color:var(--pitch)">${placeText(L.place)}${L.prize ? ` · +${L.prize.toLocaleString()} pts` : ''}</b><button class="btn btn-ghost btn-sm" onclick="G.cupLive=G.cupLive.filter(x=>x.id!=='${L.id}');save();renderCups()">Close</button></div>`
+    ? `<div style="display:flex;gap:10px;align-items:center"><b style="font-family:var(--fc);font-size:26px;color:var(--pitch)">${placeText(L.place)}${L.prize ? ` · +Ɱ${L.prize.toLocaleString()}` : ''}</b><button class="btn btn-ghost btn-sm" onclick="G.cupLive=G.cupLive.filter(x=>x.id!=='${L.id}');save();renderCups()">Close</button></div>`
     : mine ? `<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><span class="muted" style="font-size:14px">${ROUND_NAMES[L.rounds.length - 1]} vs @${escapeHtml(opp.name)} (${opp.str})</span>
       <button class="btn btn-gold btn-sm" onclick="playMine('${L.id}','play')">Play</button><button class="btn btn-pitch btn-sm" onclick="playMine('${L.id}','sim')">Sim</button><button class="btn btn-ghost btn-sm" onclick="playMine('${L.id}','instant')">Result</button></div>` : '';
   return `<div class="live-cup"><div class="live-head"><div><div class="muted" style="font-size:13px">${L.done ? 'Finished' : 'Live now'} · kicked off ${new Date(L.start).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</div><h3 class="h3" style="margin:2px 0 0">${L.name}</h3></div>${action}</div><div class="tree-wrap">${treeHTML(L)}</div></div>`;
@@ -3259,17 +3269,17 @@ function renderCups(){
     const e = entryFor(c), start = nextStart(c), canFree = c.freeOK && freeLeft();
     const btn = e ? `<button class="btn btn-ghost" disabled>You're in${e.free ? ' · free' : ''}</button>`
       : !full ? `<button class="btn btn-ghost" onclick="gTab('squad')">Fill your eleven first</button>`
-      : `${canFree ? `<button class="btn btn-gold" onclick="enterCup('${c.id}',true)">Enter free today</button>` : ''}<button class="btn ${canFree ? 'btn-ghost' : 'btn-pitch'}" onclick="enterCup('${c.id}')">Enter for ${c.fee.toLocaleString()} pts</button>`;
+      : `${canFree ? `<button class="btn btn-gold" onclick="enterCup('${c.id}',true)">Enter free today</button>` : ''}<button class="btn ${canFree ? 'btn-ghost' : 'btn-pitch'}" onclick="enterCup('${c.id}')">Enter for Ɱ${c.fee.toLocaleString()}</button>`;
     return `<div class="cup${e ? ' joined' : ''}"><div class="cup-top"><b>${c.name}</b><span>Starts every ${c.every < 60 ? c.every + ' min' : 'hour'} · teams rated ${c.range[0]}–${c.range[1]}</span></div>
       <div class="cup-clock" data-start="${start}">${fmtLeft(start - Date.now())}</div><div class="muted" style="font-size:13px;margin-top:-4px">until kick-off</div>
-      <div class="score-rows"><div><span>Entry</span><b>${c.fee.toLocaleString()} pts</b></div><div><span>Prize pool</span><b>${cupPool(c).toLocaleString()} pts</b></div><div><span>Winner takes</span><b>${Math.round(cupPool(c) * PAYOUT[1]).toLocaleString()} pts</b></div><div><span>Registered</span><b class="cup-reg" data-cup="${c.id}">${registered(c, start, !!e)}/${CUP_SIZE}</b></div></div>
+      <div class="score-rows"><div><span>Entry</span><b>Ɱ${c.fee.toLocaleString()}</b></div><div><span>Prize pool</span><b>Ɱ${cupPool(c).toLocaleString()}</b></div><div><span>Winner takes</span><b>Ɱ${Math.round(cupPool(c) * PAYOUT[1]).toLocaleString()}</b></div><div><span>Registered</span><b class="cup-reg" data-cup="${c.id}">${registered(c, start, !!e)}/${CUP_SIZE}</b></div></div>
       <div class="cup-btns">${btn}</div></div>`;
   }).join('')}</div>
   ${G.cupHistory.length ? `<h3 class="h3" style="font-size:24px;margin-top:32px">Past cups</h3>${G.cupHistory.slice(0, 8).map(r => `<div class="res"><span class="wdl ${r.place === 1 ? 'w' : r.place <= 3 ? 'd' : 'l'}">${r.place === 1 ? '1st' : r.place === 2 ? '2nd' : r.place === 3 ? 'SF' : r.place === 5 ? 'QF' : 'R16'}</span><span>${r.name} · ${new Date(r.start).toLocaleString([], {weekday:'short', hour:'2-digit', minute:'2-digit'})}</span><b>${r.prize ? '+' + r.prize.toLocaleString() : '0'}</b></div>`).join('')}` : ''}`;
-  $('#wallet').innerHTML = `<div class="sub">Your points</div><div class="big">${G.points.toLocaleString()}</div>
-    <div class="score-rows"><div><span>Free cup entry today</span><b>${freeLeft() ? 'Available' : 'Used'}</b></div><div><span>Unlock a player</span><b>+25 to +800</b></div><div><span>Sell a player</span><b>50 to 5,000</b></div></div>
-    <h3 class="h3" style="font-size:22px;margin:18px 0 10px">Buy points</h3>${pointPacksHTML()}
-    <button class="btn btn-ghost" style="width:100%;margin-top:12px" onclick="gTab('rewards')">Sell players for points</button>`;
+  $('#wallet').innerHTML = `<div class="sub">Your Mundo Credits</div><div class="big">Ɱ${G.points.toLocaleString()}</div>
+    <div class="score-rows"><div><span>Free cup entry today</span><b>${freeLeft() ? 'Available' : 'Used'}</b></div><div><span>Unlock a player</span><b>+Ɱ25 to +Ɱ800</b></div><div><span>Sell a player</span><b>Ɱ50 to Ɱ5,000</b></div></div>
+    <h3 class="h3" style="font-size:22px;margin:18px 0 10px">Buy Mundo Credits</h3>${pointPacksHTML()}
+    <button class="btn btn-ghost" style="width:100%;margin-top:12px" onclick="gTab('rewards')">Sell players for credits</button>`;
 }
 setInterval(() => {
   checkCups();
@@ -3281,12 +3291,12 @@ setInterval(() => {
 
 // ---------------- Points (money) ----------------
 const POINT_PACKS = [{pts:1000, price:8.98},{pts:2500, price:17.98, tag:'Popular'},{pts:6000, price:35.98},{pts:15000, price:71.98, tag:'Best value'}];
-function pointPacksHTML(){ return `<div class="packs">${POINT_PACKS.map((p, i) => `<button class="pack" onclick="buyPointPack(${i})">${p.tag ? `<span class="ptag">${p.tag}</span>` : ''}<b>${p.pts.toLocaleString()}</b><span>points</span><em>${money(p.price)}</em></button>`).join('')}</div>`; }
+function pointPacksHTML(){ return `<div class="packs">${POINT_PACKS.map((p, i) => `<button class="pack" onclick="buyPointPack(${i})">${p.tag ? `<span class="ptag">${p.tag}</span>` : ''}<b>Ɱ${p.pts.toLocaleString()}</b><span>Mundo Credits</span><em>${money(p.price)}</em></button>`).join('')}</div>`; }
 function buyPointPack(i){
   const p = POINT_PACKS[i];
   closeInfo();
-  addToCart({n:`${p.pts.toLocaleString()} Mundo XI points`, p:p.price, img:pointImg(), sz:'Digital', cname:'', cnum:'', q:1, pack:p.pts});
-  showToast(`${p.pts.toLocaleString()} points added to your bag`); setTimeout(toggleCart, 250);
+  addToCart({n:`${p.pts.toLocaleString()} Mundo Credits`, p:p.price, img:pointImg(), sz:'Digital', cname:'', cnum:'', q:1, pack:p.pts});
+  showToast(`Ɱ${p.pts.toLocaleString()} added to your bag`); setTimeout(toggleCart, 250);
 }
 function pointImg(){ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#E8B730"/><circle cx="50" cy="50" r="30" fill="#0F1E33"/><text x="50" y="60" font-family="Arial Black,Arial" font-weight="900" font-size="28" fill="#E8B730" text-anchor="middle">P</text></svg>`; return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); }
 
@@ -3306,10 +3316,10 @@ const GIFTS = [
   {name:'Signed shirt draw', pts:35000, txt:'An entry into the monthly signed-shirt draw.'},
 ];
 function renderRewards(){
-  $('#rewards').innerHTML = GIFTS.map((g, i) => `<div class="reward"><div class="rp">${g.pts.toLocaleString()}</div><b>${g.name}</b><span>${g.txt}</span>
-    <button class="btn ${G.points >= g.pts ? 'btn-pri' : 'btn-ghost'} btn-sm" onclick="claimGift(${i})">${G.points >= g.pts ? 'Claim gift' : `${(g.pts - G.points).toLocaleString()} points to go`}</button></div>`).join('') +
+  $('#rewards').innerHTML = GIFTS.map((g, i) => `<div class="reward"><div class="rp">Ɱ${g.pts.toLocaleString()}</div><b>${g.name}</b><span>${g.txt}</span>
+    <button class="btn ${G.points >= g.pts ? 'btn-pri' : 'btn-ghost'} btn-sm" onclick="claimGift(${i})">${G.points >= g.pts ? 'Claim gift' : `Ɱ${(g.pts - G.points).toLocaleString()} to go`}</button></div>`).join('') +
     (G.gifts.length ? `<div class="reward" style="background:var(--turf)"><b>Claimed</b><span>${G.gifts.map(escapeHtml).join('<br>')}</span></div>` : '');
-  $('#point-table').innerHTML = RARITY.map(r => `<div><span>${r.label}</span><b>${r.pts.toLocaleString()} pts</b></div>`).join('');
+  $('#point-table').innerHTML = RARITY.map(r => `<div><span>${r.label}</span><b>Ɱ${r.pts.toLocaleString()}</b></div>`).join('');
   $('#packs-gifts').innerHTML = pointPacksHTML();
 }
 function claimGift(i){
@@ -3324,7 +3334,7 @@ function renderCollection(){
   const sorted = G.cards.slice().sort((a, b) => b.rating - a.rating);
   const inXI = new Set(Object.values(G.squad));
   el.innerHTML = `<div class="sec-head" style="margin-bottom:18px"><div><h3 class="h3" style="margin:0">Your club · ${G.cards.length} players</h3></div><button class="btn btn-pri btn-sm" onclick="autoPick();gTab('squad')">Pick my best eleven</button></div>
-    <div class="col-grid">${sorted.map(c => `<div class="col-item">${cardHTML(c)}<div class="acts">${inXI.has(c.id) ? '<button disabled style="opacity:.6">In your eleven</button>' : `<button onclick="pickCtx={mode:'cash'};choose('${c.id}')">Sell for ${rarityOf(c).pts.toLocaleString()}</button>`}</div></div>`).join('')}</div>`;
+    <div class="col-grid">${sorted.map(c => `<div class="col-item">${cardHTML(c)}<div class="acts">${inXI.has(c.id) ? '<button disabled style="opacity:.6">In your eleven</button>' : `<button onclick="pickCtx={mode:'cash'};choose('${c.id}')">Sell for Ɱ${rarityOf(c).pts.toLocaleString()}</button>`}</div></div>`).join('')}</div>`;
 }
 
 // ---------------- Tabs ----------------
@@ -3405,7 +3415,7 @@ function showPlayGate(){
     ? `You have ${real} real players but only ${inXI} of them are in your eleven. Swap the gray demo players out and you're ready.<div class="gate-btns"><button class="btn btn-pitch" onclick="closeInfo();autoPick();gTab('squad')">Use my real players</button></div>`
     : `Your demo squad is just a preview. To play matches and enter cups, every place in your eleven needs a <b>real</b> player.
       <div class="gate-meter"><div class="gate-bar"><i style="width:${pct}%"></i></div><b>${real}/11 real players</b></div>
-      <ul class="gate-list"><li><b>Every shirt</b> comes with ${SHIRT_POINTS.toLocaleString()} points: one 6-player Gold pack.</li><li><b>Orders over $${SCARF_MIN}</b> add a free club scarf and a bonus player.</li><li>Scarf + 1 shirt = 7 players. One more shirt and you can play.</li></ul>
+      <ul class="gate-list"><li><b>Every shirt</b> comes with Ɱ${SHIRT_POINTS.toLocaleString()}: one 6-player Gold pack.</li><li><b>Orders over $${SCARF_MIN}</b> add a free club scarf and a bonus player.</li><li>Scarf + 1 shirt = 7 players. One more shirt and you can play.</li></ul>
       <p style="margin:0">${needShirts ? `About <b>${needShirts} more shirt${needShirts > 1 ? 's' : ''}</b> gets you on the pitch.` : ''}</p>
       <div class="gate-btns"><button class="btn btn-pitch" onclick="closeInfo();go('shop')">Shop jerseys</button>${G.points >= PACK_TYPES.gold.price ? `<button class="btn btn-gold" onclick="closeInfo();gTab('packs')">Open a 6-player pack</button>` : ''}<button class="btn btn-ghost" onclick="closeInfo();go('game','redeem')">I have a code</button></div>`;
   $('#info-modal-body').innerHTML = `<h3>You need 11 real players to play</h3><div class="gate">${body}</div>`;
@@ -3435,7 +3445,7 @@ function pickCard(mode, slotKey, pos, listingIdx){
   const titles = {slot:`Choose a ${pos === 'GK' ? 'goalkeeper' : pos === 'DEF' ? 'defender' : pos === 'MID' ? 'midfielder' : 'forward'}`, trade:'Choose a card to offer', cash:'Choose a player to sell', list:'Choose a card to list'};
   $('#info-card').classList.add('wide');
   $('#info-modal-body').innerHTML = `<h3>${titles[mode]}</h3>
-    <p>${mode === 'slot' ? 'Real players are shown before demo players.' : mode === 'cash' ? 'Sale prices: ' + RARITY.map(r => r.label + ' ' + r.pts.toLocaleString()).join(', ') + '. Demo players can\'t be sold.' : mode === 'trade' ? 'They\'ll accept a card within 2 rating points of theirs, or better.' : 'Other fans can send offers for listed cards.'}</p>
+    <p>${mode === 'slot' ? 'Real players are shown before demo players.' : mode === 'cash' ? 'Sale prices: ' + RARITY.map(r => r.label + ' Ɱ' + r.pts.toLocaleString()).join(', ') + '. Demo players can\'t be sold.' : mode === 'trade' ? 'They\'ll accept a card within 2 rating points of theirs, or better.' : 'Other fans can send offers for listed cards.'}</p>
     ${slotKey && G.squad[slotKey] ? '<button class="btn btn-ghost btn-sm" style="margin-bottom:16px" onclick="clearSlot()">Empty this slot</button>' : ''}
     <div class="col-grid">${cards.map(c => `<div class="col-item"><div onclick="choose('${c.id}')" role="button" tabindex="0">${cardHTML(c)}</div>${inSquad.has(c.id) ? '<span class="muted" style="font-size:12px;text-align:center">In your eleven</span>' : ''}</div>`).join('')}</div>`;
   $('#info-modal').classList.add('open');
@@ -3447,17 +3457,17 @@ function renderCollection(){
   const sorted = G.cards.slice().sort((a, b) => (a.demo - b.demo) || b.rating - a.rating);
   const inXI = new Set(Object.values(G.squad));
   el.innerHTML = `<div class="sec-head" style="margin-bottom:18px"><div><h3 class="h3" style="margin:0">Your club · ${realCards().length} real players</h3><p style="margin-top:6px">Plus ${G.cards.length - realCards().length} demo players (gray) to try squad building.</p></div><button class="btn btn-pri btn-sm" onclick="autoPick();gTab('squad')">Pick my best eleven</button></div>
-    <div class="col-grid">${sorted.map(c => `<div class="col-item">${cardHTML(c)}<div class="acts">${c.demo ? '<button disabled style="opacity:.6">Demo player</button>' : inXI.has(c.id) ? '<button disabled style="opacity:.6">In your eleven</button>' : `<button onclick="pickCtx={mode:'cash'};choose('${c.id}')">Sell for ${rarityOf(c).pts.toLocaleString()}</button>`}</div></div>`).join('')}</div>`;
+    <div class="col-grid">${sorted.map(c => `<div class="col-item">${cardHTML(c)}<div class="acts">${c.demo ? '<button disabled style="opacity:.6">Demo player</button>' : inXI.has(c.id) ? '<button disabled style="opacity:.6">In your eleven</button>' : `<button onclick="pickCtx={mode:'cash'};choose('${c.id}')">Sell for Ɱ${rarityOf(c).pts.toLocaleString()}</button>`}</div></div>`).join('')}</div>`;
 }
 
 // ---------------- Gifts: unlocked after $30 spent ----------------
 function renderRewards(){
   const open = G.spent >= SCARF_MIN;
   $('#rewards').innerHTML = (open ? '' : `<div class="gift-lock"><b>Gifts unlock after you spend $${SCARF_MIN} in the shop.</b><span>You've spent $${G.spent.toFixed(2)} so far. Any order over $${SCARF_MIN} also comes with a free club scarf.</span><button class="btn btn-pitch btn-sm" onclick="go('shop')">Shop jerseys</button></div>`) +
-    GIFTS.map((g, i) => `<div class="reward${open ? '' : ' locked'}"><div class="rp">${g.pts.toLocaleString()}</div><b>${g.name}</b><span>${g.txt}</span>
-    <button class="btn ${open && G.points >= g.pts ? 'btn-pri' : 'btn-ghost'} btn-sm" onclick="claimGift(${i})">${!open ? `Unlocks at $${SCARF_MIN} spent` : G.points >= g.pts ? 'Claim gift' : `${(g.pts - G.points).toLocaleString()} points to go`}</button></div>`).join('') +
+    GIFTS.map((g, i) => `<div class="reward${open ? '' : ' locked'}"><div class="rp">Ɱ${g.pts.toLocaleString()}</div><b>${g.name}</b><span>${g.txt}</span>
+    <button class="btn ${open && G.points >= g.pts ? 'btn-pri' : 'btn-ghost'} btn-sm" onclick="claimGift(${i})">${!open ? `Unlocks at $${SCARF_MIN} spent` : G.points >= g.pts ? 'Claim gift' : `Ɱ${(g.pts - G.points).toLocaleString()} to go`}</button></div>`).join('') +
     (G.gifts.length ? `<div class="reward" style="background:var(--turf)"><b>Claimed</b><span>${G.gifts.map(escapeHtml).join('<br>')}</span></div>` : '');
-  $('#point-table').innerHTML = RARITY.map(r => `<div><span>${r.label}</span><b>${r.pts.toLocaleString()} pts</b></div>`).join('');
+  $('#point-table').innerHTML = RARITY.map(r => `<div><span>${r.label}</span><b>Ɱ${r.pts.toLocaleString()}</b></div>`).join('');
   $('#packs-gifts').innerHTML = pointPacksHTML();
 }
 function claimGift(i){
@@ -3478,8 +3488,8 @@ function applyCode(code, info, quiet){
   if (info.type === 'points') {
     G.points += info.amount; save();
     const packs = Math.floor(G.points / PACK_TYPES.gold.price);
-    $('#redeem-result').innerHTML = `<div class="redeem-points"><b>+${info.amount.toLocaleString()}</b><span>points added</span>${packs ? `<button class="btn btn-gold" onclick="buyPackPts('gold')">Open a 6-player Gold pack</button>` : ''}</div>`;
-    return `+${info.amount.toLocaleString()} points`;
+    $('#redeem-result').innerHTML = `<div class="redeem-points"><b>+Ɱ${info.amount.toLocaleString()}</b><span>Mundo Credits added</span>${packs ? `<button class="btn btn-gold" onclick="buyPackPts('gold')">Open a 6-player Gold pack</button>` : ''}</div>`;
+    return `+Ɱ${info.amount.toLocaleString()}`;
   }
   const card = randomCard({lo:66, hi:84, skew:1.4});
   G.cards.push(card); save();
@@ -3506,7 +3516,7 @@ function renderGame(){
   seedDemo(); career(); updateStats(); gTab(gCurrent);
 }
 const _renderPacks = renderPacks;
-renderPacks = function(){ _renderPacks(); const p = $('#packs-main > p.muted:last-child'); if (p) p.innerHTML = `Every shirt you buy comes with ${SHIRT_POINTS.toLocaleString()} points: exactly one 6-player Gold pack. Orders over $${SCARF_MIN} add a free club scarf and a bonus player.`; };
+renderPacks = function(){ _renderPacks(); const p = $('#packs-main > p.muted:last-child'); if (p) p.innerHTML = `Every shirt you buy comes with Ɱ${SHIRT_POINTS.toLocaleString()}: exactly one 6-player Gold pack. Orders over $${SCARF_MIN} add a free club scarf and a bonus player.`; };
 
 // ---------------- Product pages & cart ----------------
 function pdpItem(){
@@ -3548,7 +3558,7 @@ function renderCheckout(){
         <img src="${c.img}" alt="${escapeAttr(c.n)}" onerror="this.style.background='#f5f5f7'">
         <div class="co-line-info">
           <div class="co-line-name">${escapeHtml(c.n)}</div>
-          <div class="co-line-meta">${c.pack ? 'Digital points' : 'Size ' + escapeHtml(c.sz)}${c.cname ? ' · ' + escapeHtml(c.cname) + ' #' + escapeHtml(c.cnum || '') : ''}</div>
+          <div class="co-line-meta">${c.pack ? 'Digital Mundo Credits' : 'Size ' + escapeHtml(c.sz)}${c.cname ? ' · ' + escapeHtml(c.cname) + ' #' + escapeHtml(c.cnum || '') : ''}</div>
           <div class="co-line-qty"><button onclick="coChgQty(${i},-1)" aria-label="Decrease">−</button><span class="qv">${c.q}</span><button onclick="coChgQty(${i},1)" aria-label="Increase">+</button><button class="rm" onclick="coRemove(${i})">Remove</button></div>
         </div>
         <div class="co-line-price">${money(c.p * c.q)}</div>
@@ -3603,7 +3613,7 @@ async function handleOrderReturn(id){
     (j.scarf ? `<div class="scarf-ok" style="margin-top:12px">🧣 A free club scarf ships with this order</div>` : '');
   const pts = j.codes.reduce((s, c) => s + ((decodeCode(c.code) || {}).type === 'points' ? decodeCode(c.code).amount : 0), 0);
   $('#conf-codes').innerHTML = j.codes.length ? `<div class="co-codes"><h3>Added to your Mundo XI</h3>
-    <p>${pts ? `<b>${pts.toLocaleString()} points</b>, enough for ${Math.floor(pts / PACK_TYPES.gold.price)} six-player pack${Math.floor(pts / PACK_TYPES.gold.price) === 1 ? '' : 's'}` : ''}${j.scarf ? `${pts ? ', plus ' : ''}<b>a bonus player</b> from your free scarf` : ''}. ${fresh ? 'They are already in your game on this device.' : 'These were added when you first opened this page.'} Keep the codes to use them on another device instead.</p>
+    <p>${pts ? `<b>Ɱ${pts.toLocaleString()}</b>, enough for ${Math.floor(pts / PACK_TYPES.gold.price)} six-player pack${Math.floor(pts / PACK_TYPES.gold.price) === 1 ? '' : 's'}` : ''}${j.scarf ? `${pts ? ', plus ' : ''}<b>a bonus player</b> from your free scarf` : ''}. ${fresh ? 'They are already in your game on this device.' : 'These were added when you first opened this page.'} Keep the codes to use them on another device instead.</p>
     ${j.codes.map(o => `<div class="co-code"><b>${o.code}</b><span>${escapeHtml(o.label)}</span></div>`).join('')}
     <button class="co-btn-primary" style="margin-top:10px" onclick="closeCheckout();go('game','packs')">Open my packs in Mundo XI</button></div>` : '';
 }
@@ -3613,7 +3623,7 @@ function openAccount(){
   const rows = G.orders.map(o => `<div class="acc-order"><div><b>${o.order}</b><span>${new Date(o.at).toLocaleDateString()} · ${money(o.total)}</span></div><button class="btn btn-ghost btn-sm" onclick="trackOrder('${o.order}','${escapeAttr(o.email || '')}')">Track</button></div>`).join('');
   $('#info-modal-body').innerHTML = `<h3>Your orders</h3>
     ${rows ? `<div class="acc-orders">${rows}</div>` : '<p>Orders you place on this device show up here. Your receipt and order number are also emailed to you by Stripe.</p>'}
-    <div class="score-rows" style="text-align:left;margin:14px 0"><div><span>Spent in the shop</span><b>${money(G.spent)}</b></div><div><span>Real Mundo XI players</span><b>${realCards().length}</b></div><div><span>Points</span><b>${G.points.toLocaleString()}</b></div></div>
+    <div class="score-rows" style="text-align:left;margin:14px 0"><div><span>Spent in the shop</span><b>${money(G.spent)}</b></div><div><span>Real Mundo XI players</span><b>${realCards().length}</b></div><div><span>Mundo Credits</span><b>Ɱ${G.points.toLocaleString()}</b></div></div>
     <button class="info-btn" onclick="openTrack()">Track another order</button>
     <p style="text-align:center;margin-top:14px;margin-bottom:0;font-size:12px">Questions? <a class="info-link" href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a></p>`;
   $('#info-modal').classList.add('open');
@@ -3763,7 +3773,7 @@ async function openAccount(){
     ${o.codes ? o.codes.map(c => `<div class="acc-code"><code>${c.code}</code><button class="link" onclick="useCode('${c.code}')">${G.used.includes(c.code) ? 'Redeemed' : 'Redeem'}</button></div>`).join('') : `<div class="acc-wait">Mundo XI codes arrive by email ${Date.now() < o.sendAt ? 'in a few minutes' : 'shortly'}.</div>`}</div>`).join('');
   $('#info-card').classList.add('wide');
   $('#info-modal-body').innerHTML = `<h3>${escapeHtml(u.name || 'My account')}</h3><p style="margin-bottom:8px">${escapeHtml(u.email)} ${u.verified ? '<span class="pill-ok">Confirmed</span>' : '<span class="pill-warn">Check your inbox to confirm</span>'}</p>
-    <div class="score-rows" style="text-align:left;margin:10px 0 18px"><div><span>Spent in the shop</span><b>${money(u.spent || 0)}</b></div><div><span>Real Mundo XI players</span><b>${realCards().length}</b></div><div><span>Points</span><b>${G.points.toLocaleString()}</b></div><div><span>Gifts</span><b>${(u.spent || 0) >= SCARF_MIN ? 'Unlocked' : `Unlock at ${money(SCARF_MIN)}`}</b></div></div>
+    <div class="score-rows" style="text-align:left;margin:10px 0 18px"><div><span>Spent in the shop</span><b>${money(u.spent || 0)}</b></div><div><span>Real Mundo XI players</span><b>${realCards().length}</b></div><div><span>Mundo Credits</span><b>Ɱ${G.points.toLocaleString()}</b></div><div><span>Gifts</span><b>${(u.spent || 0) >= SCARF_MIN ? 'Unlocked' : `Unlock at ${money(SCARF_MIN)}`}</b></div></div>
     <h4 class="acc-h">Orders</h4>${rows ? `<div class="acc-orders">${rows}</div>` : '<p>No orders yet. Every shirt comes with a 6-player Mundo XI pack.</p>'}
     <div class="acc-actions"><button class="info-btn" onclick="closeInfo();go('game','home')">Open Mundo XI</button><button class="info-btn" style="background:#f5f5f7;color:#1d1d1f" onclick="openTrack()">Track an order</button><button class="info-btn" style="background:#fff;color:#B3261E;border:1px solid #f0d0d0" onclick="signOut()">Sign out</button></div>`;
   $('#info-modal').classList.add('open');
@@ -3862,13 +3872,13 @@ const OBJECTIVES = [
   {k:'account', t:'Create your manager account', r:'Welcome pack', done:() => !!ME.user || G.welcomeOpened},
   {k:'welcome', t:'Open your Welcome pack', r:'Rookie + club scarf', done:() => !!G.welcomeOpened},
   {k:'demoxi', t:'Build a full demo XI', r:'Daily demo pack', done:() => squadFull()},
-  {k:'code', t:'Redeem your first shirt code', r:'+300 points', pts:300, done:() => G.used.length > 0},
-  {k:'real6', t:'Sign 6 real players', r:'+200 points', pts:200, done:() => realCards().length >= 6},
-  {k:'real11', t:'Field 11 real players', r:'+500 points', pts:500, done:() => canPlay()},
-  {k:'match1', t:'Play your first match', r:'+300 points', pts:300, done:() => (G.matches || 0) >= 1},
-  {k:'win3', t:'Win 3 matches', r:'+600 points', pts:600, done:() => (G.wins || 0) >= 3},
-  {k:'cup', t:'Win a cup', r:'+1,000 points', pts:1000, done:() => G.trophies.some(t => /Cup winner/.test(t))},
-  {k:'div8', t:'Reach Division 8', r:'+1,500 points', pts:1500, done:() => (G.career?.div || 10) <= 8},
+  {k:'code', t:'Redeem your first shirt code', r:'+Ɱ300', pts:300, done:() => G.used.length > 0},
+  {k:'real6', t:'Sign 6 real players', r:'+Ɱ200', pts:200, done:() => realCards().length >= 6},
+  {k:'real11', t:'Field 11 real players', r:'+Ɱ500', pts:500, done:() => canPlay()},
+  {k:'match1', t:'Play your first match', r:'+Ɱ300', pts:300, done:() => (G.matches || 0) >= 1},
+  {k:'win3', t:'Win 3 matches', r:'+Ɱ600', pts:600, done:() => (G.wins || 0) >= 3},
+  {k:'cup', t:'Win a cup', r:'+Ɱ1,000', pts:1000, done:() => G.trophies.some(t => /Cup winner/.test(t))},
+  {k:'div8', t:'Reach Division 8', r:'+Ɱ1,500', pts:1500, done:() => (G.career?.div || 10) <= 8},
 ];
 function objCheck(){
   let n = 0;
@@ -3936,7 +3946,7 @@ const TUT = [
   () => tutPanel(3, 'Your Welcome pack is ready', 'Inside: your first real player and a club scarf that boosts your team chemistry. Tap the pack to open it.', `<button class="btn btn-gold" onclick="tutClose();grantWelcome().then(ok => { if (!ok) tutGo(2); })">Open Welcome pack</button>`),
 ];
 function tutStep4(){ G.tut = 4; save(); gTab('squad'); tutPanel(4, 'Meet your squad', `You have <b>${realCards().length} real player${realCards().length === 1 ? '' : 's'}</b>. The gray <b>DEMO</b> players fill your XI so you can try things out, but <b>matches and cups need 11 real players</b>.`, `<button class="btn btn-gold" onclick="tutGo(5)">How do I get players?</button>`); }
-function tutStep5(){ tutPanel(5, 'Every shirt = a 6-player pack', `<ul class="tut-list"><li>👕 <b>Every jersey</b> comes with 4,000 points: one 6-player Gold pack, emailed to you a few minutes after you buy.</li><li>🧣 <b>Orders over $30</b> add a real club scarf and a bonus player.</li><li>⚽ Your rookie + 1 shirt = 7 players. <b>One more shirt and you're on the pitch.</b></li></ul>`, `<button class="btn btn-gold" onclick="tutDone();go('shop')">Shop jerseys</button><button class="btn btn-ghost" onclick="tutDone();gTab('home')">Explore Mundo XI</button>`); }
+function tutStep5(){ tutPanel(5, 'Every shirt = a 6-player pack', `<ul class="tut-list"><li>👕 <b>Every jersey</b> comes with Ɱ4,000 Mundo Credits: one 6-player Gold pack, emailed to you a few minutes after you buy.</li><li>🧣 <b>Orders over $30</b> add a real club scarf and a bonus player.</li><li>⚽ Your rookie + 1 shirt = 7 players. <b>One more shirt and you're on the pitch.</b></li></ul>`, `<button class="btn btn-gold" onclick="tutDone();go('shop')">Shop jerseys</button><button class="btn btn-ghost" onclick="tutDone();gTab('home')">Explore Mundo XI</button>`); }
 function tutGo(n){ G.tut = n; save(); if (n === 4) return tutStep4(); if (n === 5) return tutStep5(); TUT[n - 1](); }
 function tutDone(){ G.tut = 99; save(); tutClose(); }
 function tutClose(){ $('#tut')?.remove(); }
@@ -3959,7 +3969,7 @@ function renderHome(){
   $('#home-main').innerHTML = `<div class="hub">
     <button class="hub-tile hub-big hub-season" onclick="gTab('play')"><span class="ht-k">Division Rivals</span><b>Division ${C.div}</b><span>Season ${C.season} · Matchday ${Math.min(C.round + 1, SEASON_TEAMS - 1)} of ${SEASON_TEAMS - 1}</span><em>${canPlay() ? 'Play next match' : 'Locked: needs 11 real players'}</em></button>
     <button class="hub-tile hub-squad" onclick="gTab('squad')"><span class="ht-k">My squad</span><b>${s.xi.length ? s.total.toFixed(1) : '–'}</b><span>Team rating</span><div class="hub-meter"><i style="width:${pct}%"></i></div><em>${real}/11 real players</em></button>
-    <button class="hub-tile hub-store" onclick="gTab('packs')"><span class="ht-k">Store</span><b>${G.points.toLocaleString()}</b><span>points</span><em>${G.points >= PACK_TYPES.gold.price ? 'You can open a 6-player pack!' : 'Every shirt = 1 Gold pack'}</em></button>
+    <button class="hub-tile hub-store" onclick="gTab('packs')"><span class="ht-k">Store</span><b>Ɱ${G.points.toLocaleString()}</b><span>Mundo Credits</span><em>${G.points >= PACK_TYPES.gold.price ? 'You can open a 6-player pack!' : 'Every shirt = 1 Gold pack'}</em></button>
     <button class="hub-tile hub-shop" onclick="go('shop')"><span class="ht-k">Get players</span><b>Shop jerseys</b><span>Every shirt brings a 6-player pack</span><em>Orders over $30: free scarf + bonus player</em></button>
     <button class="hub-tile hub-cups" onclick="gTab('cups')"><span class="ht-k">Live cups</span><b>${CUPS.length} cups</b><span>Kick off every few minutes</span><em>${canPlay() ? 'Enter now' : 'Locked'}</em></button>
     <button class="hub-tile hub-daily${dailyReady() ? ' ready' : ''}" onclick="claimDaily()"><span class="ht-k">Daily pack</span><b>${dailyReady() ? 'Ready!' : 'Claimed'}</b><span>3 demo players${G.streak ? ` · ${G.streak}-day streak` : ''}</span><em>${dailyReady() ? 'Tap to open' : 'Back tomorrow'}</em></button>
@@ -4011,6 +4021,37 @@ if (location.hash === '#verified') showToast('Email confirmed. Thanks!');
 const _rt = /#reset=([\w-]+)/.exec(location.hash); if (_rt) { history.replaceState(null, '', '/#home'); setTimeout(() => openReset(_rt[1]), 300); }
 (function(){ const id = new URLSearchParams(location.search).get('order'); if (id) handleOrderReturn(id); })();
 loadMe();
+
+</script>
+<script>
+// =====================================================================
+// FUTBOL MUNDO v6 — Mundo Credits currency sign (Ɱ) rendered as a gold coin.
+// Any text containing Ɱ anywhere on the page is turned into the coin mark.
+// =====================================================================
+const MC_SIGN = 'Ɱ';
+(function mundoCredits(){
+  const SKIP = /^(SCRIPT|STYLE|TEXTAREA|OPTION|INPUT|TITLE|NOSCRIPT)$/;
+  function wrap(node){
+    if (node.nodeType !== 3 || !node.nodeValue.includes(MC_SIGN)) return;
+    const p = node.parentNode; if (!p || SKIP.test(p.nodeName) || (p.classList && p.classList.contains('mc'))) return;
+    const parts = node.nodeValue.split(MC_SIGN), frag = document.createDocumentFragment();
+    parts.forEach((t, i) => {
+      if (t) frag.appendChild(document.createTextNode(t));
+      if (i < parts.length - 1) { const s = document.createElement('span'); s.className = 'mc'; s.setAttribute('role', 'img'); s.setAttribute('aria-label', 'Mundo Credits'); s.textContent = MC_SIGN; frag.appendChild(s); }
+    });
+    p.replaceChild(frag, node);
+  }
+  function scan(root){
+    if (root.nodeType === 3) return wrap(root);
+    if (root.nodeType !== 1 || SKIP.test(root.nodeName)) return;
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {acceptNode: n => n.nodeValue.includes(MC_SIGN) ? 1 : 3});
+    const list = []; while (w.nextNode()) list.push(w.currentNode);
+    list.forEach(wrap);
+  }
+  scan(document.body);
+  new MutationObserver(ms => ms.forEach(m => { if (m.type === 'characterData') wrap(m.target); else m.addedNodes.forEach(scan); }))
+    .observe(document.body, {childList:true, subtree:true, characterData:true});
+})();
 
 </script>
 </body>

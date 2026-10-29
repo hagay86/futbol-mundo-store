@@ -90,7 +90,7 @@ export default async function handler(req, res) {
       const claim = 'GF-' + token().slice(0, 6).toUpperCase().replace(/[^A-Z0-9]/g, 'X');
       await redis('LPUSH', 'gifts', JSON.stringify({ claim, email: u.email, name, at: Date.now() }));
       await sendEmail({ to: u.email, subject: `Gift claimed: ${name}`, html: emailLayout('Your gift is on its way', `<p>We received your claim <b>${claim}</b> for: <b>${name}</b>.</p><p>Reply to this email with your shipping address (if we don't have it from an order yet) and we'll send it out.</p>`) });
-      if (process.env.ADMIN_EMAIL) await sendEmail({ to: process.env.ADMIN_EMAIL, subject: `Gift claim ${claim}: ${name}`, html: emailLayout('New gift claim', `<p>${u.email} claimed <b>${name}</b> (${cost.toLocaleString()} points). Claim ID ${claim}. Total spent: $${(u.spent || 0).toFixed(2)}.</p>`) });
+      if (process.env.ADMIN_EMAIL) await sendEmail({ to: process.env.ADMIN_EMAIL, subject: `Gift claim ${claim}: ${name}`, html: emailLayout('New gift claim', `<p>${u.email} claimed <b>${name}</b> (Ɱ${cost.toLocaleString()} Mundo Credits). Claim ID ${claim}. Total spent: $${(u.spent || 0).toFixed(2)}.</p>`) });
       return send(res, 200, { claim });
     }
     send(res, 400, { error: 'Unknown action' });
