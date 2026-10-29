@@ -547,5 +547,7 @@
 "Type the name and number to print. Printing adds 2–3 days.": "Scrivi nome e numero da stampare. La stampa aggiunge 2–3 giorni.",
 "Leave blank for a plain shirt. Name and number printing +${0}.": "Lascia vuoto per una maglia senza stampa. Nome e numero +${0}.",
 "Type the name to print, or pick another option": "Scrivi il nome o scegli un'altra opzione",
-") come from shirt codes, objectives, winning matches and cups, and selling players. They pay for packs, cup entries and gifts.": ") arrivano dai codici delle maglie, dagli obiettivi, dalle partite e coppe vinte e dalla vendita di giocatori. Servono per pacchetti, iscrizioni alle coppe e regali."
+") come from shirt codes, objectives, winning matches and cups, and selling players. They pay for packs, cup entries and gifts.": ") arrivano dai codici delle maglie, dagli obiettivi, dalle partite e coppe vinte e dalla vendita di giocatori. Servono per pacchetti, iscrizioni alle coppe e regali.",
+"Shirt {0} size": "Taglia maglia {0}",
+"Choose a size for every shirt in the box": "Scegli una taglia per ogni maglia della box"
 }

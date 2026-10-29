@@ -39,10 +39,10 @@ export default async function handler(req, res) {
         const b = boxes[+it.box];
         if (!b) continue;
         physical = true; merch += cents(b.price) * q; shirts += b.n * q;
-        const desc = `Size ${clean(it.sz, 12)} · ${clean(it.league, 30) || 'Any league'} · includes ${b.n}x 6-player Mundo XI packs`;
+        const desc = `Size${b.n > 1 ? 's' : ''} ${clean(it.sz, 40)} · ${clean(it.league, 30) || 'Any league'} · includes ${b.n}x 6-player Mundo XI packs`;
         lines.push({ name: `${b.name} mystery box (${b.n} shirt${b.n > 1 ? 's' : ''})`, desc, cents: cents(b.price), q });
         line_items.push({ quantity: q, price_data: { currency: 'usd', unit_amount: cents(b.price), product_data: { name: `${b.name} mystery box (${b.n} shirt${b.n > 1 ? 's' : ''})`, description: desc } } });
-        summary.push(`${q}x box${b.n} ${clean(it.sz, 12)} ${clean(it.league, 20)}`);
+        summary.push(`${q}x box${b.n} ${clean(it.sz, 40)} ${clean(it.league, 20)}`);
       } else {
         const p = findProduct(+it.pid, String(it.n || ''));
         if (!p) continue;

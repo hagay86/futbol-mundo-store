@@ -547,5 +547,7 @@
 "Type the name and number to print. Printing adds 2–3 days.": "Digite o nome e o número. A personalização leva mais 2–3 dias.",
 "Leave blank for a plain shirt. Name and number printing +${0}.": "Deixe em branco para uma camisa lisa. Nome e número +${0}.",
 "Type the name to print, or pick another option": "Digite o nome ou escolha outra opção",
-") come from shirt codes, objectives, winning matches and cups, and selling players. They pay for packs, cup entries and gifts.": ") vêm de códigos de camisa, objetivos, vitórias em partidas e copas e da venda de jogadores. Eles pagam pacotes, inscrições em copas e brindes."
+") come from shirt codes, objectives, winning matches and cups, and selling players. They pay for packs, cup entries and gifts.": ") vêm de códigos de camisa, objetivos, vitórias em partidas e copas e da venda de jogadores. Eles pagam pacotes, inscrições em copas e brindes.",
+"Shirt {0} size": "Tamanho da camisa {0}",
+"Choose a size for every shirt in the box": "Escolha um tamanho para cada camisa da caixa"
 }

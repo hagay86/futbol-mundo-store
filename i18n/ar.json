@@ -547,5 +547,7 @@
 "Type the name and number to print. Printing adds 2–3 days.": "اكتب الاسم والرقم للطباعة. الطباعة تضيف 2–3 أيام.",
 "Leave blank for a plain shirt. Name and number printing +${0}.": "اتركه فارغًا لقميص بدون طباعة. طباعة الاسم والرقم +${0}.",
 "Type the name to print, or pick another option": "اكتب الاسم للطباعة أو اختر خيارًا آخر",
-") come from shirt codes, objectives, winning matches and cups, and selling players. They pay for packs, cup entries and gifts.": ") تحصل عليها من رموز القمصان والمهام والفوز بالمباريات والكؤوس وبيع اللاعبين. وتُستخدم لشراء الحزم ودخول الكؤوس والهدايا."
+") come from shirt codes, objectives, winning matches and cups, and selling players. They pay for packs, cup entries and gifts.": ") تحصل عليها من رموز القمصان والمهام والفوز بالمباريات والكؤوس وبيع اللاعبين. وتُستخدم لشراء الحزم ودخول الكؤوس والهدايا.",
+"Shirt {0} size": "مقاس القميص {0}",
+"Choose a size for every shirt in the box": "اختر مقاسًا لكل قميص في الصندوق"
 }

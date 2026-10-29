@@ -547,5 +547,7 @@
 "Type the name and number to print. Printing adds 2–3 days.": "Name und Nummer eingeben. Der Druck dauert 2–3 Tage länger.",
 "Leave blank for a plain shirt. Name and number printing +${0}.": "Leer lassen für ein Trikot ohne Druck. Name und Nummer +${0}.",
 "Type the name to print, or pick another option": "Namen eingeben oder eine andere Option wählen",
-") come from shirt codes, objectives, winning matches and cups, and selling players. They pay for packs, cup entries and gifts.": ") bekommst du über Trikot-Codes, Ziele, gewonnene Spiele und Pokale sowie durch Spielerverkäufe. Damit bezahlst du Packs, Pokal-Teilnahmen und Geschenke."
+") come from shirt codes, objectives, winning matches and cups, and selling players. They pay for packs, cup entries and gifts.": ") bekommst du über Trikot-Codes, Ziele, gewonnene Spiele und Pokale sowie durch Spielerverkäufe. Damit bezahlst du Packs, Pokal-Teilnahmen und Geschenke.",
+"Shirt {0} size": "Größe Trikot {0}",
+"Choose a size for every shirt in the box": "Wähle eine Größe für jedes Trikot in der Box"
 }
