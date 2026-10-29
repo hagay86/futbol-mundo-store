@@ -3602,14 +3602,14 @@ updateStats = function(){ _updateStats(); demoBanner(); };
 // ---------------- Card picker: demo cards can't be sold, listed or traded ----------------
 function pickCard(mode, slotKey, pos, listingIdx){
   pickCtx = {mode, slotKey, pos, listingIdx};
-  const pool = mode === 'slot' ? G.cards : realCards();
+  const pool = realCards();
   if (!pool.length) { openInfo(mode === 'slot' ? 'No players yet' : 'No real players yet', mode === 'slot' ? 'Redeem a code to get players.' : 'Demo players can\'t be sold, listed or traded. Every shirt you buy comes with a 6-player pack of real players.'); return; }
   const inSquad = new Set(Object.values(G.squad));
   const cards = pool.slice().sort((a, b) => (pos ? (b.pos === pos) - (a.pos === pos) : 0) || (a.demo - b.demo) || b.rating - a.rating);
   const titles = {slot:`Choose a ${pos === 'GK' ? 'goalkeeper' : pos === 'DEF' ? 'defender' : pos === 'MID' ? 'midfielder' : 'forward'}`, trade:'Choose a card to offer', cash:'Choose a player to sell', list:'Choose a card to list'};
   $('#info-card').classList.add('wide');
   $('#info-modal-body').innerHTML = `<h3>${titles[mode]}</h3>
-    <p>${mode === 'slot' ? 'Real players are shown before demo players.' : mode === 'cash' ? 'Sale prices: ' + RARITY.map(r => r.label + ' Ɱ' + r.pts.toLocaleString()).join(', ') + '. Demo players can\'t be sold.' : mode === 'trade' ? 'They\'ll accept a card within 2 rating points of theirs, or better.' : 'Other fans can send offers for listed cards.'}</p>
+    <p>${mode === 'slot' ? 'Players in their natural position are shown first.' : mode === 'cash' ? 'Sale prices: ' + RARITY.map(r => r.label + ' Ɱ' + r.pts.toLocaleString()).join(', ') + '. Demo players can\'t be sold.' : mode === 'trade' ? 'They\'ll accept a card within 2 rating points of theirs, or better.' : 'Other fans can send offers for listed cards.'}</p>
     ${slotKey && G.squad[slotKey] ? '<button class="btn btn-ghost btn-sm" style="margin-bottom:16px" onclick="clearSlot()">Empty this slot</button>' : ''}
     <div class="col-grid">${cards.map(c => `<div class="col-item"><div onclick="choose('${c.id}')" role="button" tabindex="0">${cardHTML(c)}</div>${inSquad.has(c.id) ? '<span class="muted" style="font-size:12px;text-align:center">In your eleven</span>' : ''}</div>`).join('')}</div>`;
   $('#info-modal').classList.add('open');
@@ -5320,6 +5320,30 @@ cardHTML = function(c){
   return html.replace(/<div class="fut-img"><img [^>]*><\/div>/, `<div class="fut-img fut-av">${avatarFor(c)}</div>`)
              .replace(/<div class="shirt"><img [^>]*><\/div>/, `<div class="shirt fut-av">${avatarFor(c)}</div>`);
 };
+</script>
+<script>
+// =====================================================================
+// FUTBOL MUNDO v18 — the starting eleven only ever holds real players.
+// Demo players stay visible in the Club tab only.
+// =====================================================================
+autoPick = function(silent){
+  const pool = realCards();
+  if (!pool.length) { gTab('packs'); return; }
+  G.squad = {}; const used = new Set();
+  const sorted = pool.slice().sort((a, b) => b.rating - a.rating);
+  const keys = slotKeys();
+  keys.forEach(s => { const c = sorted.find(c => !used.has(c.id) && c.pos === s.pos); if (c) { G.squad[s.key] = c.id; used.add(c.id); } });
+  keys.forEach(s => { if (G.squad[s.key]) return; const c = sorted.find(c => !used.has(c.id)); if (c) { G.squad[s.key] = c.id; used.add(c.id); } });
+  save(); if (!silent) { renderSquad(); showToast('Best eleven picked'); }
+};
+function purgeDemoXI(){
+  const bad = Object.entries(G.squad || {}).some(([, id]) => { const c = cardById(id); return !c || c.demo; });
+  if (bad || Object.keys(G.squad || {}).length < 11) autoPick(true);
+}
+purgeDemoXI();
+if (typeof syncLoad === 'function') { const _syncLoad18 = syncLoad; syncLoad = async function(){ const r = await _syncLoad18.apply(this, arguments); purgeDemoXI(); return r; }; }
+const _seedDemo18 = seedDemo;
+seedDemo = function(){ _seedDemo18(); purgeDemoXI(); };
 </script>
 </body>
 </html>
