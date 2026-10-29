@@ -21,6 +21,14 @@ export default async function handler(req, res) {
     const b = await readJson(req);
     if (!okKey(b.k)) return send(res, 403, { error: 'Bad key' });
     if (b.stage) { await redis('SET', 'stage:' + String(b.stage).replace(/[^\w-]/g, ''), String(b.data || ''), 'EX', 86400); return send(res, 200, { ok: true, staged: b.stage }); }
+    if (b.restore) {   // put the previously uploaded partner feed (catnew:*) back live
+      const n = +b.restore; let s = '';
+      for (let i = 0; i < n; i++) s += (await redis('GET', 'catnew:' + i)) || '';
+      const j = JSON.parse(s);
+      for (let i = 0; i < n; i++) await redis('SET', 'cat:' + i, await redis('GET', 'catnew:' + i));
+      await redis('SET', 'cat:n', String(n)); await redis('SET', 'cat:ver', String(Date.now()));
+      return send(res, 200, { ok: true, rows: (j.rows || []).length });
+    }
     if (b.curated) {   // replace the live catalogue with a ready list of products
       const list = JSON.parse(b.curated);
       if (!Array.isArray(list) || !list.length) return send(res, 400, { error: 'Empty list' });
