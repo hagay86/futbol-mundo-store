@@ -53,7 +53,9 @@ await W(400);await pg.evaluate(()=>document.querySelector('#packs-main').scrollI
 // open gold packs
 for(let k=0;k<2;k++){
   await pg.evaluate(()=>openPack(0));await W(1300);await shot('16-goldpack'+k);
-  await pg.click('#po-pack');await W(7500);await shot('17-goldcards'+k);
+  await pg.click('#po-pack');await W(7500);
+  for(let j=0;j<12;j++){const wo=await pg.evaluate(()=>{const w=document.getElementById('walkout');return !!(w&&(w.classList.contains('open')||w.classList.contains('on')||getComputedStyle(w).display!=='none'&&w.offsetHeight>0));});if(!wo)break;if(j>=3)await pg.evaluate(()=>skipWalkout());await W(800);}
+  await W(800);await shot('17-goldcards'+k);
   await pg.evaluate(()=>{const b=[...document.querySelectorAll('#po-actions .btn, .po-actions .btn')].pop(); if(b) b.click(); else closePack();});await W(900);
 }
 // gift shop
