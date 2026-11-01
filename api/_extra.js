@@ -35,7 +35,7 @@ export function transform(raw) {
     }
     if (!sz.length) continue;
     out.push({ c, t: bc1 || '', n, p: up(price), o: '', i: IMG + gal[0], gal: gal.map(x => IMG + x),
-      l: `https://www.mmjerseys8.com/p${mid}.html`, g: g === 'National Teams' ? 'National Teams' : (bc0 || g), b: 'New', r: 9999, mid, sz, opt, x: 1 });
+      l: `https://www.mmjerseys7.com/p${mid}.html`, g: g === 'National Teams' ? 'National Teams' : (bc0 || g), b: 'New', r: 9999, mid, sz, opt, x: 1 });
   }
   return out;
 }
