@@ -14,6 +14,13 @@ export default async function handler(req, res) {
     const okKey = k => createHash('sha256').update(String(k || '')).digest('hex') === KEY_HASH;
     if (req.method === 'GET') {   // read back a staged blob: /api/ingest?k=..&stage=name
       const q = new URL(req.url, 'http://x').searchParams;
+      if (q.get('img')) {   // public download of a staged ad image (stage name "img-<name>", JPEG as base64, expires in 24h)
+        const name = String(q.get('img')).replace(/[^\w-]/g, '').slice(0, 60);
+        const v = await redis('GET', 'stage:img-' + name);
+        if (!v) return send(res, 404, { error: 'Not found or expired' });
+        res.statusCode = 200; res.setHeader('Content-Type', 'image/jpeg'); res.setHeader('Content-Disposition', `attachment; filename="futbol-mundo-${name}.jpg"`); res.setHeader('Cache-Control', 'no-store');
+        return res.end(Buffer.from(v, 'base64'));
+      }
       if (!okKey(q.get('k'))) return send(res, 403, { error: 'Bad key' });
       res.setHeader('Content-Type', 'application/json'); res.statusCode = 200; return res.end((await redis('GET', 'stage:' + String(q.get('stage') || '').replace(/[^\w-]/g, ''))) || 'null');
     }
