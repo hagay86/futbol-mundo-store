@@ -650,5 +650,17 @@
 "Play Mundo XI": "العب Mundo XI",
 "Questions about your order? Email": "أسئلة عن طلبك؟ راسلنا على",
 "Your code is ready. Tap Redeem": "رمزك جاهز. اضغط استرداد",
-"This gift is not available right now": "هذه الهدية غير متاحة حاليًا"
+"This gift is not available right now": "هذه الهدية غير متاحة حاليًا",
+"Every shirt comes with a special code that unlocks a {0}-player pack plus {1} Mundo Credits. They arrive in a few minutes.": "كل قميص يأتي مع رمز خاص يفتح حزمة من {0} لاعبين و{1} Mundo Credits. تصل خلال دقائق.",
+"Every shirt brings a {0}-player Gold pack plus Ɱ{1} Mundo Credits. Your Welcome pack holds a free jersey, shipped with any order of ${2}+.": "كل قميص يجلب حزمة ذهبية من {0} لاعبين و Ɱ{1} Mundo Credits. حزمة الترحيب فيها قميص مجاني يُشحن مع أي طلب من ${2}.",
+"Codes from your order confirmation. Shirt codes add a {0}-player pack plus Ɱ{1} Mundo Credits; bonus codes add a bonus player. Each code works once per device.": "رموز من تأكيد طلبك. رموز القميص تضيف حزمة من {0} لاعبين و Ɱ{1} Mundo Credits؛ رموز المكافأة تضيف لاعبًا. كل رمز يعمل مرة واحدة لكل جهاز.",
+"Includes a {0}-player Mundo XI pack plus Ɱ{1} Mundo Credits. Play to win a free jersey.": "يتضمن حزمة Mundo XI من {0} لاعبين و Ɱ{1} Mundo Credits. العب واربح قميصًا مجانيًا.",
+"comes with a {0}-player Gold pack plus Ɱ{1} Mundo Credits, emailed to you a few minutes after you buy.": "يأتي مع حزمة ذهبية من {0} لاعبين و Ɱ{1} Mundo Credits، تُرسل إليك بالبريد بعد دقائق من الشراء.",
+"Every jersey brings a {0}-player Gold pack plus Ɱ{1} Mundo Credits, emailed to you minutes after you order.": "كل قميص يجلب حزمة ذهبية من {0} لاعبين و Ɱ{1} Mundo Credits، تُرسل بالبريد بعد دقائق من الطلب.",
+"comes with a {0}-player Gold pack plus Ɱ{1} Mundo Credits.": "يأتي مع حزمة ذهبية من {0} لاعبين و Ɱ{1} Mundo Credits.",
+"Every shirt you buy comes with a {0}-player Gold pack plus Ɱ{1} Mundo Credits.": "كل قميص تشتريه يأتي مع حزمة ذهبية من {0} لاعبين و Ɱ{1} Mundo Credits.",
+"+Ɱ{0} + {1} Gold pack": "+Ɱ{0} + {1} حزمة ذهبية",
+"Mundo Credits and a free {0}-player pack added": "أُضيفت Mundo Credits وحزمة مجانية من {0} لاعبين",
+"Open my {0}-player Gold pack": "افتح حزمتي الذهبية من {0} لاعبين",
+"+Ɱ{0} + {1}-player pack": "+Ɱ{0} + حزمة من {1} لاعبين"
 }

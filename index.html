@@ -1259,7 +1259,7 @@ html[dir=rtl] .mc{margin:0 .02em 0 .14em}
       <div>
         <div class="sec-head" style="margin-bottom:0"><div><h2>Mundo XI</h2><p>The shirts you buy become your squad.</p></div></div>
         <ol class="steps">
-          <li><span class="sn">1</span><div><b>Buy a shirt</b><span>Every shirt brings Ɱ4,000 Mundo Credits: one 6-player Gold pack. Your Welcome pack holds a free jersey, shipped with any order of $40+.</span></div></li>
+          <li><span class="sn">1</span><div><b>Buy a shirt</b><span>Every shirt brings a 6-player Gold pack plus Ɱ4,000 Mundo Credits. Your Welcome pack holds a free jersey, shipped with any order of $40+.</span></div></li>
           <li><span class="sn">2</span><div><b>Redeem and open packs</b><span>Your codes land in your game. Open packs and watch big signings walk out. Try squad building with free demo players first.</span></div></li>
           <li><span class="sn">3</span><div><b>Play, sim, climb</b><span>With 11 real players you start in Division 10. Play matches yourself or on fast-forward, win cups and get promoted.</span></div></li>
         </ol>
@@ -1361,7 +1361,7 @@ html[dir=rtl] .mc{margin:0 .02em 0 .14em}
       <div class="redeem">
         <div>
           <h2>Redeem a code</h2>
-          <p>Codes from your order confirmation. Shirt codes add Ɱ4,000 Mundo Credits (a 6-player pack); bonus codes add a bonus player. Each code works once per device.</p>
+          <p>Codes from your order confirmation. Shirt codes add a 6-player pack plus Ɱ4,000 Mundo Credits; bonus codes add a bonus player. Each code works once per device.</p>
           <div class="code-row"><input id="code-in" placeholder="MX-P014-XXXX-XXXXXXXX" maxlength="24" aria-label="Code" onkeydown="if(event.key==='Enter')redeemCode()"><button class="btn btn-pitch" onclick="redeemCode()">Redeem</button></div>
           <p style="margin:12px 0 0;font-size:14px">No code yet? Every jersey comes with one. <button class="link" onclick="go('shop')">Shop jerseys</button></p>
         </div>
@@ -2500,7 +2500,7 @@ const CONFIG = {
   PICKS: 8,
   PAGE: 24,
 };
-const RULES_TEXT = 'Every shirt comes with a one-time code worth Ɱ4,000 Mundo Credits, enough for one 6-player Gold pack. Mystery boxes include one code per shirt. The Welcome pack includes a free jersey gift that ships with any order of $40 or more. Every manager can build a demo squad with gray DEMO players, but matches and cups need 11 real players. Gift shop items ship free with an order of $40 or more. Cards come in Bronze (under 65), Silver (65–74), Gold (75–84), Elite (85+) and Icon rarity. Managers begin in Division 10. Each division season is 7 matches against 7 rivals: 3 points for a win, 1 for a draw. The top 2 go up, the bottom 2 go down. Cups start on a fixed clock all day; entry costs Mundo Credits, with one free entry per day, and you play or sim every round yourself. Mundo Credits (Ɱ) come from shirt codes, objectives, winning matches and cups, and selling players. They pay for packs, cup entries and gifts.';
+const RULES_TEXT = 'Every shirt comes with a one-time code that unlocks a 6-player Gold pack plus Ɱ4,000 Mundo Credits. Mystery boxes include one code per shirt. The Welcome pack includes a free jersey gift that ships with any order of $40 or more. Every manager can build a demo squad with gray DEMO players, but matches and cups need 11 real players. Gift shop items ship free with an order of $40 or more. Cards come in Bronze (under 65), Silver (65–74), Gold (75–84), Elite (85+) and Icon rarity. Managers begin in Division 10. Each division season is 7 matches against 7 rivals: 3 points for a win, 1 for a draw. The top 2 go up, the bottom 2 go down. Cups start on a fixed clock all day; entry costs Mundo Credits, with one free entry per day, and you play or sim every round yourself. Mundo Credits (Ɱ) come from shirt codes, objectives, winning matches and cups, and selling players. They pay for packs, cup entries and gifts.';
 
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -2589,8 +2589,8 @@ function openP(id){
   openPDP(p.n, p.p, p.o, p.i, p.l, p.t ? `${p.t} · ${p.c}` : p.c);
   $('#pdp-perk').classList.toggle('hidden', !p.shirt);
   $('#pdp-perk-txt').textContent = currentPlayers.length
-    ? 'Includes a 6-player Mundo XI pack (Ɱ4,000 Mundo Credits). Play to win a free jersey.'
-    : 'Includes a 6-player Mundo XI pack (Ɱ4,000 Mundo Credits). Play to win a free jersey.';
+    ? 'Includes a 6-player Mundo XI pack plus Ɱ4,000 Mundo Credits. Play to win a free jersey.'
+    : 'Includes a 6-player Mundo XI pack plus Ɱ4,000 Mundo Credits. Play to win a free jersey.';
 }
 function wishCurrent(){ if (pdpProduct) addToWishlist(pdpProduct.n, pdpProduct.p, pdpProduct.i); }
 
@@ -3607,7 +3607,7 @@ function showPlayGate(){
     ? `You have ${real} real players but only ${inXI} of them are in your eleven. Swap the gray demo players out and you're ready.<div class="gate-btns"><button class="btn btn-pitch" onclick="closeInfo();autoPick();gTab('squad')">Use my real players</button></div>`
     : `Your demo squad is just a preview. To play matches and enter cups, every place in your eleven needs a <b>real</b> player.
       <div class="gate-meter"><div class="gate-bar"><i style="width:${pct}%"></i></div><b>${real}/11 real players</b></div>
-      <ul class="gate-list"><li><b>Every shirt</b> comes with Ɱ${SHIRT_POINTS.toLocaleString()}: one 6-player Gold pack.</li><li><b>Your Welcome pack</b> holds a free jersey, shipped with any order of $40+.</li></ul>
+      <ul class="gate-list"><li><b>Every shirt</b> comes with a 6-player Gold pack plus Ɱ${SHIRT_POINTS.toLocaleString()} Mundo Credits.</li><li><b>Your Welcome pack</b> holds a free jersey, shipped with any order of $40+.</li></ul>
       <p style="margin:0">${needShirts ? `About <b>${needShirts} more shirt${needShirts > 1 ? 's' : ''}</b> gets you on the pitch.` : ''}</p>
       <div class="gate-btns"><button class="btn btn-pitch" onclick="closeInfo();go('shop')">Shop jerseys</button>${G.points >= PACK_TYPES.gold.price ? `<button class="btn btn-gold" onclick="closeInfo();gTab('packs')">Open a 6-player pack</button>` : ''}<button class="btn btn-ghost" onclick="closeInfo();go('game','redeem')">I have a code</button></div>`;
   $('#info-modal-body').innerHTML = `<h3>You need 11 real players to play</h3><div class="gate">${body}</div>`;
@@ -3678,7 +3678,13 @@ function claimGift(i){
 function applyCode(code, info, quiet){
   G.used.push(code);
   if (info.type === 'points') {
-    G.points += info.amount; save();
+    G.points += info.amount;
+    if (info.amount === SHIRT_POINTS) {   // a shirt code = Ɱ4,000 credits AND a 6-player Gold pack on top
+      G.packs.push({type:'gold', id:newId()}); save();
+      $('#redeem-result').innerHTML = `<div class="redeem-points"><b>+Ɱ${info.amount.toLocaleString()} + 1 Gold pack</b><span>Mundo Credits and a free 6-player pack added</span><button class="btn btn-gold" onclick="openPack(G.packs.length - 1)">Open my 6-player Gold pack</button></div>`;
+      return `+Ɱ${info.amount.toLocaleString()} + 6-player pack`;
+    }
+    save();
     const packs = Math.floor(G.points / PACK_TYPES.gold.price);
     $('#redeem-result').innerHTML = `<div class="redeem-points"><b>+Ɱ${info.amount.toLocaleString()}</b><span>Mundo Credits added</span>${packs ? `<button class="btn btn-gold" onclick="buyPackPts('gold')">Open a 6-player Gold pack</button>` : ''}</div>`;
     return `+Ɱ${info.amount.toLocaleString()}`;
@@ -3708,7 +3714,7 @@ function renderGame(){
   seedDemo(); career(); updateStats(); gTab(gCurrent);
 }
 const _renderPacks = renderPacks;
-renderPacks = function(){ _renderPacks(); const p = $('#packs-main > p.muted:last-child'); if (p) p.innerHTML = `Every shirt you buy comes with Ɱ${SHIRT_POINTS.toLocaleString()}: exactly one 6-player Gold pack.`; };
+renderPacks = function(){ _renderPacks(); const p = $('#packs-main > p.muted:last-child'); if (p) p.innerHTML = `Every shirt you buy comes with a 6-player Gold pack plus Ɱ${SHIRT_POINTS.toLocaleString()} Mundo Credits.`; };
 
 // ---------------- Product pages & cart ----------------
 function pdpItem(){
@@ -4140,7 +4146,7 @@ const TUT = [
   () => tutPanel(3, 'Your Welcome pack is ready', 'Inside: your first real player and a FREE jersey. Tap the pack to open it.', `<button class="btn btn-gold" onclick="tutClose();grantWelcome().then(ok => { if (!ok) tutGo(2); })">Open Welcome pack</button>`),
 ];
 function tutStep4(){ G.tut = 4; save(); gTab('squad'); tutPanel(4, 'Meet your squad', `You have <b>${realCards().length} real player${realCards().length === 1 ? '' : 's'}</b>. The gray <b>DEMO</b> players fill your XI so you can try things out, but <b>matches and cups need 11 real players</b>.`, `<button class="btn btn-gold" onclick="tutGo(5)">How do I get players?</button>`); }
-function tutStep5(){ tutPanel(5, 'Every shirt = a 6-player pack', `<ul class="tut-list"><li>👕 <b>Every jersey</b> comes with Ɱ4,000 Mundo Credits: one 6-player Gold pack, emailed to you a few minutes after you buy.</li><li>🎁 <b>Your free jersey</b> is in My gifts. It ships free with any order of $40+.</li><li>⚽ Your rookie + 1 shirt = 7 players. <b>One more shirt and you're on the pitch.</b></li></ul>`, `<button class="btn btn-gold" onclick="tutDone();go('shop')">Shop jerseys</button><button class="btn btn-ghost" onclick="tutDone();gTab('home')">Explore Mundo XI</button>`); }
+function tutStep5(){ tutPanel(5, 'Every shirt = a 6-player pack', `<ul class="tut-list"><li>👕 <b>Every jersey</b> comes with a 6-player Gold pack plus Ɱ4,000 Mundo Credits, emailed to you a few minutes after you buy.</li><li>🎁 <b>Your free jersey</b> is in My gifts. It ships free with any order of $40+.</li><li>⚽ Your rookie + 1 shirt = 7 players. <b>One more shirt and you're on the pitch.</b></li></ul>`, `<button class="btn btn-gold" onclick="tutDone();go('shop')">Shop jerseys</button><button class="btn btn-ghost" onclick="tutDone();gTab('home')">Explore Mundo XI</button>`); }
 function tutGo(n){ G.tut = n; save(); if (n === 4) return tutStep4(); if (n === 5) return tutStep5(); TUT[n - 1](); }
 function tutDone(){ G.tut = 99; save(); tutClose(); }
 function tutClose(){ $('#tut')?.remove(); }
@@ -4374,7 +4380,7 @@ routeFromHash = function(){ if (location.hash.startsWith('#xi')) return _go('xi'
       <div class="xi-cards" id="xi-cards"></div>
     </div></section>
     <section class="xi-steps"><div class="wrap">
-      <div class="xi-step"><b>01</b><h3>Buy a shirt</h3><p>Every jersey brings Ɱ4,000 Mundo Credits: one 6-player Gold pack, emailed to you minutes after you order.</p></div>
+      <div class="xi-step"><b>01</b><h3>Buy a shirt</h3><p>Every jersey brings a 6-player Gold pack plus Ɱ4,000 Mundo Credits, emailed to you minutes after you order.</p></div>
       <div class="xi-step"><b>02</b><h3>Open your packs</h3><p>Bronze to Icon. Big signings arrive with a walkout. Your Welcome pack holds a free jersey.</p></div>
       <div class="xi-step"><b>03</b><h3>Build your eleven</h3><p>Try squad building with demo players. With 11 real players you're on the pitch.</p></div>
       <div class="xi-step"><b>04</b><h3>Climb and win</h3><p>Ten divisions, live cups every few minutes, and a trip for two to a top-flight match for the Division 1 champions.</p></div>

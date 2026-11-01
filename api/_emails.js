@@ -88,7 +88,7 @@ export function orderEmail(o, { lang, name, origin }) {
 // codes = [{code,label}]
 export function codesEmail(order, codes, { lang, origin }) {
   const t = T(lang);
-  const label = c => { if (lang !== 'he') return c.label; const m = String(c.label).match(/^Shirt (\d+): ([\d,]+) .*?(\d+)-player pack/); return m ? `חולצה ${m[1]}: ${m[2]} Mundo Credits, חבילה של ${m[3]} שחקנים` : c.label; };
+  const label = c => { if (lang !== 'he') return c.label; const m = String(c.label).match(/^Shirt (\d+): ([\d,]+) .*?(\d+)-player pack/); return m ? `חולצה ${m[1]}: חבילה של ${m[3]} שחקנים + ${m[2]} Mundo Credits` : c.label; };
   const cards = codes.map(c => `<table width="100%" cellpadding="0" cellspacing="0" style="background:${NAVY};border-radius:14px;margin:12px 0"><tr><td style="padding:18px 18px 16px;text-align:center">
     <div style="font-size:12px;color:#AEB9C7;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">${esc(label(c))}</div>
     <div dir="ltr" style="font-family:'Courier New',monospace;font-size:21px;font-weight:bold;color:${GOLD};letter-spacing:1.5px">${esc(c.code)}</div>

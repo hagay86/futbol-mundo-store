@@ -650,5 +650,17 @@
 "Play Mundo XI": "Jogar Mundo XI",
 "Questions about your order? Email": "Dúvidas sobre o pedido? Escreva para",
 "Your code is ready. Tap Redeem": "Seu código está pronto. Toque em Resgatar",
-"This gift is not available right now": "Este presente não está disponível agora"
+"This gift is not available right now": "Este presente não está disponível agora",
+"Every shirt comes with a special code that unlocks a {0}-player pack plus {1} Mundo Credits. They arrive in a few minutes.": "Cada camisa vem com um código especial que libera um pacote de {0} jogadores mais {1} Mundo Credits. Chegam em poucos minutos.",
+"Every shirt brings a {0}-player Gold pack plus Ɱ{1} Mundo Credits. Your Welcome pack holds a free jersey, shipped with any order of ${2}+.": "Cada camisa traz um pacote Ouro de {0} jogadores mais Ɱ{1} Mundo Credits. Seu pacote de boas-vindas traz uma camisa grátis, enviada com qualquer pedido a partir de ${2}.",
+"Codes from your order confirmation. Shirt codes add a {0}-player pack plus Ɱ{1} Mundo Credits; bonus codes add a bonus player. Each code works once per device.": "Códigos da confirmação do pedido. Códigos de camisa adicionam um pacote de {0} jogadores mais Ɱ{1} Mundo Credits; códigos bônus adicionam um jogador. Cada código funciona uma vez por dispositivo.",
+"Includes a {0}-player Mundo XI pack plus Ɱ{1} Mundo Credits. Play to win a free jersey.": "Inclui um pacote Mundo XI de {0} jogadores mais Ɱ{1} Mundo Credits. Jogue e ganhe uma camisa grátis.",
+"comes with a {0}-player Gold pack plus Ɱ{1} Mundo Credits, emailed to you a few minutes after you buy.": "vem com um pacote Ouro de {0} jogadores mais Ɱ{1} Mundo Credits, enviados por email minutos após a compra.",
+"Every jersey brings a {0}-player Gold pack plus Ɱ{1} Mundo Credits, emailed to you minutes after you order.": "Cada camisa traz um pacote Ouro de {0} jogadores mais Ɱ{1} Mundo Credits, enviados por email minutos após o pedido.",
+"comes with a {0}-player Gold pack plus Ɱ{1} Mundo Credits.": "vem com um pacote Ouro de {0} jogadores mais Ɱ{1} Mundo Credits.",
+"Every shirt you buy comes with a {0}-player Gold pack plus Ɱ{1} Mundo Credits.": "Cada camisa que você compra traz um pacote Ouro de {0} jogadores mais Ɱ{1} Mundo Credits.",
+"+Ɱ{0} + {1} Gold pack": "+Ɱ{0} + {1} pacote Ouro",
+"Mundo Credits and a free {0}-player pack added": "Mundo Credits e um pacote grátis de {0} jogadores adicionados",
+"Open my {0}-player Gold pack": "Abrir meu pacote Ouro de {0} jogadores",
+"+Ɱ{0} + {1}-player pack": "+Ɱ{0} + pacote de {1} jogadores"
 }

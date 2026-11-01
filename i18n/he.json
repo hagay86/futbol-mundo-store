@@ -650,5 +650,17 @@
 "Play Mundo XI": "לשחק Mundo XI",
 "Questions about your order? Email": "שאלות על ההזמנה? כתבו ל",
 "Your code is ready. Tap Redeem": "הקוד מוכן. הקישו מימוש",
-"This gift is not available right now": "המתנה הזו לא זמינה כרגע"
+"This gift is not available right now": "המתנה הזו לא זמינה כרגע",
+"Every shirt comes with a special code that unlocks a {0}-player pack plus {1} Mundo Credits. They arrive in a few minutes.": "כל חולצה מגיעה עם קוד מיוחד שפותח חבילה של {0} שחקנים ועוד {1} Mundo Credits. הם מגיעים בעוד כמה דקות.",
+"Every shirt brings a {0}-player Gold pack plus Ɱ{1} Mundo Credits. Your Welcome pack holds a free jersey, shipped with any order of ${2}+.": "כל חולצה מביאה חבילת זהב של {0} שחקנים ועוד Ɱ{1} Mundo Credits. בחבילת הפתיחה מחכה חולצה במתנה, שנשלחת עם כל הזמנה מ-${2}.",
+"Codes from your order confirmation. Shirt codes add a {0}-player pack plus Ɱ{1} Mundo Credits; bonus codes add a bonus player. Each code works once per device.": "קודים ממייל אישור ההזמנה. קוד חולצה מוסיף חבילה של {0} שחקנים ועוד Ɱ{1} Mundo Credits; קודי בונוס מוסיפים שחקן בונוס. כל קוד עובד פעם אחת לכל מכשיר.",
+"Includes a {0}-player Mundo XI pack plus Ɱ{1} Mundo Credits. Play to win a free jersey.": "כולל חבילת Mundo XI של {0} שחקנים ועוד Ɱ{1} Mundo Credits. שחקו וזכו בחולצה במתנה.",
+"comes with a {0}-player Gold pack plus Ɱ{1} Mundo Credits, emailed to you a few minutes after you buy.": "מגיעה עם חבילת זהב של {0} שחקנים ועוד Ɱ{1} Mundo Credits, שנשלחים אליכם במייל כמה דקות אחרי הקנייה.",
+"Every jersey brings a {0}-player Gold pack plus Ɱ{1} Mundo Credits, emailed to you minutes after you order.": "כל חולצה מביאה חבילת זהב של {0} שחקנים ועוד Ɱ{1} Mundo Credits, שנשלחים אליכם במייל דקות אחרי ההזמנה.",
+"comes with a {0}-player Gold pack plus Ɱ{1} Mundo Credits.": "מגיעה עם חבילת זהב של {0} שחקנים ועוד Ɱ{1} Mundo Credits.",
+"Every shirt you buy comes with a {0}-player Gold pack plus Ɱ{1} Mundo Credits.": "כל חולצה שתקנו מגיעה עם חבילת זהב של {0} שחקנים ועוד Ɱ{1} Mundo Credits.",
+"+Ɱ{0} + {1} Gold pack": "+Ɱ{0} + חבילת זהב {1}",
+"Mundo Credits and a free {0}-player pack added": "נוספו Mundo Credits וחבילה של {0} שחקנים במתנה",
+"Open my {0}-player Gold pack": "פתיחת חבילת הזהב ({0} שחקנים)",
+"+Ɱ{0} + {1}-player pack": "+Ɱ{0} + חבילה של {1} שחקנים"
 }

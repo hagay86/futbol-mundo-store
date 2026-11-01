@@ -81,7 +81,7 @@ export async function processPaidSession(s, origin) {
   const m = s.metadata || {};
   const shirts = +m.shirts || 0, pts = +m.pts || 0, scarf = m.scarf === '1';
   const codes = [];
-  for (let i = 0; i < shirts; i++) codes.push({ code: makeCode('P', SHIRT_POINTS, `${s.id}:shirt:${i}`), label: `Shirt ${i + 1}: ${SHIRT_POINTS.toLocaleString('en-US')} Mundo Credits (Ɱ), one 6-player pack` });
+  for (let i = 0; i < shirts; i++) codes.push({ code: makeCode('P', SHIRT_POINTS, `${s.id}:shirt:${i}`), label: `Shirt ${i + 1}: ${SHIRT_POINTS.toLocaleString('en-US')} Mundo Credits (Ɱ) + a 6-player pack` });
   if (pts) codes.push({ code: makeCode('P', pts, `${s.id}:points`), label: `${pts.toLocaleString('en-US')} Mundo Credits (Ɱ) you bought` });
   if (scarf) codes.push({ code: makeCode('S', 0, `${s.id}:scarf`), label: 'Free scarf bonus: 1 Mundo XI player' });
   let items = s.items || [];
