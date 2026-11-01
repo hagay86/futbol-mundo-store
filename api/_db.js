@@ -86,7 +86,7 @@ export async function processPaidSession(s, origin) {
   const codes = [];
   for (let i = 0; i < shirts; i++) codes.push({ code: makeCode('P', SHIRT_POINTS, `${s.id}:shirt:${i}`), label: `Shirt ${i + 1}: ${SHIRT_POINTS.toLocaleString('en-US')} Mundo Credits (Ɱ) + a 6-player pack` });
   if (pts) codes.push({ code: makeCode('P', pts, `${s.id}:points`), label: `${pts.toLocaleString('en-US')} Mundo Credits (Ɱ) you bought` });
-  if (scarf) codes.push({ code: makeCode('S', 0, `${s.id}:scarf`), label: 'Free scarf bonus: 1 Mundo XI player' });
+  if (scarf) codes.push({ code: makeCode('S', 0, `${s.id}:scarf`), label: 'Bonus: 1 Mundo XI player' });
   let items = s.items || [];
   if (!s.items) try { items = (await stripe('GET', `/checkout/sessions/${s.id}/line_items`, { limit: 50 })).data.map(l => ({ name: l.description, q: l.quantity, amount: l.amount_total / 100 })); } catch (e) {}
   const email = normEmail(m.uid || s.customer_details?.email);
@@ -112,7 +112,7 @@ export async function processPaidSession(s, origin) {
   }
   {
     const sh = order.ship; const addr = sh ? [sh.name, sh.phone && 'Phone: ' + sh.phone, sh.address?.line1, sh.address?.line2, sh.address?.postal_code + ' ' + sh.address?.city, sh.address?.state, sh.address?.country].filter(Boolean).map(esc).join('<br>') : 'Digital only';
-    await sendEmail({ to: BUSINESS_EMAIL(), subject: `New order ${m.order} · $${order.total.toFixed(2)}`, html: emailLayout(`New order ${m.order}`, `<p><b>Customer:</b> ${esc(s.customer_details?.email || email)}</p><p><b>Ship to:</b><br>${addr}</p><p><b>Items</b> (sizes and printing are in Stripe → Payments → metadata):<br>${items.map(i => `${esc(i.name)} × ${i.q}`).join('<br>')}</p><p><b>Details:</b> ${esc(m.items || '')}</p>${scarf ? '<p><b>Include a FREE club scarf.</b></p>' : ''}${m.gifts ? '<p><b>Includes FREE gift item(s): see the lines marked FREE GIFT.</b></p>' : ''}`) });
+    await sendEmail({ to: BUSINESS_EMAIL(), subject: `New order ${m.order} · $${order.total.toFixed(2)}`, html: emailLayout(`New order ${m.order}`, `<p><b>Customer:</b> ${esc(s.customer_details?.email || email)}</p><p><b>Ship to:</b><br>${addr}</p><p><b>Items</b> (sizes and printing are in Stripe → Payments → metadata):<br>${items.map(i => `${esc(i.name)} × ${i.q}`).join('<br>')}</p><p><b>Details:</b> ${esc(m.items || '')}</p>${m.gifts ? '<p><b>Includes FREE gift item(s): see the lines marked FREE GIFT.</b></p>' : ''}`) });
   }
   return order;
 }

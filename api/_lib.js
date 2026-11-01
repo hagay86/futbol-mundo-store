@@ -7,7 +7,7 @@ import { extraProducts, mergeCatalog } from './_extra.js';
 
 // ---------- Game economy (keep in sync with index.html) ----------
 export const SHIRT_POINTS = 4000;        // enough for one 6-player Gold pack
-export const SCARF_THRESHOLD = 30;       // USD of merchandise for the free scarf
+export const SCARF_THRESHOLD = 30;       // legacy (unused)
 export const FREE_SHIP_OVER = 99;
 export const SHIPPING = { standard: 999, express: 1499, overnight: 2999 }; // cents
 

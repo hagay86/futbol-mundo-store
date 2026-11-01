@@ -68,7 +68,7 @@ export default async function handler(req, res) {
 
     // Gifts from "My gifts": free, only inside an order of $GIFT_MIN+ in paid items. Below that they stay unused.
     const giftLines = [], giftIds = [];
-    if (user && giftReq.length && merch >= GIFT_MIN * 100) {
+    if (false && user && giftReq.length && merch >= GIFT_MIN * 100) {   // gifts are now claimed separately (free shipping)
       for (const it of giftReq.slice(0, 5)) {
         const g = (user.gifts || []).find(x => x.id === String(it.gid || '') && !x.used);
         if (!g || giftIds.includes(g.id)) continue;

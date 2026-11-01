@@ -1,7 +1,9 @@
 // /api/auth?action=signup|login|logout|me|verify|forgot|reset|welcome|gift
-import { send, readJson, fail } from './_lib.js';
-import { newGift, publicGifts } from './_gifts.js';
-import { redis, dbReady, getUser, saveUser, normEmail, validEmail, hashPw, checkPw, token, publicUser, currentUser, startSession, endSession, sendEmail, emailLayout, BUSINESS_EMAIL, siteUrl, getJSON } from './_db.js';
+import { send, readJson, fail, ensureCatalog, findProduct } from './_lib.js';
+import { randomBytes } from 'node:crypto';
+import { orderEmail } from './_emails.js';
+import { newGift, publicGifts, GIFT_UNLOCK } from './_gifts.js';
+import { redis, dbReady, getUser, saveUser, normEmail, validEmail, hashPw, checkPw, token, publicUser, currentUser, startSession, endSession, sendEmail, emailLayout, BUSINESS_EMAIL, siteUrl, getJSON, setJSON } from './_db.js';
 
 // Gift shop (Mundo Credits). Jersey and ball gifts go to "My gifts" and ship free with an order of $GIFT_MIN or more.
 const GIFTS = { 'Match ball': { cost: 18000, kind: 'ball' }, 'Free jersey': { cost: 30000, kind: 'jersey', n: 1 }, 'Hat-trick box': { cost: 60000, kind: 'jersey', n: 3 }, 'Signed shirt draw': { cost: 105000, kind: 'draw' } };
@@ -30,7 +32,7 @@ export default async function handler(req, res) {
         const o = await getJSON('order:' + id); if (!o) continue;
         orders.push({ order: o.order, total: o.total, created: o.created, status: o.status, items: o.items, spent: o.spent, ship: o.ship ? { name: o.ship.name, city: o.ship.address?.city, country: o.ship.address?.country } : null, scarf: o.scarf, codes: Date.now() >= o.sendAt ? o.codes : null, sendAt: o.sendAt });
       }
-      return send(res, 200, { user: publicUser(u), orders, ready: true });
+      return send(res, 200, { user: publicUser(u), orders, gifts: publicGifts(u), bought: u.giftsBought || [], giftUnlock: GIFT_UNLOCK, ready: true });
     }
     if (action === 'verify') {
       const t = new URL(req.url, 'http://x').searchParams.get('t') || '';
@@ -109,6 +111,36 @@ export default async function handler(req, res) {
       await sendEmail({ to: u.email, subject: `You're in the draw: ${name}`, html: emailLayout('You are in the draw', `<p>Your entry <b>${claim}</b> for the <b>${name}</b> is in. We'll email you if you win.</p>`) });
       await sendEmail({ to: BUSINESS_EMAIL(), subject: `Draw entry ${claim}: ${name}`, html: emailLayout('New draw entry', `<p>${u.email} entered <b>${name}</b> (Ɱ${g.cost.toLocaleString()}). Entry ${claim}.</p>`) });
       return send(res, 200, { claim, bought: u.giftsBought });
+    }
+    if (action === 'claimgift') {   // ship a gift for free (gifts unlock after $GIFT_UNLOCK spent in the shop)
+      if ((u.spent || 0) < GIFT_UNLOCK) return send(res, 403, { error: `Gifts unlock once you've spent $${GIFT_UNLOCK} in the shop` });
+      const g = (u.gifts || []).find(x => x.id === String(body.gid || '') && !x.used);
+      if (!g) return send(res, 404, { error: 'This gift was already used' });
+      const t = (v, n) => String(v || '').replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, n);
+      const a = body.addr || {};
+      const addr = { name: t(a.name, 80), phone: t(a.phone, 24).replace(/[^\d+ ()-]/g, ''), line1: t(a.line1, 100), line2: t(a.line2, 100), city: t(a.city, 60), state: t(a.state, 60), zip: t(a.zip, 20), country: t(a.country, 2).toUpperCase() };
+      if (!/^[A-Z]{2}$/.test(addr.country) || addr.name.length < 3 || addr.line1.length < 3 || addr.city.length < 2 || addr.phone.replace(/\D/g, '').length < 7) return send(res, 400, { error: 'Please fill in your delivery details' });
+      const items = [];
+      if (g.kind === 'jersey') {
+        await ensureCatalog();
+        const picks = (Array.isArray(body.picks) ? body.picks : []).slice(0, g.n).map(pk => ({ p: findProduct(+pk.pid, String(pk.n || '')), sz: t(pk.sz, 14) })).filter(x => x.p && x.p.shirt && x.sz);
+        if (picks.length !== g.n) return send(res, 400, { error: 'Choose your jersey and size first' });
+        for (const { p, sz } of picks) items.push({ name: `FREE GIFT: ${p.n} · Size ${sz}`, q: 1, amount: 0 });
+      } else if (g.kind === 'ball') items.push({ name: 'FREE GIFT: Match ball', q: 1, amount: 0 });
+      else return send(res, 400, { error: 'This gift cannot be shipped' });
+      // lock against double claims
+      if (!(await redis('SET', 'giftlock:' + g.id, '1', 'NX', 'EX', 3600))) return send(res, 409, { error: 'This gift is already being sent' });
+      const order = 'FM-' + randomBytes(4).toString('hex').toUpperCase().slice(0, 7), id = 'gift_' + g.id;
+      const ship = { name: addr.name, phone: addr.phone, address: { line1: addr.line1, line2: addr.line2, city: addr.city, state: addr.state, postal_code: addr.zip, country: addr.country } };
+      const o = { id, order, email: u.email, total: 0, spent: 0, items, codes: [], created: Date.now(), sendAt: Date.now(), ship, provider: 'gift', status: 'Processing', details: `Free gift ${g.name} (${g.src})` };
+      await setJSON('order:' + id, o);
+      await redis('SET', 'ordernum:' + order, id); await redis('LPUSH', 'allorders', id); await redis('LPUSH', 'orders:' + u.email, id);
+      g.used = { order, at: Date.now() }; await saveUser(u);
+      const lang = String(body.lang || '') === 'he' ? 'he' : 'en';
+      const om = orderEmail({ order, created: o.created, items, subtotal: 0, total: 0, ship, codeCount: 0 }, { lang, name: u.name || addr.name.split(' ')[0], origin });
+      await sendEmail({ to: u.email, subject: om.subject, html: om.html });
+      await sendEmail({ to: BUSINESS_EMAIL(), subject: `Free gift to ship ${order}: ${g.name}`, html: emailLayout(`Free gift ${order}`, `<p><b>Customer:</b> ${u.email}</p><p><b>Ship to:</b><br>${[addr.name, 'Phone: ' + addr.phone, addr.line1, addr.line2, addr.zip + ' ' + addr.city, addr.state, addr.country].filter(Boolean).join('<br>')}</p><p><b>Items:</b><br>${items.map(i => i.name).join('<br>')}</p>`) });
+      return send(res, 200, { order, gifts: publicGifts(u) });
     }
     send(res, 400, { error: 'Unknown action' });
   } catch (e) { fail(res, e); }
