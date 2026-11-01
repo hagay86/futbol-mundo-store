@@ -4271,7 +4271,7 @@ function maybeTutorial(){
 // ---------------- Hub (FUT home) ----------------
 function renderHome(){
   objCheck();
-  const C = career(), s = teamScore(), real = realCards().length, pct = Math.min(100, real / 11 * 100);
+  const C = career(), s = teamScore(), real = realInXI(), pct = Math.min(100, real / 11 * 100);
   const next = OBJECTIVES.filter(o => !G.obj[o.k]).slice(0, 3);
   const doneN = OBJECTIVES.filter(o => G.obj[o.k]).length;
   $('#home-main').innerHTML = `<div class="hub">
