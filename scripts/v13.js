@@ -60,6 +60,7 @@ afterCareer = function(opp, r, quiet){
 };
 // Quick-sim a few matchdays (realistic results from the team ratings)
 function quickSim(n){
+  n = 1;   // only one match at a time
   const C = career(); if (!squadFull() || C.done) return;
   let gf = 0, ga = 0, w = 0, d = 0, l = 0, got = 0;
   for (let k = 0; k < n && !C.done; k++) {
@@ -82,7 +83,6 @@ renderSeason = function(){
   const zones = el.querySelector('p.muted:last-of-type'); if (zones) zones.innerHTML = `${C.div > 1 ? `<span class="zone up"></span>Top ${pn} promoted ` : ''}${C.div < 10 ? `<span class="zone down"></span>Bottom ${pn} relegated` : ''}`;
   el.insertAdjacentHTML('afterbegin', `<div class="daily-bar"><b>${LEAGUE_NAMES[C.div]}</b><span>${n} teams · ${len} matchdays · play as many as you like</span><span class="muted">Opponents rated ${Math.round(lo)}–${Math.round(hi)}${C.div === 1 ? ' · the hardest league in the game' : ''}</span></div>`);
   const btns = el.querySelector('.nm-btns');
-  if (btns && !C.done && squadFull()) btns.insertAdjacentHTML('afterend', `<div class="qs-row"><button class="btn btn-ghost btn-sm" onclick="quickSim(${len})">Sim rest of season</button></div>`);
   el.insertAdjacentHTML('beforeend', `<div class="gp-box${G.grandPrize ? ' won' : ''}"><b>🏆 Grand prize</b><p>${G.grandPrize ? 'You won the Mundo Elite League. You qualify for the grand prize. We will contact you by email.' : 'Only for managers who climb all 10 leagues and then win the Mundo Elite League, where every team is rated 89–93.'}</p></div>`);
   const side = $('#season-side .div-badge'); if (side) side.innerHTML = `<b>${C.div}</b>${LEAGUE_NAMES[C.div]}`;
 };
