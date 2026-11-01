@@ -15,11 +15,11 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://www.futbolmundoshop.com/assets/og.jpg">
 <meta name="theme-color" content="#0F1E33">
-<link rel="icon" href="/favicon.ico" sizes="48x48">
-<link rel="icon" href="/assets/favicon-96.png" type="image/png" sizes="96x96">
-<link rel="icon" href="/assets/icon-192.png" type="image/png" sizes="192x192">
-<link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/a/logo-48.png" type="image/png" sizes="48x48">
+<link rel="icon" href="/a/logo-96.png" type="image/png" sizes="96x96">
+<link rel="icon" href="/a/logo-192.png" type="image/png" sizes="192x192">
+
+<link rel="apple-touch-icon" href="/a/apple-touch-icon.png" sizes="180x180">
 <link rel="manifest" href="/site.webmanifest">
 <meta name="theme-color" content="#0F1E33">
 <link rel="canonical" href="https://www.futbolmundoshop.com/">
@@ -1162,6 +1162,71 @@ body.gift-mode .gift-price{color:var(--pitch-d);font-weight:800}body.gift-mode .
 .gf-banner{display:flex;align-items:center;gap:10px;width:100%;border:0;border-radius:var(--r-md);padding:14px 16px;margin-bottom:14px;background:linear-gradient(90deg,var(--gold),#F6D46B);color:var(--ink);font:inherit;cursor:pointer;text-align:left}
 .gf-banner span{font-size:24px}.gf-banner b{flex:1;font-size:16px}.gf-banner em{font-style:normal;font-weight:700;text-decoration:underline}
 .reward.gf-mine{cursor:pointer;background:var(--turf)}
+
+/* ===================== v21: sport-brand design layer (visual only) ===================== */
+:root{--ink:#0A0C10;--ink-2:#5D6270;--chalk:#FFFFFF;--paper:#F4F4F2;--line:#E4E4E0;--gold:#E8B730;--gold-d:#C99A16;--pitch:#0E7A4A;--pitch-d:#0A5C37;--turf:#EEF4EF}
+body{background:#fff;letter-spacing:-.005em}
+.notice{background:#000;color:#fff;font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;padding:9px 16px}
+.notice b{color:var(--gold)}
+.hdr{background:rgba(255,255,255,.92);border-bottom:1px solid #EDEDEA}
+.brand{text-transform:uppercase;letter-spacing:.06em;font-size:22px}
+.brand-mark{width:34px;height:34px;border-radius:50%;object-fit:contain}
+.btn{height:50px;padding:0 28px;font-weight:700;letter-spacing:.01em}
+.btn-pri{background:#000}.btn-pri:hover{background:#262A33}
+.btn-ghost{background:transparent;box-shadow:inset 0 0 0 1.5px currentColor}
+.btn-gold{background:var(--gold);color:#000}
+.info-btn{background:#000;font-weight:700}
+.chip{background:#fff;border-color:#DADAD6;font-weight:600}
+.chip.on{background:#000;border-color:#000}
+/* hero banner: full-bleed stadium photography */
+.promo-slider{height:540px;background:#000}
+.ps-slide{background:linear-gradient(90deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.45) 48%,rgba(0,0,0,.15) 100%),linear-gradient(0deg,color-mix(in srgb,var(--bg,#0F1E33) 55%,transparent) 0%,transparent 60%),url(/a/stadium.webp) center 35%/cover no-repeat!important}
+.ps-kick{color:var(--gold)!important;letter-spacing:.24em}
+.ps-copy h2{font-family:var(--fc);font-size:clamp(46px,6.4vw,92px);line-height:.86;letter-spacing:-.01em;color:#fff}
+.ps-copy p{color:#E6E8EC;opacity:1}
+.ps-btn{background:#fff!important;color:#000!important;padding:15px 28px;font-size:15px}
+.ps-imgs img{border-radius:6px;box-shadow:0 30px 60px rgba(0,0,0,.55);padding:0;background:#F4F4F2}
+.ps-dots button.on{background:var(--gold)}
+@media(max-width:760px){.promo-slider{height:560px}.ps-slide{background:linear-gradient(180deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.35) 55%,rgba(0,0,0,.65) 100%),url(/a/stadium.webp) center/cover no-repeat!important}}
+/* "Wear the shirt" block: tunnel key art */
+.hero{background:linear-gradient(90deg,rgba(0,0,0,.9) 0%,rgba(0,0,0,.6) 45%,rgba(0,0,0,.25) 100%),url(/a/tunnel.webp) center/cover no-repeat;color:#fff}
+.hero h1,.hero h1 span{color:#fff}.hero p,.hero .lead,.hero-copy p{color:#D7DAE0}
+.hero .btn-ghost{color:#fff}
+@media(max-width:760px){.hero{background:linear-gradient(180deg,rgba(0,0,0,.88),rgba(0,0,0,.55)),url(/a/tunnel.webp) center/cover no-repeat}}
+/* sections */
+.sec{padding:88px 0}.sec-alt{background:#F7F7F5}
+.sec-head h2{font-size:clamp(40px,5.4vw,72px);line-height:.88;letter-spacing:-.01em}
+.sec-head p{color:var(--ink-2)}
+/* product cards: borderless, editorial */
+.grid{gap:36px 18px}
+.pcard .img{background:#F4F4F2;border:0;border-radius:4px}
+.pcard .img img{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.pcard:hover .img img{transform:scale(1.05)}
+.pcard .meta{padding:14px 0 0}
+.pcard .team{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+.pcard .name{font-weight:600;font-size:15px;line-height:1.3}
+.pcard .price{font-weight:700;font-size:16px}
+.pcard .xi{color:var(--pitch);font-weight:600}
+.tag{background:#000!important;color:#fff!important;border-radius:2px!important;text-transform:uppercase;letter-spacing:.06em}
+/* mystery boxes: product photography */
+#boxes.sec-ink{background:linear-gradient(90deg,#000 30%,rgba(0,0,0,.72) 58%,rgba(0,0,0,.3)),url(/a/mystery-box.webp) right center/auto 100% no-repeat,#000}
+@media(max-width:760px){#boxes.sec-ink{background:linear-gradient(180deg,rgba(0,0,0,.85),rgba(0,0,0,.95) 40%),url(/a/mystery-box.webp) center top/100% auto no-repeat,#000}}
+/* Mundo XI */
+.xi-hero{background:linear-gradient(90deg,rgba(3,6,12,.92) 0%,rgba(3,6,12,.55) 55%,rgba(3,6,12,.3)),url(/a/tunnel.webp) center/cover no-repeat!important}
+#view-game .g-hero{background:linear-gradient(180deg,rgba(3,6,12,.55) 0%,rgba(3,6,12,.92) 100%),url(/a/pitch.webp) center/cover no-repeat!important}
+/* packs: foil artwork */
+.packart{background:url(/a/pack-bronze.webp) center/contain no-repeat!important;box-shadow:none!important;border-radius:0!important;overflow:visible!important;filter:drop-shadow(0 16px 26px rgba(0,0,0,.45))}
+.packart::before,.packart::after{display:none!important}
+.packart.p-silver,.packart.p-starter{background-image:url(/a/pack-silver.webp)!important}
+.packart.p-gold,.packart.p-box{background-image:url(/a/pack-gold.webp)!important}
+.packart.p-premium{background-image:url(/a/pack-premium.webp)!important}
+.packart.p-icon{background-image:url(/a/pack-icon.webp)!important}
+.packart.p-welcome{background-image:url(/a/pack-welcome.webp)!important}
+.packart i{position:absolute;left:0;right:0;bottom:16%;font-size:17px;text-shadow:0 2px 10px rgba(0,0,0,.75)}
+.po-pack .packart i{font-size:26px}
+/* footer */
+footer{background:#000}
+.f-grid .brand{display:flex;align-items:center;gap:10px}
 </style>
 </head>
 <body>
@@ -1171,7 +1236,7 @@ body.gift-mode .gift-price{color:var(--pitch-d);font-weight:800}body.gift-mode .
 <header class="hdr">
   <div class="wrap hdr-in">
     <a class="brand" onclick="go('home')" aria-label="Futbol Mundo home">
-      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#0F1E33"/><path d="M16 9.5l5.2 3.8-2 6.1h-6.4l-2-6.1z" fill="#E8B730"/><path d="M16 1v8.5M21.2 13.3l8.3-2.7M19.2 19.4l5 6.9M12.8 19.4l-5 6.9M10.8 13.3l-8.3-2.7" stroke="#E8B730" stroke-width="1.6"/></svg>
+      <img class="brand-mark" src="/a/logo-96.png" alt="" width="34" height="34">
       FUTBOL MUNDO
     </a>
     <nav class="nav" aria-label="Main">
@@ -1411,7 +1476,7 @@ body.gift-mode .gift-price{color:var(--pitch-d);font-weight:800}body.gift-mode .
 <footer>
   <div class="wrap">
     <div class="f-grid">
-      <div><div class="brand">FUTBOL MUNDO</div><p>Jerseys for every fan, and a game that turns your collection into a squad.</p></div>
+      <div><div class="brand"><img class="brand-mark" src="/a/logo-96.png" alt="" width="34" height="34">FUTBOL MUNDO</div><p>Jerseys for every fan, and a game that turns your collection into a squad.</p></div>
       <div><h4>Shop</h4><a onclick="go('shop')">All jerseys</a><a onclick="goCat('New Arrivals')">New arrivals</a><a onclick="goCat('Retro')">Retro</a><a onclick="go('home','boxes')">Mystery boxes</a></div>
       <div><h4>Mundo XI</h4><a onclick="go('game','redeem')">Redeem a code</a><a onclick="openGiveaway()">Jersey giveaway</a><a onclick="go('game','play')">Play a season</a><a onclick="go('game','cups')">Cups</a><a onclick="go('game','packs')">Packs</a><a onclick="openInfo('Mundo XI rules', RULES_TEXT)">Rules</a></div>
       <div><h4>Help</h4><a onclick="openTrack()">Track order</a><a onclick="openSizeGuide()">Size guide</a><a onclick="openHelp()">FAQ</a><a onclick="openInfo('Shipping','Standard delivery: 5–7 business days. Express: 2–3 business days. Free standard shipping on orders over $99.')">Shipping</a></div>
