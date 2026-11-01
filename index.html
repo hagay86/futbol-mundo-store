@@ -4170,22 +4170,30 @@ teamScore = function(){ const s = _teamScore(); if (G.items.some(i => i.key === 
 
 // ---------------- Objectives ----------------
 const OBJECTIVES = [
-  {k:'account', t:'Create your manager account', r:'Welcome pack', done:() => !!ME.user || G.welcomeOpened},
-  {k:'welcome', t:'Open your Welcome pack', r:'11 players + free jersey', done:() => !!G.welcomeOpened},
-  {k:'demoxi', t:'Build a full demo XI', r:'Daily demo pack', done:() => squadFull()},
+  {k:'account', t:'Create your manager account', r:'+Ɱ100', pts:100, done:() => !!ME.user},
+  {k:'welcome', t:'Open your Sign-up pack', r:'+Ɱ100', pts:100, done:() => !!G.welcomeOpened},
+  {k:'xi', t:'Field a full eleven of your own players', r:'+Ɱ200', pts:200, done:() => canPlay()},
+  {k:'pack', t:'Open a player pack', r:'+Ɱ200', pts:200, done:() => (G.packsOpened || 0) >= 1},
   {k:'code', t:'Redeem your first shirt code', r:'+Ɱ300', pts:300, done:() => G.used.length > 0},
-  {k:'real6', t:'Sign 6 real players', r:'+Ɱ200', pts:200, done:() => realCards().length >= 6},
-  {k:'real11', t:'Field 11 real players', r:'+Ɱ500', pts:500, done:() => canPlay()},
+  {k:'signed6', t:'Sign 6 players from packs', r:'+Ɱ300', pts:300, done:() => G.cards.filter(c => !c.demo && !c.rookie).length >= 6},
   {k:'match1', t:'Play your first match', r:'+Ɱ300', pts:300, done:() => (G.matches || 0) >= 1},
   {k:'win3', t:'Win 3 matches', r:'+Ɱ600', pts:600, done:() => (G.wins || 0) >= 3},
   {k:'cup', t:'Win a cup', r:'+Ɱ1,000', pts:1000, done:() => G.trophies.some(t => /Cup winner/.test(t))},
+  {k:'div9', t:'Win promotion', r:'+Ɱ1,000', pts:1000, done:() => (G.career?.div || 10) <= 9},
   {k:'div8', t:'Reach Division 8', r:'+Ɱ1,500', pts:1500, done:() => (G.career?.div || 10) <= 8},
 ];
+let OBJ_BUSY = false;
 function objCheck(){
+  if (OBJ_BUSY) return; OBJ_BUSY = true;
   let n = 0;
-  OBJECTIVES.forEach(o => { if (!G.obj[o.k] && o.done()) { G.obj[o.k] = Date.now(); if (o.pts) { G.points += o.pts; n++; showToast(`Objective complete: ${o.t} · ${o.r}`); } } });
-  if (n) save();
+  try { OBJECTIVES.forEach(o => { let ok = false; try { ok = o.done(); } catch (e) {} if (!G.obj[o.k] && ok) { G.obj[o.k] = Date.now(); if (o.pts) { G.points += o.pts; n++; showToast(`Objective complete: ${o.t} · ${o.r}`); } } }); } finally { OBJ_BUSY = false; }
+  if (n) { save(); try { updateStats(); } catch (e) {} try { if (currentView === 'game' && gCurrent === 'home') renderHome(); } catch (e) {} }
 }
+// objectives are checked every time the game saves, so progress anywhere completes them right away
+const _saveObj = save;
+save = function(){ const r = _saveObj.apply(this, arguments); if (!OBJ_BUSY && G && G.obj) setTimeout(objCheck, 0); return r; };
+const _openPackObj = openPack;
+openPack = function(idx){ if (G.packs[idx]) G.packsOpened = (G.packsOpened || 0) + 1; return _openPackObj.apply(this, arguments); };
 const _endMatch = endMatch;
 endMatch = function(){ _endMatch(); if (M && M.result) { G.matches = (G.matches || 0) + 1; if (M.result.win) G.wins = (G.wins || 0) + 1; save(); objCheck(); } };
 
