@@ -1614,6 +1614,21 @@ const PRODUCTS = [{"c":"Premier League","t":"Manchester United","n":"Manchester 
 (function(){ const X = window.EXTRA_PRODUCTS || []; if (!X.length) return; if (X[0].cur) { PRODUCTS.length = 0; X.forEach(p => PRODUCTS.push(p)); return; } const ids = new Set(X.map(p => p.mid));
   const midOf = p => p.mid || +((String(p.l || '').match(/-p(\d+)\.html/) || [])[1] || 0);
   const keep = PRODUCTS.filter(p => !ids.has(midOf(p))); PRODUCTS.length = 0; keep.concat(X).forEach(p => PRODUCTS.push(p)); })();
+// fixed prices by product type (mirrors api/_pricing.js)
+// Fixed shop prices by product type (same function runs in the browser, see index.html).
+const PRICE = { shirt: 35, pants: 25, kids: 29, shorts: 20, outer: 45, shoes: 55, other: 35 };
+function tierOf(p) {
+  const n = String(p.n || ''), c = String(p.c || '');
+  if (/\bpants?\b|trouser/i.test(n)) return 'pants';
+  if (c === 'Kids' || /\bkids?\b|\bbaby\b|infant|youth|children|\bchild\b/i.test(n)) return 'kids';
+  if (c === 'Shoes' || /shoe|boot|sneaker|\bslides?\b|cleat|jordan|dunk|air max|air force/i.test(n)) return 'shoes';
+  if (/jacket|hoodie|tracksuit|windbreaker|coat|sweatshirt|sweater|zip/i.test(n)) return 'outer';
+  if (/jersey|shirt|\bkit\b|\btop\b|polo|vest|\bsuit\b|uniform/i.test(n)) return 'shirt';
+  if (/\bshorts?\b/i.test(n)) return 'shorts';
+  return 'other';
+}
+const fixedPrice = p => PRICE[tierOf(p)];
+PRODUCTS.forEach(p => { p.p = fixedPrice(p); p.o = ''; });
 </script>
 <script>
 const ROSTERS = {
@@ -2569,11 +2584,11 @@ if (typeof module !== 'undefined') module.exports = MX;
 // =====================================================================
 const CONFIG = {
   BOXES: [
-    {n:1, name:'Debut',     price:35.98, perks:['1 surprise jersey','1 six-player Mundo XI pack']},
-    {n:2, name:'Brace',     price:66.58, perks:['2 jerseys, 2 different teams','2 six-player packs: 12 players, enough to play']},
-    {n:3, name:'Hat-trick', price:95.38, perks:['3 jerseys, 3 different teams','3 six-player packs: 18 players'], featured:true},
-    {n:4, name:'Póker',     price:120.58, perks:['4 jerseys incl. 1 retro classic','4 six-player packs: 24 players']},
-    {n:5, name:'Manita',    price:143.98, perks:['5 jerseys incl. 1 retro classic','5 six-player packs: 30 players']},
+    {n:1, name:'Debut',     price:35, perks:['1 surprise jersey','1 six-player Mundo XI pack']},
+    {n:2, name:'Brace',     price:65, perks:['2 jerseys, 2 different teams','2 six-player packs: 12 players, enough to play']},
+    {n:3, name:'Hat-trick', price:95, perks:['3 jerseys, 3 different teams','3 six-player packs: 18 players'], featured:true},
+    {n:4, name:'Póker',     price:120, perks:['4 jerseys incl. 1 retro classic','4 six-player packs: 24 players']},
+    {n:5, name:'Manita',    price:145, perks:['5 jerseys incl. 1 retro classic','5 six-player packs: 30 players']},
   ],
   PRIZE_TITLE: 'Win Division 1',
   PRIZE_TEXT: 'Every manager starts in Division 10. Win your games to get promoted, open packs and sign better players. Lift the Division 1 title before the season closes and you qualify for the grand prize: a trip for two to a top-flight match, flights and hotel included.',

@@ -1,3 +1,4 @@
+import { fixedPrice } from './_pricing.js';
 // Shared helpers for the Futbol Mundo API (Vercel serverless functions).
 // Prices are read straight from index.html so the site stays the single source of truth.
 import { readFileSync } from 'node:fs';
@@ -24,7 +25,7 @@ export function catalog() {
   const a = html.indexOf('const PRODUCTS = ') + 'const PRODUCTS = '.length;
   const b = html.indexOf('];\n', a) + 1;
   const products = mergeCatalog(JSON.parse(html.slice(a, b)), EXTRA);
-  products.forEach((p, i) => { p.id = i; p.shirt = isShirt(p); });
+  products.forEach((p, i) => { p.id = i; p.shirt = isShirt(p); p.p = fixedPrice(p); p.o = ''; });
   const boxes = {};
   const boxRe = /\{n:(\d), name:'([^']+)',\s*price:([\d.]+)/g; let m;
   while ((m = boxRe.exec(html))) boxes[+m[1]] = { n: +m[1], name: m[2], price: +m[3] };
