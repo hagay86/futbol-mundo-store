@@ -50,6 +50,7 @@ const FROM = () => process.env.EMAIL_FROM || 'Futbol Mundo <hello@futbolmundosho
 export async function sendEmail({ to, subject, html, at }) {
   if (!emailReady()) { console.log('[email skipped: no RESEND_API_KEY]', subject, to); return { skipped: true }; }
   const body = { from: FROM(), to: [to], subject, html };
+  const replyTo = process.env.REPLY_TO || process.env.ADMIN_EMAIL; if (replyTo) body.reply_to = replyTo;   // customer replies reach the business inbox
   if (at) body.scheduled_at = new Date(at).toISOString();
   const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: 'Bearer ' + process.env.RESEND_API_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
   const j = await r.json().catch(() => ({}));
