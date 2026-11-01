@@ -116,6 +116,7 @@ export default async function handler(req, res) {
       if ((u.spent || 0) < GIFT_UNLOCK) return send(res, 403, { error: `Gifts unlock once you've spent $${GIFT_UNLOCK} in the shop` });
       const g = (u.gifts || []).find(x => x.id === String(body.gid || '') && !x.used);
       if (!g) return send(res, 404, { error: 'This gift was already used' });
+      if (g.src === 'welcome') return send(res, 400, { error: 'Your sign-up jersey is free with an order of $40 or more. Add it from the shop' });
       const t = (v, n) => String(v || '').replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, n);
       const a = body.addr || {};
       const addr = { name: t(a.name, 80), phone: t(a.phone, 24).replace(/[^\d+ ()-]/g, ''), line1: t(a.line1, 100), line2: t(a.line2, 100), city: t(a.city, 60), state: t(a.state, 60), zip: t(a.zip, 20), country: t(a.country, 2).toUpperCase() };

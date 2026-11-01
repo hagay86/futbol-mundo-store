@@ -68,9 +68,9 @@ export default async function handler(req, res) {
 
     // Gifts from "My gifts": free, only inside an order of $GIFT_MIN+ in paid items. Below that they stay unused.
     const giftLines = [], giftIds = [];
-    if (false && user && giftReq.length && merch >= GIFT_MIN * 100) {   // gifts are now claimed separately (free shipping)
+    if (user && giftReq.length && merch >= GIFT_MIN * 100) {   // the sign-up jersey rides free with $40+ of paid items
       for (const it of giftReq.slice(0, 5)) {
-        const g = (user.gifts || []).find(x => x.id === String(it.gid || '') && !x.used);
+        const g = (user.gifts || []).find(x => x.id === String(it.gid || '') && !x.used && x.src === 'welcome');
         if (!g || giftIds.includes(g.id)) continue;
         if (g.kind === 'jersey') {
           const picks = (Array.isArray(it.picks) ? it.picks : []).slice(0, g.n).map(pk => ({ p: findProduct(+pk.pid, String(pk.n || '')), sz: clean(pk.sz, 14) })).filter(x => x.p && x.p.shirt && x.sz);

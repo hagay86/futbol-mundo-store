@@ -1134,6 +1134,11 @@ html[dir=rtl] .mc{margin:0 .02em 0 .14em}
 .gf-lock{background:#FFF1D6;color:#6B4A00;border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.45;margin:0 0 12px}.gf-lock b{display:block;margin-bottom:2px}
 .gf-sub{color:var(--ink-2);font-size:14px;margin:-4px 0 10px}.gf-addr .ad-grid{margin-bottom:12px}.gf-act{display:flex;flex-direction:column;gap:6px}
 #rewards>.gf-lock{grid-column:1/-1}
+.gift-bar{position:fixed;left:12px;right:12px;bottom:14px;z-index:60;display:flex;align-items:center;gap:12px;background:var(--ink);color:#fff;border-radius:16px;padding:12px 14px;box-shadow:0 14px 40px rgba(0,0,0,.35);max-width:640px;margin:0 auto}
+.gift-bar>span{font-size:26px}.gift-bar div{flex:1;display:flex;flex-direction:column;line-height:1.25}.gift-bar small{color:#C9D3DF;font-size:12px}
+.gift-bar button{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:8px 14px;font:inherit;font-weight:600;cursor:pointer}
+body.gift-mode .gift-price{color:var(--pitch-d);font-weight:800}body.gift-mode .gift-price s{color:var(--ink-2);font-weight:500;margin-left:6px}
+.gift-pdp .pdp-price{color:var(--pitch-d)}.gift-pdp .btn-buy{display:none}
 /* ===== v20: My gifts ===== */
 .gf-card{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:var(--r-md);padding:12px;margin-bottom:10px;background:var(--paper)}
 .gf-ico{font-size:28px;width:48px;height:48px;border-radius:12px;background:var(--turf);display:grid;place-items:center;flex-shrink:0}
@@ -4073,7 +4078,7 @@ teamScore = function(){ const s = _teamScore(); if (G.items.some(i => i.key === 
 // ---------------- Objectives ----------------
 const OBJECTIVES = [
   {k:'account', t:'Create your manager account', r:'Welcome pack', done:() => !!ME.user || G.welcomeOpened},
-  {k:'welcome', t:'Open your Welcome pack', r:'Rookie + free jersey', done:() => !!G.welcomeOpened},
+  {k:'welcome', t:'Open your Welcome pack', r:'11 players + free jersey', done:() => !!G.welcomeOpened},
   {k:'demoxi', t:'Build a full demo XI', r:'Daily demo pack', done:() => squadFull()},
   {k:'code', t:'Redeem your first shirt code', r:'+Ɱ300', pts:300, done:() => G.used.length > 0},
   {k:'real6', t:'Sign 6 real players', r:'+Ɱ200', pts:200, done:() => realCards().length >= 6},
@@ -4145,7 +4150,7 @@ const TUT = [
   () => ME.user || (!ME.ready && false) ? tutGo(3) : tutPanel(2, 'Claim your Welcome pack', `Create your free manager account to claim it. You'll use the same account to check out, and we email your player codes to it.`,
       ME.ready ? `<button class="btn btn-gold" onclick="tutClose();openAuth('signup','Create your account to claim your Welcome pack.', () => tutGo(3))">Create account</button><button class="btn btn-ghost" onclick="tutClose();openAuth('login','Sign in to claim your Welcome pack.', () => tutGo(3))">I have an account</button>`
         : `<button class="btn btn-gold" onclick="tutGo(3)">Claim my Welcome pack</button>`),
-  () => tutPanel(3, 'Your Welcome pack is ready', 'Inside: your first real player and a FREE jersey. Tap the pack to open it.', `<button class="btn btn-gold" onclick="tutClose();grantWelcome().then(ok => { if (!ok) tutGo(2); })">Open Welcome pack</button>`),
+  () => tutPanel(3, 'Your Welcome pack is ready', 'Inside: your first 11 players and a FREE jersey. Tap the pack to open it.', `<button class="btn btn-gold" onclick="tutClose();grantWelcome().then(ok => { if (!ok) tutGo(2); })">Open Welcome pack</button>`),
 ];
 function tutStep4(){ G.tut = 4; save(); gTab('squad'); tutPanel(4, 'Meet your squad', `You have <b>${realCards().length} real player${realCards().length === 1 ? '' : 's'}</b>. The gray <b>DEMO</b> players fill your XI so you can try things out, but <b>matches and cups need 11 real players</b>.`, `<button class="btn btn-gold" onclick="tutGo(5)">How do I get players?</button>`); }
 function tutStep5(){ tutPanel(5, 'Every shirt = a 6-player pack', `<ul class="tut-list"><li>👕 <b>Every jersey</b> comes with a 6-player Gold pack plus Ɱ4,000 Mundo Credits, emailed to you a few minutes after you buy.</li><li>🎁 <b>Your free jersey</b> is in My gifts. Claim it free once you've spent $30 in the shop.</li><li>⚽ Your rookie + 1 shirt = 7 players. <b>One more shirt and you're on the pitch.</b></li></ul>`, `<button class="btn btn-gold" onclick="tutDone();go('shop')">Shop jerseys</button><button class="btn btn-ghost" onclick="tutDone();gTab('home')">Explore Mundo XI</button>`); }
@@ -5288,8 +5293,7 @@ function grantStarterXI(){
   });
   autoPick(true); save();
 }
-grantStarterXI();
-if (typeof syncLoad === 'function') { const _syncLoad15 = syncLoad; syncLoad = async function(){ const r = await _syncLoad15.apply(this, arguments); grantStarterXI(); return r; }; }
+// the 11 academy players now arrive in the sign-up pack (see v20 grantWelcome)
 </script>
 <script>
 // =====================================================================
@@ -5410,7 +5414,9 @@ try { const names = new Set(PRODUCTS.map(p => p.n)); const before = cart.length;
 // and the gift shop sells gifts for Mundo Credits. Gifts are free and ship
 // free; they unlock once the account has spent $30 in the shop.
 // =====================================================================
-const GIFT_UNLOCK = 30;
+const GIFT_UNLOCK = 30;   // gift-shop gifts: free once the account has spent $30
+const GIFT_MIN = 40;      // sign-up jersey: free with $40+ of other items in the same order
+const isWelcome = g => g && g.src === 'welcome';
 let GIFT_PICKS = (() => { try { return JSON.parse(localStorage.getItem('fm_giftpicks') || '{}') || {}; } catch (e) { return {}; } })();
 const saveGiftPicks = () => { try { localStorage.setItem('fm_giftpicks', JSON.stringify(GIFT_PICKS)); } catch (e) {} };
 const openGifts = () => (ME.gifts || []).filter(g => !g.used);
@@ -5432,6 +5438,11 @@ function openMyGifts(next){
   const list = ME.gifts || [], open = openGifts(), used = list.filter(g => g.used), ok = giftsUnlocked();
   const row = g => {
     let body, btns = '';
+    if (isWelcome(g)) {
+      const pk = (GIFT_PICKS[g.id] || [])[0];
+      body = pk ? `<div class="gf-pick"><img src="${escapeAttr(pk.img)}" alt=""><div><b class="notranslate">${escapeHtml(pk.n)}</b><span><span>Size</span> <span class="notranslate">${escapeHtml(pk.sz)}</span> · <span>In your bag</span></span></div></div>` : `<span>Pick any jersey for $0. It's free when your order has $${GIFT_MIN} or more of other items.</span>`;
+      return `<div class="gf-card"><div class="gf-ico">${giftIcon(g)}</div><div class="gf-main"><b>Sign-up jersey</b>${body}</div><div class="gf-act"><button class="btn ${pk ? 'btn-ghost' : 'btn-gold'} btn-sm" onclick="startGiftShop('${g.id}')">${pk ? 'Change' : 'Choose my free jersey'}</button></div></div>`;
+    }
     if (g.kind === 'ball') body = '<span>An official-size match ball.</span>';
     else {
       const chosen = (GIFT_PICKS[g.id] || []).filter(Boolean);
@@ -5441,10 +5452,11 @@ function openMyGifts(next){
     if (giftReady(g)) btns += ok ? `<button class="btn btn-gold btn-sm" onclick="openGiftAddress('${g.id}')">Get it free</button>` : `<button class="btn btn-ghost btn-sm" disabled>🔒 Locked</button>`;
     return `<div class="gf-card"><div class="gf-ico">${giftIcon(g)}</div><div class="gf-main"><b>${escapeHtml(g.name)}${g.n > 1 && g.kind === 'jersey' ? ` (${g.n} jerseys)` : ''}</b>${body}</div><div class="gf-act">${btns}</div></div>`;
   };
-  const html = giftLockHTML() + (open.length ? open.map(row).join('') : '<p class="gf-empty">No gifts yet. Open your Welcome pack or spend Mundo Credits in the gift shop.</p>') +
-    `<div class="gf-rule">🎁 Gifts are <b>free</b> and ship <b>free</b>. No purchase needed to claim them once your account has spent $${GIFT_UNLOCK} in the shop.</div>` +
+  const html = (open.some(g => !isWelcome(g)) ? giftLockHTML() : '') + (open.length ? open.map(row).join('') : '<p class="gf-empty">No gifts yet. Open your Welcome pack or spend Mundo Credits in the gift shop.</p>') +
+    (open.some(g => !isWelcome(g)) ? `<div class="gf-rule">🎁 Gifts are <b>free</b> and ship <b>free</b>. No purchase needed to claim them once your account has spent $${GIFT_UNLOCK} in the shop.</div>` : '') +
+    (open.some(isWelcome) ? `<div class="gf-rule">👕 Your sign-up jersey is <b>free</b> with any order that has <b>$${GIFT_MIN} or more</b> of other items.</div>` : '') +
     (used.length ? `<div class="gf-used"><b>Received</b>${used.map(g => `<span>${escapeHtml(g.name)} · order ${escapeHtml(g.used.order || '')}</span>`).join('')}</div>` : '') +
-    `<div class="gf-btns">${!ok ? `<button class="info-btn" onclick="closeInfo();go('shop')">Shop jerseys</button>` : ''}${next ? `<button class="info-btn gf-sec" onclick="closeInfo();(${next})()">Continue</button>` : ''}</div>`;
+    `<div class="gf-btns">${!ok && open.some(g => !isWelcome(g)) ? `<button class="info-btn" onclick="closeInfo();go('shop')">Shop jerseys</button>` : ''}${next ? `<button class="info-btn gf-sec" onclick="closeInfo();(${next})()">Continue</button>` : ''}</div>`;
   $('#info-modal-body').innerHTML = `<h3>My gifts</h3>${html}`;
   $('#info-modal').classList.add('open');
 }
@@ -5515,9 +5527,73 @@ async function sendGift(gid){
   } catch (e) { showToast(e.message); btn.disabled = false; }
 }
 
-// ---------- bag: only a reminder link now (gifts are claimed separately) ----------
-scarfNote = function(){ return openGifts().length && ME.user ? `<div class="scarf-todo gf-link" onclick="openMyGifts()">🎁 You have a free gift waiting. <u>Open My gifts</u></div>` : ''; };
-function giftSumHTML(){ return ''; }
+// ---------- sign-up jersey: shop selection mode (every jersey $0) ----------
+let GIFT_MODE = null;
+function startGiftShop(gid){
+  GIFT_MODE = gid; document.body.classList.add('gift-mode'); closeInfo();
+  let bar = $('#gift-bar'); if (!bar) { document.body.insertAdjacentHTML('beforeend', '<div id="gift-bar" class="gift-bar"></div>'); bar = $('#gift-bar'); }
+  bar.innerHTML = `<span>🎁</span><div><b>Pick your free jersey</b><small>Every jersey is $0. Free with $${GIFT_MIN}+ of other items in your order.</small></div><button onclick="stopGiftShop()">Cancel</button>`;
+  try { if (typeof shopCat !== 'undefined') shopCat = 'all'; } catch (e) {}
+  go('shop'); try { renderShop(); } catch (e) {}
+}
+function stopGiftShop(){ GIFT_MODE = null; document.body.classList.remove('gift-mode'); $('#gift-bar')?.remove(); try { renderShop(); } catch (e) {} }
+const _productCard20 = productCard;
+productCard = function(p){
+  const h = _productCard20(p);
+  return GIFT_MODE && p.shirt ? h.replace(/<div class="price">[\s\S]*?<\/div>/, `<div class="price gift-price">$0.00 <s>${money(p.p)}</s></div>`) : h;
+};
+const _openP20 = openP;
+openP = function(id){
+  _openP20(id);
+  const p = PRODUCTS[id], on = !!(GIFT_MODE && p && p.shirt);
+  $('#pdp-overlay')?.classList.toggle('gift-pdp', on);
+  if (!on) return;
+  document.querySelectorAll('#pdp-overlay .pdp-opt').forEach(e => e.remove());
+  const ns = $('#pdp-cname')?.closest('.pdp-section'); if (ns) ns.style.display = 'none';
+  $('#pdp-price').textContent = '$0.00'; $('#pdp-orig').textContent = money(p.p); $('#pdp-save').textContent = 'Free gift';
+  const b = $('#pdp-overlay .btn-cart'); if (b) b.textContent = 'Add as my free jersey';
+};
+const _pdpAdd20 = pdpAddToCart, _pdpBuy20 = pdpBuyNow;
+function giftPdpPick(){
+  const p = pdpProduct, g = openGifts().find(x => x.id === GIFT_MODE); if (!p || !g) return false;
+  const sel = $('#pdp-sizes .sz.sel, #pdp-sizes .sz.on, #pdp-sizes .sz.active');
+  const sz = (window.pdpSize || window.selectedSize || (sel && sel.textContent.trim()) || '');
+  if (!sz) { showToast('Choose a size first'); return true; }
+  GIFT_PICKS[g.id] = [{pid:p.id, n:p.n, img:p.i, sz}]; saveGiftPicks();
+  const ns = $('#pdp-cname')?.closest('.pdp-section'); if (ns) ns.style.display = '';
+  stopGiftShop(); closePDP(); renderCart();
+  showToast(merchTotal(cart) >= GIFT_MIN ? 'Free jersey added to your bag' : `Free jersey saved. Add $${GIFT_MIN}+ of other items to get it`);
+  setTimeout(toggleCart, 300);
+  return true;
+}
+pdpAddToCart = function(){ if (GIFT_MODE && pdpProduct && pdpProduct.shirt) { giftPdpPick(); return; } return _pdpAdd20.apply(this, arguments); };
+pdpBuyNow = function(){ if (GIFT_MODE && pdpProduct && pdpProduct.shirt) { if (giftPdpPick()) setTimeout(openCheckout, 600); return; } return _pdpBuy20.apply(this, arguments); };
+
+// ---------- bag + checkout ----------
+const welcomeGift = () => openGifts().find(g => isWelcome(g) && (GIFT_PICKS[g.id] || [])[0]);
+function giftLinesHTML(cls){
+  const g = welcomeGift(); if (!g) return '';
+  const pk = GIFT_PICKS[g.id][0];
+  return `<div class="${cls}"><img src="${escapeAttr(pk.img)}" alt=""><div class="gfl-info"><div class="gfl-name notranslate">🎁 ${escapeHtml(pk.n)}</div><div class="gfl-meta"><span>Size</span> <span class="notranslate">${escapeHtml(pk.sz)}</span> · <span>Free gift</span> · <a href="javascript:void 0" onclick="dropWelcomePick()">Remove</a></div></div><div class="gfl-price">$0.00</div></div>`;
+}
+function dropWelcomePick(){ const g = welcomeGift(); if (g) { delete GIFT_PICKS[g.id]; saveGiftPicks(); renderCart(); try { renderCheckout(); } catch (e) {} } }
+scarfNote = function(items){
+  const g = welcomeGift(), others = openGifts().filter(x => !isWelcome(x)).length;
+  let h = '';
+  if (g) {
+    const m = merchTotal(items || cart);
+    h += `<div class="gfl-wrap${m >= GIFT_MIN ? '' : ' off'}">${giftLinesHTML('gfl')}</div>` + (m >= GIFT_MIN ? `<div class="scarf-ok">🎁 Your free jersey ships with this order</div>` : `<div class="scarf-todo">Add <b>${money(GIFT_MIN - m)}</b> more to get your free jersey. It's free with $${GIFT_MIN} or more of other items.</div>`);
+  } else if (ME.user && openGifts().some(isWelcome)) h += `<div class="scarf-todo gf-link" onclick="startGiftShop('${openGifts().find(isWelcome).id}')">🎁 Your sign-up jersey is waiting. <u>Pick it for $0</u></div>`;
+  if (others && ME.user) h += `<div class="scarf-todo gf-link" onclick="openMyGifts()">🎁 You have a free gift waiting. <u>Open My gifts</u></div>`;
+  return h;
+};
+function giftSumHTML(){ return welcomeGift() && merchTotal(cart) >= GIFT_MIN ? giftLinesHTML('co-sum-item gfl-sum') : ''; }
+const _coItems20 = coItems;
+coItems = function(){
+  const items = _coItems20(), g = welcomeGift();
+  if (g && merchTotal(cart) >= GIFT_MIN) items.push({kind:'gift', gid:g.id, picks:GIFT_PICKS[g.id].map(pk => ({pid:pk.pid, n:pk.n, sz:pk.sz}))});
+  return items;
+};
 // after a paid order: refresh (the $30 unlock may have just been reached)
 const _handleOrderReturn20 = handleOrderReturn;
 handleOrderReturn = async function(){ const r = await _handleOrderReturn20.apply(this, arguments); try { await loadMe(); cleanGiftPicks(); renderCart(); } catch (e) {} return r; };
@@ -5529,11 +5605,13 @@ grantWelcome = async function(){
     if (!ME.user) return false;
     try { const j = await api('/api/auth?action=welcome', {method:'POST'}); if (j.gifts) ME.gifts = j.gifts; if (!j.granted && G.welcomeOpened) return true; } catch (e) { showToast(e.message); return false; }
   }
-  const rookie = randomCard({lo:40, hi:47, skew:1}); rookie.noob = true;
-  const gift = {item:true, key:'gift', id:newId(), name:'Free jersey', emoji:'🎁', desc:'Any jersey, free. Find it in My gifts'};
-  G.cards.push(rookie); G.welcomeOpened = Date.now();
+  const before = new Set(G.cards.map(c => c.id));
+  G.starterXI = 0; grantStarterXI();   // the 11 academy players come in the sign-up pack
+  const xi = G.cards.filter(c => !before.has(c.id)); xi.forEach(c => { c.noob = true; });
+  const gift = {item:true, key:'gift', id:newId(), name:'Free jersey', emoji:'🎁', desc:`Any jersey for $0 with a $${GIFT_MIN}+ order`};
+  G.welcomeOpened = Date.now();
   save(); objCheck(); renderCart();
-  showPackReveal('Welcome pack', 'p-welcome', [rookie, gift], 'Your first real player and a FREE jersey', 'welcomeGiftNext');
+  showPackReveal('Sign-up pack', 'p-welcome', xi.concat(gift), 'Your first 11 players and a FREE jersey', 'welcomeGiftNext');
   return true;
 };
 function welcomeGiftNext(){ openMyGifts('tutStep4'); }
