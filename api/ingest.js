@@ -14,6 +14,15 @@ export default async function handler(req, res) {
     const okKey = k => createHash('sha256').update(String(k || '')).digest('hex') === KEY_HASH;
     if (req.method === 'GET') {   // read back a staged blob: /api/ingest?k=..&stage=name
       const q = new URL(req.url, 'http://x').searchParams;
+      if (q.get('asset')) {   // permanent site artwork (design images), cached forever at the edge
+        const name = String(q.get('asset')).replace(/[^\w.-]/g, '').slice(0, 80);
+        const v = await redis('GET', 'asset:' + name);
+        if (!v) { res.statusCode = 404; res.setHeader('Cache-Control', 'no-store'); return res.end('Not found'); }
+        const buf = Buffer.from(v, 'base64');
+        const type = buf[0] === 0x89 ? 'image/png' : buf[0] === 0xFF ? 'image/jpeg' : buf.slice(8, 12).toString() === 'WEBP' ? 'image/webp' : 'application/octet-stream';
+        res.statusCode = 200; res.setHeader('Content-Type', type); res.setHeader('Cache-Control', 'public, max-age=31536000, s-maxage=31536000, immutable');
+        return res.end(buf);
+      }
       if (q.get('img')) {   // public download of a staged ad image (stage name "img-<name>", JPEG as base64, expires in 24h)
         const name = String(q.get('img')).replace(/[^\w-]/g, '').slice(0, 60);
         const v = await redis('GET', 'stage:img-' + name);
@@ -27,6 +36,7 @@ export default async function handler(req, res) {
     if (req.method !== 'POST') return send(res, 405, { error: 'Use POST' });
     const b = await readJson(req);
     if (!okKey(b.k)) return send(res, 403, { error: 'Bad key' });
+    if (b.asset) { const name = String(b.asset).replace(/[^\w.-]/g, '').slice(0, 80); await redis('SET', 'asset:' + name, String(b.data || '')); return send(res, 200, { ok: true, asset: name, url: '/a/' + name }); }
     if (b.stage) { await redis('SET', 'stage:' + String(b.stage).replace(/[^\w-]/g, ''), String(b.data || ''), 'EX', 86400); return send(res, 200, { ok: true, staged: b.stage }); }
     if (b.restore) {   // put the previously uploaded partner feed (catnew:*) back live
       const n = +b.restore; let s = '';

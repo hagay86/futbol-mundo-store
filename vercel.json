@@ -1,8 +1,18 @@
 {
   "functions": {
-    "api/*.js": { "includeFiles": "index.html", "maxDuration": 15 }
+    "api/*.js": {
+      "includeFiles": "index.html",
+      "maxDuration": 15
+    }
   },
   "rewrites": [
-    { "source": "/thank-you", "destination": "/thank-you.html" }
+    {
+      "source": "/thank-you",
+      "destination": "/thank-you.html"
+    },
+    {
+      "source": "/a/:name",
+      "destination": "/api/ingest?asset=:name"
+    }
   ]
 }
