@@ -1,8 +1,10 @@
 // /api/auth?action=signup|login|logout|me|verify|forgot|reset|welcome|gift
 import { send, readJson, fail } from './_lib.js';
+import { newGift, publicGifts } from './_gifts.js';
 import { redis, dbReady, getUser, saveUser, normEmail, validEmail, hashPw, checkPw, token, publicUser, currentUser, startSession, endSession, sendEmail, emailLayout, siteUrl, getJSON } from './_db.js';
 
-const GIFTS = { 'Club scarf': 9000, 'Match ball': 18000, 'Free jersey': 30000, 'Hat-trick box': 60000, 'Signed shirt draw': 105000 };
+// Gift shop (Mundo Credits). Jersey and ball gifts go to "My gifts" and ship free with an order of $GIFT_MIN or more.
+const GIFTS = { 'Match ball': { cost: 18000, kind: 'ball' }, 'Free jersey': { cost: 30000, kind: 'jersey', n: 1 }, 'Hat-trick box': { cost: 60000, kind: 'jersey', n: 3 }, 'Signed shirt draw': { cost: 105000, kind: 'draw' } };
 
 async function limited(key, max, secs) {
   const n = await redis('INCR', 'rl:' + key);
@@ -21,11 +23,12 @@ export default async function handler(req, res) {
       if (!dbReady()) return send(res, 200, { user: null, ready: false });
       const u = await currentUser(req);
       if (!u) return send(res, 200, { user: null, ready: true });
+      if (u.welcome && !u.welcomeGift) { u.gifts = u.gifts || []; u.gifts.push(newGift('Free jersey', 'jersey', 1, 'welcome')); u.welcomeGift = Date.now(); await saveUser(u); }
       const ids = await redis('LRANGE', 'orders:' + u.email, 0, 30);
       const orders = [];
       for (const id of ids || []) {
         const o = await getJSON('order:' + id); if (!o) continue;
-        orders.push({ order: o.order, total: o.total, created: o.created, status: o.status, items: o.items, scarf: o.scarf, codes: Date.now() >= o.sendAt ? o.codes : null, sendAt: o.sendAt });
+        orders.push({ order: o.order, total: o.total, created: o.created, status: o.status, items: o.items, spent: o.spent, ship: o.ship ? { name: o.ship.name, city: o.ship.address?.city, country: o.ship.address?.country } : null, scarf: o.scarf, codes: Date.now() >= o.sendAt ? o.codes : null, sendAt: o.sendAt });
       }
       return send(res, 200, { user: publicUser(u), orders, ready: true });
     }
@@ -83,18 +86,29 @@ export default async function handler(req, res) {
     if (!u) return send(res, 401, { error: 'Please sign in first' });
     if (action === 'welcome') {
       if (u.welcome) return send(res, 200, { granted: false });
-      u.welcome = Date.now(); await saveUser(u);
-      return send(res, 200, { granted: true });
+      u.welcome = Date.now();
+      const gift = newGift('Free jersey', 'jersey', 1, 'welcome');
+      u.gifts = u.gifts || []; u.gifts.push(gift); u.welcomeGift = Date.now();
+      await saveUser(u);
+      return send(res, 200, { granted: true, gift, gifts: publicGifts(u) });
     }
     if (action === 'gift') {
-      const name = String(body.name || ''), cost = GIFTS[name];
-      if (!cost) return send(res, 400, { error: 'Unknown gift' });
-      if ((u.spent || 0) < 30) return send(res, 403, { error: 'Gifts unlock after you spend $30 in the shop' });
+      const name = String(body.name || ''), g = GIFTS[name];
+      if (!g) return send(res, 400, { error: 'Unknown gift' });
+      // each gift-shop gift can be taken once per account (not advertised; the shop hides it afterwards)
+      u.giftsBought = u.giftsBought || [];
+      if (u.giftsBought.includes(name)) return send(res, 409, { error: 'This gift is not available right now', gone: name, bought: u.giftsBought });
+      u.giftsBought.push(name); await saveUser(u);
+      if (g.kind !== 'draw') {
+        const gift = newGift(name, g.kind, g.n || 1, 'shop');
+        u.gifts = u.gifts || []; u.gifts.push(gift); await saveUser(u);
+        return send(res, 200, { gift, gifts: publicGifts(u), bought: u.giftsBought });
+      }
       const claim = 'GF-' + token().slice(0, 6).toUpperCase().replace(/[^A-Z0-9]/g, 'X');
       await redis('LPUSH', 'gifts', JSON.stringify({ claim, email: u.email, name, at: Date.now() }));
-      await sendEmail({ to: u.email, subject: `Gift claimed: ${name}`, html: emailLayout('Your gift is on its way', `<p>We received your claim <b>${claim}</b> for: <b>${name}</b>.</p><p>Reply to this email with your shipping address (if we don't have it from an order yet) and we'll send it out.</p>`) });
-      if (process.env.ADMIN_EMAIL) await sendEmail({ to: process.env.ADMIN_EMAIL, subject: `Gift claim ${claim}: ${name}`, html: emailLayout('New gift claim', `<p>${u.email} claimed <b>${name}</b> (Ɱ${cost.toLocaleString()} Mundo Credits). Claim ID ${claim}. Total spent: $${(u.spent || 0).toFixed(2)}.</p>`) });
-      return send(res, 200, { claim });
+      await sendEmail({ to: u.email, subject: `You're in the draw: ${name}`, html: emailLayout('You are in the draw', `<p>Your entry <b>${claim}</b> for the <b>${name}</b> is in. We'll email you if you win.</p>`) });
+      if (process.env.ADMIN_EMAIL) await sendEmail({ to: process.env.ADMIN_EMAIL, subject: `Draw entry ${claim}: ${name}`, html: emailLayout('New draw entry', `<p>${u.email} entered <b>${name}</b> (Ɱ${g.cost.toLocaleString()}). Entry ${claim}.</p>`) });
+      return send(res, 200, { claim, bought: u.giftsBought });
     }
     send(res, 400, { error: 'Unknown action' });
   } catch (e) { fail(res, e); }

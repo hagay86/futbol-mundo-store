@@ -1,6 +1,7 @@
 // Database (Upstash Redis over REST), sessions, email (Resend) and order processing.
 import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
 import { stripe, makeCode, SHIRT_POINTS } from './_lib.js';
+import { orderEmail, codesEmail } from './_emails.js';
 
 // ---------------- Redis ----------------
 const R_URL = () => process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || '';
@@ -95,14 +96,20 @@ export async function processPaidSession(s, origin) {
   if (email) {
     await redis('LPUSH', 'orders:' + email, s.id);
     const u = await getUser(email);
-    if (u) { u.spent = Math.round(((u.spent || 0) + order.spent) * 100) / 100; await saveUser(u); }
-    const lines = items.map(i => `<tr><td style="padding:6px 0">${esc(i.name)} × ${i.q}</td><td align="right">$${i.amount.toFixed(2)}</td></tr>`).join('');
-    await sendEmail({ to: s.customer_details?.email || email, subject: `Order ${m.order} confirmed`, html: emailLayout('Thanks for your order!', `<p>Order <b>${esc(m.order)}</b> is confirmed and being prepared.</p><table width="100%" style="font-size:14px;border-collapse:collapse">${lines}<tr><td style="padding-top:10px;border-top:1px solid #ddd"><b>Total</b></td><td align="right" style="padding-top:10px;border-top:1px solid #ddd"><b>$${order.total.toFixed(2)}</b></td></tr></table>${scarf ? '<p>🧣 A free club scarf ships with this order.</p>' : ''}${codes.length ? `<p>Your Mundo XI player codes arrive in a separate email in about ${CODE_DELAY_MIN} minutes.</p>` : ''}`, { url: origin + '/#account', label: 'View my order' }) });
-    if (codes.length) await sendEmail({ to: s.customer_details?.email || email, at: sendAt, subject: `Your Mundo XI codes are here (${m.order})`, html: emailLayout('Your players are ready', `<p>Redeem these in Mundo XI to open your packs. Each code works once.</p>${codes.map(c => `<div style="background:#0F1E33;color:#fff;border-radius:12px;padding:14px 16px;margin:10px 0"><div style="font-family:Courier New,monospace;font-size:18px;font-weight:bold;color:#E8B730;letter-spacing:1px">${esc(c.code)}</div><div style="font-size:13px;color:#AEB9C7;margin-top:4px">${esc(c.label)}</div></div>`).join('')}`, { url: origin + '/#game/redeem', label: 'Open Mundo XI' }) });
+    if (u) {
+      u.spent = Math.round(((u.spent || 0) + order.spent) * 100) / 100;
+      const gids = String(m.gifts || '').split(',').filter(Boolean);
+      for (const g of u.gifts || []) if (gids.includes(g.id) && !g.used) g.used = { order: m.order, at: Date.now() };
+      await saveUser(u);
+    }
+    const lang = m.lang === 'he' ? 'he' : 'en', to = email || s.customer_details?.email;   // the account email: codes are linked to it
+    const om = orderEmail({ order: m.order, created: order.created, items, subtotal: order.spent, total: order.total, ship: order.ship, codeCount: codes.length }, { lang, name: (u && u.name) || order.ship?.name?.split(' ')[0] || '', origin });
+    await sendEmail({ to, subject: om.subject, html: om.html });
+    if (codes.length) { const cm = codesEmail(m.order, codes, { lang, origin }); await sendEmail({ to, at: sendAt, subject: cm.subject, html: cm.html }); }
   }
   if (process.env.ADMIN_EMAIL) {
     const sh = order.ship; const addr = sh ? [sh.name, sh.phone && 'Phone: ' + sh.phone, sh.address?.line1, sh.address?.line2, sh.address?.postal_code + ' ' + sh.address?.city, sh.address?.state, sh.address?.country].filter(Boolean).map(esc).join('<br>') : 'Digital only';
-    await sendEmail({ to: process.env.ADMIN_EMAIL, subject: `New order ${m.order} · $${order.total.toFixed(2)}`, html: emailLayout(`New order ${m.order}`, `<p><b>Customer:</b> ${esc(s.customer_details?.email || email)}</p><p><b>Ship to:</b><br>${addr}</p><p><b>Items</b> (sizes and printing are in Stripe → Payments → metadata):<br>${items.map(i => `${esc(i.name)} × ${i.q}`).join('<br>')}</p><p><b>Details:</b> ${esc(m.items || '')}</p>${scarf ? '<p><b>Include a FREE club scarf.</b></p>' : ''}`) });
+    await sendEmail({ to: process.env.ADMIN_EMAIL, subject: `New order ${m.order} · $${order.total.toFixed(2)}`, html: emailLayout(`New order ${m.order}`, `<p><b>Customer:</b> ${esc(s.customer_details?.email || email)}</p><p><b>Ship to:</b><br>${addr}</p><p><b>Items</b> (sizes and printing are in Stripe → Payments → metadata):<br>${items.map(i => `${esc(i.name)} × ${i.q}`).join('<br>')}</p><p><b>Details:</b> ${esc(m.items || '')}</p>${scarf ? '<p><b>Include a FREE club scarf.</b></p>' : ''}${m.gifts ? '<p><b>Includes FREE gift item(s): see the lines marked FREE GIFT.</b></p>' : ''}`) });
   }
   return order;
 }

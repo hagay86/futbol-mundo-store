@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thank you for your order | Futbol Mundo</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" sizes="180x180">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--chalk:#F4F6F3;--paper:#fff;--ink:#0F1E33;--ink-2:#4A5668;--line:#DCE1DA;--pitch:#17804F;--pitch-d:#0E5E39;--turf:#E2EEE6;--gold:#E8B730;--f:"Barlow",system-ui,-apple-system,sans-serif;--fc:"Barlow Condensed","Barlow",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--chalk);color:var(--ink);font-family:var(--f);font-size:16px;line-height:1.5;min-height:100vh}
+html.i18n-wait body{visibility:hidden}
+a{color:inherit}
+.hdr{background:var(--ink);padding:16px 20px}
+.hdr a{display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-family:var(--fc);font-weight:800;font-size:22px;letter-spacing:.5px}
+.hdr img{width:32px;height:32px}
+.wrap{max-width:680px;margin:0 auto;padding:28px 16px 60px}
+.hero{background:var(--paper);border-radius:22px;padding:32px 24px;text-align:center;border:1px solid var(--line)}
+.tick{width:72px;height:72px;border-radius:50%;background:var(--turf);display:grid;place-items:center;margin:0 auto 16px;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+.tick svg{width:38px;height:38px}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+h1{font-family:var(--fc);font-weight:800;font-size:clamp(34px,8vw,48px);line-height:1;text-transform:uppercase;margin-bottom:10px}
+.sub{color:var(--ink-2);font-size:16px;max-width:460px;margin:0 auto}
+.num{display:inline-flex;gap:8px;align-items:center;margin-top:18px;background:var(--chalk);border-radius:999px;padding:8px 16px;font-size:14px;color:var(--ink-2)}
+.num b{color:var(--ink);font-size:16px;letter-spacing:.5px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:16px}
+.card h2{font-family:var(--fc);font-weight:700;font-size:22px;text-transform:uppercase;margin-bottom:12px}
+.line{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.line:last-child{border-bottom:0}
+.line .q{color:var(--ink-2);font-size:13px}
+.line .free{color:var(--pitch-d);font-weight:700}
+.tot{display:flex;justify-content:space-between;font-weight:700;font-size:18px;padding-top:12px;margin-top:4px;border-top:2px solid var(--ink)}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-size:13px;color:var(--ink-2)}
+.steps{display:grid;gap:12px}
+.step{display:flex;gap:14px;align-items:flex-start}
+.step .i{width:40px;height:40px;border-radius:12px;background:var(--turf);display:grid;place-items:center;font-size:20px;flex-shrink:0}
+.step b{display:block}.step span{color:var(--ink-2);font-size:14px}
+.code{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--ink);color:#fff;border-radius:12px;padding:12px 14px;margin-top:8px}
+.code code{font-family:"Courier New",monospace;color:var(--gold);font-weight:700;font-size:15px;letter-spacing:1px;direction:ltr}
+.code a{background:var(--gold);color:var(--ink);text-decoration:none;font-weight:700;font-size:13px;padding:7px 12px;border-radius:999px;white-space:nowrap}
+.btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:999px;font-weight:700;text-decoration:none;font-size:16px}
+.btn-gold{background:var(--gold);color:var(--ink)}
+.btn-ghost{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+.muted{color:var(--ink-2);font-size:14px}
+.help{text-align:center;margin-top:22px}
+[dir=rtl] .code{flex-direction:row-reverse}
+@media (max-width:480px){.hero{padding:26px 16px}.card{padding:18px 16px}.btn{width:100%}}
+</style>
+<script>try{var l=localStorage.getItem('fm_lang')||sessionStorage.getItem('fm_lang_auto');if(l&&l!=='en')document.documentElement.classList.add('i18n-wait');setTimeout(function(){document.documentElement.classList.remove('i18n-wait')},2500)}catch(e){}</script>
+</head>
+<body>
+<header class="hdr"><a href="/" class="notranslate"><img src="/assets/icon.svg" alt="">FUTBOL MUNDO</a></header>
+<main class="wrap">
+  <section class="hero">
+    <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#17804F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <h1>Thank you for your order!</h1>
+    <p class="sub">Your payment went through and we're getting your order ready. A confirmation email with your order summary is on its way.</p>
+    <div class="num" id="num" hidden><span>Order</span> <b class="notranslate" id="num-v"></b></div>
+  </section>
+
+  <section class="card" id="sum" hidden>
+    <h2>Order summary</h2>
+    <div id="lines"></div>
+    <div class="tot"><span>Total paid</span><span id="total" class="notranslate"></span></div>
+    <div class="meta" id="meta"></div>
+  </section>
+
+  <section class="card">
+    <h2>What happens next</h2>
+    <div class="steps">
+      <div class="step"><div class="i">📦</div><div><b>We pack and ship your order</b><span>You'll get an email with the tracking number as soon as it ships.</span></div></div>
+      <div class="step"><div class="i">✉️</div><div><b>Your Mundo XI codes arrive by email</b><span>Every shirt comes with a special code that unlocks a 6-player pack. They arrive in a few minutes.</span></div></div>
+      <div class="step"><div class="i">⚽</div><div><b>Unlock your players and play</b><span>Open the email, tap Unlock now, and your new players join your squad.</span></div></div>
+    </div>
+    <div id="codes"></div>
+    <div class="btns">
+      <a class="btn btn-gold" href="/#game/home">Play Mundo XI</a>
+      <a class="btn btn-ghost" href="/#shop">Continue shopping</a>
+    </div>
+  </section>
+
+  <p class="help muted">Questions about your order? Email <a href="mailto:support@futbolmundoshop.com" class="notranslate">support@futbolmundoshop.com</a></p>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const money = v => '$' + (+v || 0).toFixed(2);
+const orderNo = (new URLSearchParams(location.search).get('order') || '').toUpperCase().replace(/[^A-Z0-9-]/g, '').slice(0, 20);
+if (orderNo) { $('#num').hidden = false; $('#num-v').textContent = orderNo; }
+
+// translations: same dictionaries and key format as the shop
+const LANG = (() => { try { return localStorage.getItem('fm_lang') || sessionStorage.getItem('fm_lang_auto') || 'en'; } catch (e) { return 'en'; } })();
+let DICT = null;
+const NUM = /\d(?:[\d,.:]*\d)?/g;
+function tr(raw){
+  const t = raw.replace(/\s+/g, ' ').trim(); if (!t || !/[A-Za-z]{2}/.test(t) || !DICT) return null;
+  const nums = []; const key = t.replace(NUM, m => { nums.push(m); return '{' + (nums.length - 1) + '}'; });
+  const v = DICT[key]; if (!v) return null;
+  return raw.match(/^\s*/)[0] + v.replace(/\{(\d+)\}/g, (_, i) => nums[i] ?? '') + raw.match(/\s*$/)[0];
+}
+function translate(root){
+  if (!DICT) return;
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = []; while (w.nextNode()) nodes.push(w.currentNode);
+  for (const n of nodes) { if (n.parentElement.closest('script,style,.notranslate')) continue; const v = tr(n.nodeValue); if (v) n.nodeValue = v; }
+  const title = tr(document.title.split(' | ')[0]); if (title) document.title = title + ' | Futbol Mundo';
+}
+async function loadLang(){
+  if (!LANG || LANG === 'en') return;
+  document.documentElement.lang = LANG; if (LANG === 'he' || LANG === 'ar') document.documentElement.dir = 'rtl';
+  try { DICT = await (await fetch('/i18n/' + LANG + '.json')).json(); } catch (e) {}
+}
+
+async function loadOrder(){
+  try {
+    const j = await (await fetch('/api/auth?action=me', {credentials:'same-origin'})).json();
+    const o = (j.orders || []).find(x => x.order === orderNo) || (!orderNo && (j.orders || [])[0]);
+    if (!o) return;
+    if (!orderNo) { $('#num').hidden = false; $('#num-v').textContent = o.order; }
+    $('#lines').innerHTML = (o.items || []).map(i => { const gift = /^FREE GIFT: /.test(i.name) || !i.amount;
+      return `<div class="line"><div><span class="notranslate">${gift ? '🎁 ' : ''}${esc(String(i.name).replace(/^FREE GIFT: /, ''))}</span><div class="q"><span>Qty</span> ${i.q}</div></div><div class="${gift ? 'free' : 'notranslate'}">${gift ? '<span>Free gift</span>' : money(i.amount)}</div></div>`; }).join('');
+    $('#total').textContent = money(o.total);
+    const ship = Math.max(0, (o.total || 0) - (o.spent || 0));
+    $('#meta').innerHTML = (o.spent ? `<span><span>Shipping</span>: <span class="notranslate">${ship ? money(ship) : ''}</span>${ship ? '' : '<span>Free</span>'}</span>` : '') +
+      (o.ship && o.ship.city ? `<span><span>Shipping to</span>: <span class="notranslate">${esc([o.ship.name, o.ship.city, o.ship.country].filter(Boolean).join(', '))}</span></span>` : '') +
+      (j.user ? `<span><span>Confirmation sent to</span>: <span class="notranslate">${esc(j.user.email)}</span></span>` : '');
+    $('#sum').hidden = false;
+    if (o.codes && o.codes.length) $('#codes').innerHTML = '<h2 style="margin-top:18px">Your codes</h2>' + o.codes.map(c => `<div class="code"><code>${esc(c.code)}</code><a href="/?redeem=${encodeURIComponent(c.code)}#game/redeem">Unlock now</a></div>`).join('');
+  } catch (e) {}
+}
+(async () => {
+  await Promise.all([loadLang(), loadOrder()]);
+  translate(document.body);
+  document.documentElement.classList.remove('i18n-wait');
+})();
+</script>
+</body>
+</html>

@@ -1,10 +1,11 @@
 // POST /api/checkout  → creates a PayPal order (when PayPal is connected) or a Stripe Checkout Session, and returns the payment page URL.
 // Prices are always taken from the catalogue on the server, never from the browser.
 import { randomBytes } from 'node:crypto';
-import { catalog, ensureCatalog, findProduct, stripe, send, readJson, fail, SCARF_THRESHOLD, FREE_SHIP_OVER, SHIPPING } from './_lib.js';
+import { catalog, ensureCatalog, findProduct, stripe, send, readJson, fail, FREE_SHIP_OVER, SHIPPING } from './_lib.js';
 import { dbReady, currentUser, setJSON } from './_db.js';
 import { paypalReady, createPaypalOrder } from './_paypal.js';
 import { addonsFor } from './_extra.js';
+import { GIFT_MIN } from './_gifts.js';
 
 // Every country Stripe can ship to (the whole world except the few it does not support)
 const COUNTRIES = ["AC", "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AT", "AU", "AW", "AX", "AZ", "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BV", "BW", "BY", "BZ", "CA", "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN", "CO", "CR", "CV", "CW", "CY", "CZ", "DE", "DJ", "DK", "DM", "DO", "DZ", "EC", "EE", "EG", "EH", "ER", "ES", "ET", "FI", "FJ", "FK", "FO", "FR", "GA", "GB", "GD", "GE", "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GS", "GT", "GU", "GW", "GY", "HK", "HN", "HR", "HT", "HU", "ID", "IE", "IL", "IM", "IN", "IO", "IQ", "IS", "IT", "JE", "JM", "JO", "JP", "KE", "KG", "KH", "KI", "KM", "KN", "KR", "KW", "KY", "KZ", "LA", "LB", "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY", "MA", "MC", "MD", "ME", "MF", "MG", "MK", "ML", "MM", "MN", "MO", "MQ", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ", "NA", "NC", "NE", "NG", "NI", "NL", "NO", "NP", "NR", "NU", "NZ", "OM", "PA", "PE", "PF", "PG", "PH", "PK", "PL", "PM", "PN", "PR", "PS", "PT", "PY", "QA", "RE", "RO", "RS", "RU", "RW", "SA", "SB", "SC", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "SS", "ST", "SV", "SX", "SZ", "TA", "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ", "UA", "UG", "US", "UY", "UZ", "VA", "VC", "VE", "VG", "VN", "VU", "WF", "WS", "XK", "YE", "YT", "ZA", "ZM", "ZW", "ZZ"];
@@ -25,10 +26,11 @@ export default async function handler(req, res) {
 
     const line_items = [], lines = [];
     let merch = 0, shirts = 0, pts = 0, physical = false;
-    const summary = [];
+    const summary = [], giftReq = [];
     for (const it of items) {
       const q = clampQ(it.q);
       if (it.kind === 'points') continue; // Mundo Credits are no longer sold
+      if (it.kind === 'gift') { giftReq.push(it); continue; }
       if (false) {
         const price = packs[+it.pts];
         if (!price) continue;
@@ -64,10 +66,29 @@ export default async function handler(req, res) {
     }
     if (!line_items.length) return send(res, 400, { error: 'Nothing in your bag can be bought right now' });
 
-    const scarf = merch >= SCARF_THRESHOLD * 100;
+    // Gifts from "My gifts": free, only inside an order of $GIFT_MIN+ in paid items. Below that they stay unused.
+    const giftLines = [], giftIds = [];
+    if (user && giftReq.length && merch >= GIFT_MIN * 100) {
+      for (const it of giftReq.slice(0, 5)) {
+        const g = (user.gifts || []).find(x => x.id === String(it.gid || '') && !x.used);
+        if (!g || giftIds.includes(g.id)) continue;
+        if (g.kind === 'jersey') {
+          const picks = (Array.isArray(it.picks) ? it.picks : []).slice(0, g.n).map(pk => ({ p: findProduct(+pk.pid, String(pk.n || '')), sz: clean(pk.sz, 14) })).filter(x => x.p && x.p.shirt && x.sz);
+          if (picks.length !== g.n) continue;
+          for (const { p, sz } of picks) {
+            giftLines.push({ name: 'FREE GIFT: ' + p.n, desc: `Size ${sz} · gift ${g.id}`, cents: 0, q: 1 });
+            summary.push(`GIFT #${p.id} ${sz}`); shirts += 1;
+          }
+        } else if (g.kind === 'ball') {
+          giftLines.push({ name: 'FREE GIFT: Match ball', desc: `gift ${g.id}`, cents: 0, q: 1 }); summary.push('GIFT ball');
+        } else continue;
+        giftIds.push(g.id);
+      }
+    }
+    const scarf = false;   // the free scarf was retired; gifts replace it
     const order = 'FM-' + randomBytes(4).toString('hex').toUpperCase().slice(0, 7);
     const origin = (req.headers['x-forwarded-proto'] || 'https') + '://' + (req.headers['x-forwarded-host'] || req.headers.host);
-    const meta = { order, shirts: String(shirts), pts: String(pts), scarf: scarf ? '1' : '0', merch: String(merch), uid: user ? user.email : '', items: summary.join(' | ').slice(0, 490) };
+    const meta = { order, shirts: String(shirts), pts: String(pts), scarf: '0', merch: String(merch), uid: user ? user.email : '', gifts: giftIds.join(','), lang: String(body.lang || '').slice(0, 2).replace(/[^a-z]/g, ''), items: summary.join(' | ').slice(0, 490) };
 
     const params = {
       mode: 'payment',
@@ -80,10 +101,9 @@ export default async function handler(req, res) {
       metadata: meta,
       customer_email: user ? user.email : undefined,
       payment_intent_data: {
-        description: `Futbol Mundo ${order}${scarf ? ' · includes FREE club scarf' : ''}`,
+        description: `Futbol Mundo ${order}${giftIds.length ? ' · includes FREE gift' : ''}`,
         metadata: Object.assign({}, meta, { status: 'Processing' }),
       },
-      custom_text: scarf ? { submit: { message: 'Your order qualifies for a FREE club scarf and a bonus Mundo XI player.' } } : undefined,
     };
     if (physical) {
       params.shipping_address_collection = { allowed_countries: Object.fromEntries(COUNTRIES.map((c, i) => [i, c])) };
@@ -111,8 +131,8 @@ export default async function handler(req, res) {
       console.log('[checkout] paypal order', pp.id, body.sdk ? 'sdk' : 'redirect', addr ? addr.country : '-', (merch / 100).toFixed(2));
       if (!pp.url && !body.sdk) return send(res, 502, { error: 'PayPal did not return a payment page. Please try again' });
       const subtotal = lines.reduce((t, l) => t + l.cents * l.q, 0);
-      if (dbReady()) await setJSON('pp:' + pp.id, { meta: Object.assign({}, meta, { ship: method }), lines: lines.map(l => ({ name: l.name, q: l.q, amount: l.cents * l.q / 100 })), subtotal, shippingCents, addr }, 'EX', 60 * 60 * 24 * 3);
-      return send(res, 200, { url: pp.url, id: pp.id, order, provider: 'paypal' });
+      if (dbReady()) await setJSON('pp:' + pp.id, { meta: Object.assign({}, meta, { ship: method }), lines: lines.concat(giftLines).map(l => { const tag = (String(l.desc || '').split(' · ')[0] || ''); return { name: l.name + (/^Sizes? /.test(tag) ? ' · ' + tag : ''), q: l.q, amount: l.cents * l.q / 100 }; }), subtotal, shippingCents, addr }, 'EX', 60 * 60 * 24 * 3);
+      return send(res, 200, { url: pp.url, id: pp.id, order, provider: 'paypal', gifts: giftIds });
     }
     const session = await stripe('POST', '/checkout/sessions', params);
     send(res, 200, { url: session.url, order });
