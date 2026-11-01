@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v13 — offline competitions, daily limits, 10-league ladder
+// MUNDO v13 — offline competitions, daily limits, 10-league ladder
 // with a brutal final league, 3D walkouts, 3D match view, practice pitch.
 // =====================================================================
 

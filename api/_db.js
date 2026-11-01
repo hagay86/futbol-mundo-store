@@ -48,7 +48,7 @@ export async function endSession(req, res) {
 export const emailReady = () => !!process.env.RESEND_API_KEY;
 // The business inbox: customer replies and new-order alerts go here.
 export const BUSINESS_EMAIL = () => process.env.BUSINESS_EMAIL || 'futbolmundoshop@gmail.com';
-const FROM = () => process.env.EMAIL_FROM || 'Futbol Mundo <hello@futbolmundoshop.com>';
+const FROM = () => process.env.EMAIL_FROM || 'Mundo <hello@futbolmundoshop.com>';
 export async function sendEmail({ to, subject, html, at }) {
   if (!emailReady()) { console.log('[email skipped: no RESEND_API_KEY]', subject, to); return { skipped: true }; }
   const body = { from: FROM(), to: [to], subject, html };
@@ -64,10 +64,10 @@ export function emailLayout(title, inner, cta) {
   return `<!doctype html><html><body style="margin:0;background:#F4F6F3;font-family:Arial,Helvetica,sans-serif;color:#0F1E33">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#F4F6F3;padding:24px 0"><tr><td align="center">
   <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;background:#fff;border-radius:16px;overflow:hidden">
-  <tr><td style="background:#0F1E33;padding:22px 28px;color:#E8B730;font-weight:900;font-size:20px;letter-spacing:1px">FUTBOL MUNDO</td></tr>
+  <tr><td style="background:#0F1E33;padding:22px 28px;color:#E8B730;font-weight:900;font-size:20px;letter-spacing:1px">MUNDO</td></tr>
   <tr><td style="padding:28px"><h1 style="margin:0 0 14px;font-size:24px">${esc(title)}</h1>${inner}
   ${cta ? `<p style="margin:26px 0 6px"><a href="${esc(cta.url)}" style="background:#17804F;color:#fff;text-decoration:none;padding:14px 22px;border-radius:999px;font-weight:bold;display:inline-block">${esc(cta.label)}</a></p>` : ''}
-  </td></tr><tr><td style="padding:18px 28px;background:#F4F6F3;color:#4A5668;font-size:12px">Futbol Mundo · futbolmundoshop.com · Reply to this email if you need help.</td></tr></table></td></tr></table></body></html>`;
+  </td></tr><tr><td style="padding:18px 28px;background:#F4F6F3;color:#4A5668;font-size:12px">Mundo · futbolmundoshop.com · Reply to this email if you need help.</td></tr></table></td></tr></table></body></html>`;
 }
 export const siteUrl = req => (req.headers['x-forwarded-proto'] || 'https') + '://' + (req.headers['x-forwarded-host'] || req.headers.host);
 

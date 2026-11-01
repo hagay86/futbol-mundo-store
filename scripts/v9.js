@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v9 — card form right on the bag page (PayPal JS SDK).
+// MUNDO v9 — card form right on the bag page (PayPal JS SDK).
 // The black "Debit or Credit Card" button opens card fields on our page:
 // no PayPal login. The redirect buttons stay as a fallback if the SDK fails.
 // =====================================================================

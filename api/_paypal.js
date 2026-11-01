@@ -41,15 +41,15 @@ export async function createPaypalOrder({ order, lines, shippingCents, physical,
   const body = {
     intent: 'CAPTURE',
     purchase_units: [{
-      reference_id: order, invoice_id: order + '-' + Date.now().toString(36), description: cut(`Futbol Mundo ${order}`, 127),
+      reference_id: order, invoice_id: order + '-' + Date.now().toString(36), description: cut(`Mundo ${order}`, 127),
       amount: { currency_code: 'USD', value: usd(itemTotal + shippingCents), breakdown: { item_total: { currency_code: 'USD', value: usd(itemTotal) }, shipping: { currency_code: 'USD', value: usd(shippingCents) } } },
       items: lines.map(l => ({ name: cut(l.name, 127), description: cut(l.desc, 127), quantity: String(l.q), unit_amount: { currency_code: 'USD', value: usd(l.cents) }, category: l.digital ? 'DIGITAL_GOODS' : 'PHYSICAL_GOODS' })),
     }],
     ...(sdk ? {
       // On-page buttons (JS SDK): the buyer picks card or PayPal in the button itself, so no payment_source here.
-      application_context: { brand_name: 'Futbol Mundo', user_action: 'PAY_NOW', shipping_preference: physical ? 'GET_FROM_FILE' : 'NO_SHIPPING', locale: locale || undefined },
+      application_context: { brand_name: 'Mundo', user_action: 'PAY_NOW', shipping_preference: physical ? 'GET_FROM_FILE' : 'NO_SHIPPING', locale: locale || undefined },
     } : { payment_source: { paypal: { experience_context: {
-      brand_name: 'Futbol Mundo', user_action: 'PAY_NOW', landing_page: card ? 'GUEST_CHECKOUT' : 'LOGIN',
+      brand_name: 'Mundo', user_action: 'PAY_NOW', landing_page: card ? 'GUEST_CHECKOUT' : 'LOGIN',
       shipping_preference: physical ? 'GET_FROM_FILE' : 'NO_SHIPPING',
       locale: locale || undefined,
       return_url: `${origin}/?pp=1`, cancel_url: `${origin}/#bag`,

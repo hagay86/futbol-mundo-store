@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v5 — accounts (sign up / sign in / reset), cloud saves,
+// MUNDO v5 — accounts (sign up / sign in / reset), cloud saves,
 // codes emailed after purchase, FUT-style cards & hub, objectives,
 // daily demo pack and the first-time tutorial with the Welcome pack.
 // =====================================================================
@@ -53,7 +53,7 @@ function openAuth(mode = 'signup', reason = '', next = null){
       <p class="auth-fine"><span class="info-link" onclick="openAuth('login', AUTH_REASON, AUTH_NEXT)">Back to sign in</span></p>`,
   };
   $('#info-card').classList.remove('wide');
-  $('#info-modal-body').innerHTML = `<h3>${mode === 'forgot' ? 'Reset password' : mode === 'login' ? 'Welcome back' : 'Join Futbol Mundo'}</h3>${reason ? `<p class="auth-reason">${reason}</p>` : ''}${mode === 'forgot' ? '' : tabs}<div class="auth-form">${forms[mode]}</div><div class="auth-err" id="au-err"></div>`;
+  $('#info-modal-body').innerHTML = `<h3>${mode === 'forgot' ? 'Reset password' : mode === 'login' ? 'Welcome back' : 'Join Mundo'}</h3>${reason ? `<p class="auth-reason">${reason}</p>` : ''}${mode === 'forgot' ? '' : tabs}<div class="auth-form">${forms[mode]}</div><div class="auth-err" id="au-err"></div>`;
   $('#info-modal').classList.add('open');
   setTimeout(() => ($('#au-name') || $('#au-email'))?.focus(), 50);
 }

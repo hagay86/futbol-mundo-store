@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v15 — everyone starts with a playable eleven of 11 very
+// MUNDO v15 — everyone starts with a playable eleven of 11 very
 // weak academy players (rated 38–46). They can play straight away, but
 // even the Sunday League and the Bronze Cup are far above them.
 // =====================================================================

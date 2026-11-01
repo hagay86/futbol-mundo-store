@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v18 — the starting eleven only ever holds real players.
+// MUNDO v18 — the starting eleven only ever holds real players.
 // Demo players stay visible in the Club tab only.
 // =====================================================================
 autoPick = function(silent){

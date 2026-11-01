@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v7 — automatic language by country + Mundo XI landing page
+// MUNDO v7 — automatic language by country + Mundo XI landing page
 // =====================================================================
 const LANGS = {en:'English', es:'Español', pt:'Português', fr:'Français', de:'Deutsch', it:'Italiano', he:'עברית', ar:'العربية'};
 const COUNTRY_LANG = {
@@ -113,7 +113,7 @@ routeFromHash = function(){ if (location.hash.startsWith('#xi')) return _go('xi'
   main.insertAdjacentHTML('afterbegin', `<div class="view hidden" id="view-xi">
     <section class="xi-hero"><div class="wrap xi-hero-in">
       <div class="xi-copy">
-        <div class="xi-kicker">Futbol Mundo presents</div>
+        <div class="xi-kicker">Mundo presents</div>
         <h1 class="xi-title">MUNDO XI</h1>
         <p class="xi-tag">Your shirts. Your squad. Your league.</p>
         <p class="xi-sub">Every jersey you buy comes with a 6-player pack. Build your eleven, climb ten divisions and play for the grand prize.</p>

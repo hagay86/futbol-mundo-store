@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v11 — product pages copy the partner store's real options:
+// MUNDO v11 — product pages copy the partner store's real options:
 // sizes, name & number (player list, custom, or none), patches, ads,
 // photo gallery. Add-on prices are marked up like the shirts (×1.8).
 // =====================================================================

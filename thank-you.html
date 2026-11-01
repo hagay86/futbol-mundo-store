@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Thank you for your order | Futbol Mundo</title>
+<title>Thank you for your order | Mundo</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/a/logo-96.png" type="image/png">
@@ -57,7 +57,7 @@ h1{font-family:var(--fc);font-weight:800;font-size:clamp(34px,8vw,48px);line-hei
 <script>try{var l=localStorage.getItem('fm_lang')||sessionStorage.getItem('fm_lang_auto');if(l&&l!=='en')document.documentElement.classList.add('i18n-wait');setTimeout(function(){document.documentElement.classList.remove('i18n-wait')},2500)}catch(e){}</script>
 </head>
 <body>
-<header class="hdr"><a href="/" class="notranslate"><img src="/a/logo-96.png" alt="">FUTBOL MUNDO</a></header>
+<header class="hdr"><a href="/" class="notranslate"><img src="/a/logo-96.png" alt="">MUNDO</a></header>
 <main class="wrap">
   <section class="hero">
     <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="#17804F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
@@ -111,7 +111,7 @@ function translate(root){
   const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   const nodes = []; while (w.nextNode()) nodes.push(w.currentNode);
   for (const n of nodes) { if (n.parentElement.closest('script,style,.notranslate')) continue; const v = tr(n.nodeValue); if (v) n.nodeValue = v; }
-  const title = tr(document.title.split(' | ')[0]); if (title) document.title = title + ' | Futbol Mundo';
+  const title = tr(document.title.split(' | ')[0]); if (title) document.title = title + ' | Mundo';
 }
 async function loadLang(){
   if (!LANG || LANG === 'en') return;

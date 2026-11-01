@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v20 — "My gifts". The Welcome pack holds a free jersey,
+// MUNDO v20 — "My gifts". The Welcome pack holds a free jersey,
 // and the gift shop sells gifts for Mundo Credits. Gifts are free and ship
 // free; each one unlocks after its own shop-spend step (kept on the server).
 // =====================================================================

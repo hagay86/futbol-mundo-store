@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v6 — Mundo Credits currency sign (Ɱ) rendered as a gold coin.
+// MUNDO v6 — Mundo Credits currency sign (Ɱ) rendered as a gold coin.
 // Any text containing Ɱ anywhere on the page is turned into the coin mark.
 // =====================================================================
 const MC_SIGN = 'Ɱ';

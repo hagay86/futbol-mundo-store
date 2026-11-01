@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v4 — real Stripe checkout, signed Mundo XI codes,
+// MUNDO v4 — real Stripe checkout, signed Mundo XI codes,
 // demo mode (gray DEMO players, play locked until 11 real players),
 // 6-player pack per shirt, free scarf + bonus player over $30, gifts over $30.
 // =====================================================================
@@ -119,7 +119,7 @@ function claimGift(i){
   const order = G.orders[0] ? G.orders[0].order : '';
   G.points -= g.pts; G.gifts.push(`${g.name} · ${claim}`); save(); renderRewards();
   const subject = encodeURIComponent(`Gift claim ${claim}: ${g.name}`);
-  const mbody = encodeURIComponent(`Hi Futbol Mundo,\n\nI'd like to claim: ${g.name}\nClaim ID: ${claim}\nOrder number: ${order}\n\nShipping address:\n`);
+  const mbody = encodeURIComponent(`Hi Mundo,\n\nI'd like to claim: ${g.name}\nClaim ID: ${claim}\nOrder number: ${order}\n\nShipping address:\n`);
   openInfo('Gift claimed', `Your claim ID is <b>${claim}</b>. Send it to <a class="info-link" href="mailto:${SUPPORT_EMAIL}?subject=${subject}&body=${mbody}">${SUPPORT_EMAIL}</a> with your order number${order ? ` (<b>${order}</b>)` : ''} and we'll ship your ${escapeHtml(g.name.toLowerCase())}.`);
 }
 

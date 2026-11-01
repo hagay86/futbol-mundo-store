@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v8 — PayPal checkout (PayPal or guest card), shipping picked
+// MUNDO v8 — PayPal checkout (PayPal or guest card), shipping picked
 // on the bag page, PayPal return flow, owner order tools.
 // =====================================================================
 var coShipMethod = 'standard';

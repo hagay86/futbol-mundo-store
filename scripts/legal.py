@@ -1,13 +1,13 @@
 import datetime
 UPDATED = "29 October 2026"
-OP = "Hagay Dardik, an individual business registered in Israel, trading as “Futbol Mundo”"
+OP = "Hagay Dardik, an individual business registered in Israel, trading as “Mundo”"
 EMAIL = "futbolmundoshop@gmail.com"
 SITE = "futbolmundoshop.com"
 NAV = [("terms.html","Terms of Service"),("privacy.html","Privacy Policy"),("returns.html","Shipping & Returns"),("giveaway.html","Giveaway Rules"),("accessibility.html","Accessibility")]
 def page(fname, title, body):
     nav = " · ".join(f'<a href="/legal/{f}"{" class=on" if f==fname else ""}>{t}</a>' for f,t in NAV)
     return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{title} · Futbol Mundo</title><meta name="robots" content="index,follow"><link rel="icon" href="/favicon.ico">
+<title>{title} · Mundo</title><meta name="robots" content="index,follow"><link rel="icon" href="/favicon.ico">
 <link rel="canonical" href="https://www.{SITE}/legal/{fname}">
 <style>:root{{--ink:#0F1E33;--gold:#E8B730;--muted:#4A5668}}*{{box-sizing:border-box}}body{{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#F4F6F3}}
 header{{background:var(--ink);color:#fff;padding:16px}}header a{{color:#fff;text-decoration:none;font-weight:800;letter-spacing:1px}}header a span{{color:var(--gold)}}
@@ -16,13 +16,13 @@ main{{max-width:820px;margin:0 auto;padding:28px 16px 60px;background:#fff}}h1{{
 .box{{background:#FFF8E1;border-left:4px solid var(--gold);padding:12px 14px;margin:16px 0;font-size:15px}}li{{margin:4px 0}}a{{color:#17804F}}
 footer{{max-width:820px;margin:0 auto;padding:18px 16px;color:var(--muted);font-size:13px}}</style></head>
 <body><header><a href="/">FUTBOL <span>MUNDO</span></a></header><main><h1>{title}</h1><div class="upd">Last updated: {UPDATED}</div><nav>{nav}</nav>{body}</main>
-<footer>© 2026 Futbol Mundo · <a href="/">Back to the store</a> · Contact: <a href="mailto:{EMAIL}">{EMAIL}</a></footer></body></html>'''
+<footer>© 2026 Mundo · <a href="/">Back to the store</a> · Contact: <a href="mailto:{EMAIL}">{EMAIL}</a></footer></body></html>'''
 
 TERMS = f'''
 <div class="box"><b>Please read these Terms carefully.</b> By using {SITE}, creating an account, playing Mundo XI or placing an order, you agree to be bound by these Terms of Service, our <a href="/legal/privacy.html">Privacy Policy</a>, our <a href="/legal/returns.html">Shipping &amp; Returns Policy</a> and, where relevant, the <a href="/legal/giveaway.html">Giveaway Rules</a>. If you do not agree, do not use the site. Section 17 limits our liability and Section 19 sets the governing law and courts.</div>
 
 <h2>1. Who we are</h2>
-<p>The website {SITE} (the “Site”), the online store and the Mundo XI game (together, the “Services”) are operated by {OP} (“Futbol Mundo”, “we”, “us”, “our”). You can contact us at <a href="mailto:{EMAIL}">{EMAIL}</a>. Our full business details (business name, registration number and business address) are available on request at the same address and will be shown on every tax invoice.</p>
+<p>The website {SITE} (the “Site”), the online store and the Mundo XI game (together, the “Services”) are operated by {OP} (“Mundo”, “we”, “us”, “our”). You can contact us at <a href="mailto:{EMAIL}">{EMAIL}</a>. Our full business details (business name, registration number and business address) are available on request at the same address and will be shown on every tax invoice.</p>
 
 <h2>2. Definitions</h2>
 <ul><li><b>“You”, “Customer”, “User”</b> means any person who visits the Site, creates an account, plays Mundo XI or buys a product.</li>
@@ -101,11 +101,11 @@ TERMS = f'''
 <p>If any part of these Terms is found invalid or unenforceable, the rest remains in force. Our failure to enforce a right is not a waiver. You may not transfer your rights under these Terms without our consent; we may transfer ours to a successor business. These Terms, together with the policies they refer to, are the entire agreement between you and us about the Services. If these Terms are translated, the English version prevails to the extent permitted by law.</p>
 
 <h2>22. Contact</h2>
-<p>Futbol Mundo · Email: <a href="mailto:{EMAIL}">{EMAIL}</a> · Website: https://www.{SITE}</p>
+<p>Mundo · Email: <a href="mailto:{EMAIL}">{EMAIL}</a> · Website: https://www.{SITE}</p>
 '''
 
 PRIVACY = f'''
-<div class="box">This Privacy Policy explains what personal data we collect, why, who we share it with and what rights you have. It applies to {SITE}, the online store and the Mundo XI game. The data controller is {OP} (“Futbol Mundo”, “we”). Contact: <a href="mailto:{EMAIL}">{EMAIL}</a>.</div>
+<div class="box">This Privacy Policy explains what personal data we collect, why, who we share it with and what rights you have. It applies to {SITE}, the online store and the Mundo XI game. The data controller is {OP} (“Mundo”, “we”). Contact: <a href="mailto:{EMAIL}">{EMAIL}</a>.</div>
 
 <h2>1. Data we collect</h2>
 <h3>Data you give us</h3>
@@ -170,7 +170,7 @@ PRIVACY = f'''
 <p>We may update this Policy. The “Last updated” date shows the latest version. We will notify registered users of significant changes by email or on the Site.</p>
 
 <h2>11. Contact</h2>
-<p>Futbol Mundo · <a href="mailto:{EMAIL}">{EMAIL}</a></p>
+<p>Mundo · <a href="mailto:{EMAIL}">{EMAIL}</a></p>
 '''
 
 RETURNS = f'''
@@ -199,7 +199,7 @@ RETURNS = f'''
 
 GIVEAWAY = f'''
 <div class="box"><b>NO PURCHASE NECESSARY.</b> A purchase does not increase your chances of winning. Void where prohibited or restricted by law.</div>
-<h2>1. Promoter</h2><p>The Futbol Mundo Monthly Jersey Giveaway (the “Giveaway”) is run by {OP} (the “Promoter”). Contact: <a href="mailto:{EMAIL}">{EMAIL}</a>. The Giveaway is not sponsored, endorsed or administered by, or associated with, Instagram, Facebook, Meta, Google, Apple or any club, league or player.</p>
+<h2>1. Promoter</h2><p>The Mundo Monthly Jersey Giveaway (the “Giveaway”) is run by {OP} (the “Promoter”). Contact: <a href="mailto:{EMAIL}">{EMAIL}</a>. The Giveaway is not sponsored, endorsed or administered by, or associated with, Instagram, Facebook, Meta, Google, Apple or any club, league or player.</p>
 <h2>2. Eligibility</h2><p>Open to individuals aged 18 or older (or minors with the consent of a parent or legal guardian, who must accept the prize on the minor's behalf), living in a country where we ship and where this Giveaway is lawful. The Promoter, its family members and anyone involved in running the Giveaway may not win.</p>
 <h2>3. Period</h2><p>Each Giveaway runs for one calendar month, starting at 00:00 on the first day and ending at 23:59 (Israel time) on the last day of the month (the “Period”).</p>
 <h2>4. How to enter</h2><p>Create a free account on {SITE} during the Period. Each new account is entered automatically, once, into that month's draw. Limit: one entry per person. Entries made with multiple accounts, false details, bots or other automated means are void.</p>

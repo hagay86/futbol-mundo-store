@@ -49,8 +49,8 @@ rep('''    ? 'Includes a one-time Mundo XI code for the player you choose below.
     : 'Includes a 6-player Mundo XI pack (4,000 points). Orders over $30 add a free scarf + bonus player.';''')
 rep('<span id="pdp-perk-txt">Includes a one-time Mundo XI code for the player you choose.</span>',
     '<span id="pdp-perk-txt">Includes a 6-player Mundo XI pack.</span>')
-rep('<div class="f-bot"><span>© 2026 Futbol Mundo</span><span>Secure checkout · Card, PayPal, Apple Pay, Google Pay</span></div>',
-    '<div class="f-bot"><span>© 2026 Futbol Mundo</span><span>Secure checkout by Stripe · Card, Apple Pay, Google Pay</span></div>')
+rep('<div class="f-bot"><span>© 2026 Mundo</span><span>Secure checkout · Card, PayPal, Apple Pay, Google Pay</span></div>',
+    '<div class="f-bot"><span>© 2026 Mundo</span><span>Secure checkout by Stripe · Card, Apple Pay, Google Pay</span></div>')
 rep('support@futbolmundo.com', 'support@futbolmundoshop.com')
 rep("<p>Every shirt comes with a code for that player. Mystery boxes come with a pack code. Each code works once.</p>",
     "<p>Codes from your order confirmation. Shirt codes add 4,000 points (a 6-player pack); scarf codes add a bonus player. Each code works once per device.</p>")

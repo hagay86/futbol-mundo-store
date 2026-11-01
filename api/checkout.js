@@ -101,7 +101,7 @@ export default async function handler(req, res) {
       metadata: meta,
       customer_email: user ? user.email : undefined,
       payment_intent_data: {
-        description: `Futbol Mundo ${order}${giftIds.length ? ' · includes FREE gift' : ''}`,
+        description: `Mundo ${order}${giftIds.length ? ' · includes FREE gift' : ''}`,
         metadata: Object.assign({}, meta, { status: 'Processing' }),
       },
     };

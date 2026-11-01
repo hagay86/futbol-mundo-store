@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v10 — Mundo XI players use real EA SPORTS FC ratings and
+// MUNDO v10 — Mundo XI players use real EA SPORTS FC ratings and
 // positions (scripts/fc_ratings.json, from ea.com/games/ea-sports-fc/ratings).
 // =====================================================================
 const FC_DATA = __FC_DATA__;

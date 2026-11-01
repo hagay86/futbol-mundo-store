@@ -1,5 +1,5 @@
 import { fixedPrice } from './_pricing.js';
-// Shared helpers for the Futbol Mundo API (Vercel serverless functions).
+// Shared helpers for the Mundo API (Vercel serverless functions).
 // Prices are read straight from index.html so the site stays the single source of truth.
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';

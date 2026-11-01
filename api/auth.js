@@ -63,7 +63,7 @@ export default async function handler(req, res) {
       // free monthly jersey giveaway: one entry per new account, no purchase needed
       try { await redis('LPUSH', 'giveaway:' + new Date().toISOString().slice(0, 7), email); } catch (e) {}
       const vt = token(); await redis('SET', 'verify:' + vt, email, 'EX', 172800);
-      await sendEmail({ to: email, subject: 'Welcome to Futbol Mundo: confirm your email', html: emailLayout(`Welcome${name ? ', ' + name : ''}!`, '<p>Your manager account is ready. Confirm your email, then head to Mundo XI to open your welcome pack.</p><p>Every shirt you buy comes with a 6-player pack, and orders over $30 include a free club scarf.</p>', { url: `${origin}/api/auth?action=verify&t=${vt}`, label: 'Confirm my email' }) });
+      await sendEmail({ to: email, subject: 'Welcome to Mundo: confirm your email', html: emailLayout(`Welcome${name ? ', ' + name : ''}!`, '<p>Your manager account is ready. Confirm your email, then head to Mundo XI to open your welcome pack.</p><p>Every shirt you buy comes with a 6-player pack, and orders over $30 include a free club scarf.</p>', { url: `${origin}/api/auth?action=verify&t=${vt}`, label: 'Confirm my email' }) });
       return send(res, 200, { user: publicUser(await getUser(email)) });
     }
     if (action === 'login') {
@@ -80,7 +80,7 @@ export default async function handler(req, res) {
       if (validEmail(email) && !(await limited('fp:' + email, 3, 3600))) {
         const u = await getUser(email);
         if (u) { const t = token(); await redis('SET', 'reset:' + t, email, 'EX', 3600);
-          await sendEmail({ to: email, subject: 'Reset your Futbol Mundo password', html: emailLayout('Reset your password', '<p>Click below to choose a new password. The link works for 1 hour. If you did not ask for this, ignore this email.</p>', { url: `${origin}/#reset=${t}`, label: 'Choose a new password' }) }); }
+          await sendEmail({ to: email, subject: 'Reset your Mundo password', html: emailLayout('Reset your password', '<p>Click below to choose a new password. The link works for 1 hour. If you did not ask for this, ignore this email.</p>', { url: `${origin}/#reset=${t}`, label: 'Choose a new password' }) }); }
       }
       return send(res, 200, { ok: true });
     }

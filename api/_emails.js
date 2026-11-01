@@ -51,9 +51,9 @@ function shell(t, title, inner) {
 <body style="margin:0;background:${CHALK};font-family:Arial,Helvetica,sans-serif;color:${NAVY}">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:${CHALK};padding:24px 0"><tr><td align="center">
 <table width="580" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%;background:#fff;border-radius:16px;overflow:hidden" dir="${t.dir}">
-<tr><td style="background:${NAVY};padding:22px 28px;text-align:${t.align}"><span style="color:${GOLD};font-weight:900;font-size:22px;letter-spacing:1px">★ FUTBOL MUNDO</span></td></tr>
+<tr><td style="background:${NAVY};padding:22px 28px;text-align:${t.align}"><span style="color:${GOLD};font-weight:900;font-size:22px;letter-spacing:1px">★ MUNDO</span></td></tr>
 <tr><td style="padding:30px 28px;text-align:${t.align}"><h1 style="margin:0 0 12px;font-size:26px;line-height:1.2">${esc(title)}</h1>${inner}</td></tr>
-<tr><td style="padding:18px 28px;background:${CHALK};color:${INK2};font-size:12px;text-align:${t.align}">Futbol Mundo · futbolmundoshop.com · ${esc(t.help)}</td></tr>
+<tr><td style="padding:18px 28px;background:${CHALK};color:${INK2};font-size:12px;text-align:${t.align}">Mundo · futbolmundoshop.com · ${esc(t.help)}</td></tr>
 </table></td></tr></table></body></html>`;
 }
 const button = (url, label) => `<p style="margin:24px 0 4px"><a href="${esc(url)}" style="background:${GREEN};color:#fff;text-decoration:none;padding:14px 26px;border-radius:999px;font-weight:bold;display:inline-block">${esc(label)}</a></p>`;

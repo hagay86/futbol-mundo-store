@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v12 — rotating shop banner at the top of the home page
+// MUNDO v12 — rotating shop banner at the top of the home page
 // (like the partner store's slider), built from our own product photos.
 // =====================================================================
 const SLIDES = [
@@ -17,7 +17,7 @@ function renderSlider(){
   const slides = SLIDES.map(s => Object.assign({}, s, {items: shuffle(PRODUCTS.filter(s.f)).slice(0, 3)})).filter(s => s.items.length);
   el.innerHTML = `<div class="ps-track">${slides.map((s, i) => `
     <div class="ps-slide${i ? '' : ' on'}" style="--bg:${s.c};--ac:${s.a}" onclick="SLIDES.find(x=>x.k==='${s.k}').go()">
-      <div class="ps-copy"><div class="ps-kick">Futbol Mundo</div><h2>${escapeHtml(s.t)}</h2><p>${escapeHtml(s.s)}</p><span class="ps-btn">Shop now →</span></div>
+      <div class="ps-copy"><div class="ps-kick">Mundo</div><h2>${escapeHtml(s.t)}</h2><p>${escapeHtml(s.s)}</p><span class="ps-btn">Shop now →</span></div>
       <div class="ps-imgs">${s.items.map((p, j) => `<img src="${escapeAttr(p.i)}" alt="${escapeAttr(p.n)}" loading="${i ? 'lazy' : 'eager'}" class="ps-i${j}">`).join('')}</div>
     </div>`).join('')}</div>
     <button class="ps-nav ps-prev" aria-label="Previous" onclick="event.stopPropagation();slideGo(-1)">‹</button><button class="ps-nav ps-next" aria-label="Next" onclick="event.stopPropagation();slideGo(1)">›</button>

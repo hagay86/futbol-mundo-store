@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v14 — our own delivery form on the bag page: any country
+// MUNDO v14 — our own delivery form on the bag page: any country
 // in the world, phone with its country code. Sent to PayPal so the card
 // form opens with the right country, and saved with the order.
 // =====================================================================

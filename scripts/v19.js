@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v19 — hide empty categories (curated catalogue).
+// MUNDO v19 — hide empty categories (curated catalogue).
 // =====================================================================
 function catCount(c){ return c === 'All' ? PRODUCTS.length : PRODUCTS.filter(p => p.c === c).length; }
 const _renderShop19 = renderShop;

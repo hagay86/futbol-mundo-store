@@ -1,5 +1,5 @@
 // =====================================================================
-// FUTBOL MUNDO v17 — game cards use drawn avatars instead of photos:
+// MUNDO v17 — game cards use drawn avatars instead of photos:
 // weak/academy players get a plain shirt, real players a kit-coloured avatar.
 // =====================================================================
 function shirtAvatarSVG(num, a = '#9aa3ad', b = '#ffffff'){
