@@ -92,7 +92,7 @@ export async function processPaidSession(s, origin) {
   const email = normEmail(m.uid || s.customer_details?.email);
   const sendAt = Date.now() + CODE_DELAY_MIN * 60000;
   const order = { id: s.id, order: m.order, email, total: (s.amount_total || 0) / 100, spent: (s.amount_subtotal || 0) / 100, scarf, items, codes, created: Date.now(), sendAt,
-    ship: s.ship || s.shipping_details || s.collected_information?.shipping_details || null, provider: s.provider || 'stripe', status: 'Processing' };
+    details: m.items || '', ship: s.ship || s.shipping_details || s.collected_information?.shipping_details || null, provider: s.provider || 'stripe', status: 'Processing' };
   await setJSON(key, order);
   await redis('SET', 'ordernum:' + m.order, s.id);
   await redis('LPUSH', 'allorders', s.id);

@@ -4439,6 +4439,8 @@ openAccount = async function(){
   if (!ME.user) return;
   try { const r = await fetch('/api/admin'); if (r.ok) $('.acc-actions')?.insertAdjacentHTML('afterbegin', '<button class="info-btn" style="background:#E8B730;color:#0F1E33" onclick="openAdmin()">Store orders (owner)</button>'); } catch (e) {}
 };
+// futbolmundoshop.com/#admin → sign in (if needed) and open the orders panel
+window.addEventListener('load', () => setTimeout(async () => { if (location.hash !== '#admin') return; const go2 = () => openAdmin(); if (!ME.user) { try { await loadMe(); } catch (e) {} } if (ME.user) go2(); else if (typeof openAuth === 'function') openAuth('login', 'Sign in with the store owner account to see orders.', go2); }, 800));
 async function openAdmin(){
   $('#info-card').classList.add('wide');
   $('#info-modal-body').innerHTML = '<h3>Store orders</h3><p>Loading…</p>';
@@ -4447,7 +4449,7 @@ async function openAdmin(){
   const st = ['Processing', 'Shipped', 'Delivered', 'Cancelled'];
   $('#info-modal-body').innerHTML = `<h3>Store orders</h3><p>Change a status or add a tracking number. The customer gets an email.</p><div class="adm-list">${j.orders.map(o => `
     <div class="adm-o"><div class="adm-top"><b>${o.order}</b><span>${new Date(o.created).toLocaleString()} · ${money(o.total)} · ${escapeHtml(o.email)} · ${o.provider || ''}</span></div>
-    <div class="adm-items">${o.items.map(i => `${escapeHtml(i.name)} × ${i.q}`).join('<br>')}${o.scarf ? '<br><b>+ FREE club scarf</b>' : ''}</div>
+    <div class="adm-items">${o.items.map(i => `${/^FREE GIFT/.test(i.name) ? '🎁 ' : ''}${escapeHtml(i.name)} × ${i.q}`).join('<br>')}${o.details ? `<div style="font-size:12px;color:var(--ink-2);margin-top:4px">${escapeHtml(o.details)}</div>` : ''}</div>
     ${o.ship ? `<div class="adm-ship">${[o.ship.name, o.ship.phone && '☎ ' + o.ship.phone, o.ship.address?.line1, o.ship.address?.line2, [o.ship.address?.postal_code, o.ship.address?.city].filter(Boolean).join(' '), o.ship.address?.state, o.ship.address?.country].filter(Boolean).map(escapeHtml).join(', ')}</div>` : ''}
     <div class="adm-row"><select id="st-${o.order}">${st.map(s => `<option ${s === o.status ? 'selected' : ''}>${s}</option>`).join('')}</select><input class="info-input" id="tr-${o.order}" placeholder="Tracking number" value="${escapeAttr(o.tracking)}"><button class="btn btn-pri btn-sm" onclick="saveAdmin('${o.order}')">Save</button></div></div>`).join('') || '<p>No orders yet.</p>'}</div>`;
 }

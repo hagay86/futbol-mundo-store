@@ -1,13 +1,14 @@
-// Store owner tools. Only the account whose email equals ADMIN_EMAIL can use them.
+// Store owner tools. Only the owner accounts (ADMIN_EMAIL and the business inbox) can use them.
 // GET  /api/admin            → latest orders (newest first)
 // POST /api/admin {order, status, tracking} → update an order's status / tracking number (emails the customer)
 import { send, readJson, fail } from './_lib.js';
-import { currentUser, redis, getJSON, setJSON, sendEmail, emailLayout, siteUrl } from './_db.js';
+import { currentUser, redis, getJSON, setJSON, sendEmail, emailLayout, siteUrl, BUSINESS_EMAIL } from './_db.js';
+const owners = () => [process.env.ADMIN_EMAIL, BUSINESS_EMAIL()].filter(Boolean).map(e => e.trim().toLowerCase());
 
 export default async function handler(req, res) {
   try {
     const u = await currentUser(req);
-    if (!u || !process.env.ADMIN_EMAIL || u.email !== process.env.ADMIN_EMAIL.trim().toLowerCase()) return send(res, 403, { error: 'Owner only' });
+    if (!u || !owners().includes(u.email)) return send(res, 403, { error: 'Owner only' });
     const q = new URL(req.url, 'http://x').searchParams;
     if (req.method === 'GET' && q.get('draw')) {
       const month = /^\d{4}-\d{2}$/.test(q.get('draw')) ? q.get('draw') : new Date().toISOString().slice(0, 7);
@@ -20,7 +21,7 @@ export default async function handler(req, res) {
     if (req.method === 'GET') {
       const ids = await redis('LRANGE', 'allorders', 0, 99) || [];
       const orders = [];
-      for (const id of ids) { const o = await getJSON('order:' + id); if (o) orders.push({ order: o.order, email: o.email, total: o.total, created: o.created, status: o.status, tracking: o.tracking || '', items: o.items, ship: o.ship, scarf: o.scarf, provider: o.provider }); }
+      for (const id of ids) { const o = await getJSON('order:' + id); if (o) orders.push({ order: o.order, email: o.email, total: o.total, created: o.created, status: o.status, tracking: o.tracking || '', items: o.items, ship: o.ship, details: o.details || '', provider: o.provider }); }
       return send(res, 200, { orders });
     }
     const { order, status, tracking } = await readJson(req);
