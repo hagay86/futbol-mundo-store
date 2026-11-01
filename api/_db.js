@@ -46,11 +46,13 @@ export async function endSession(req, res) {
 
 // ---------------- Email (Resend) ----------------
 export const emailReady = () => !!process.env.RESEND_API_KEY;
+// The business inbox: customer replies and new-order alerts go here.
+export const BUSINESS_EMAIL = () => process.env.BUSINESS_EMAIL || 'futbolmundoshop@gmail.com';
 const FROM = () => process.env.EMAIL_FROM || 'Futbol Mundo <hello@futbolmundoshop.com>';
 export async function sendEmail({ to, subject, html, at }) {
   if (!emailReady()) { console.log('[email skipped: no RESEND_API_KEY]', subject, to); return { skipped: true }; }
   const body = { from: FROM(), to: [to], subject, html };
-  const replyTo = process.env.REPLY_TO || process.env.ADMIN_EMAIL; if (replyTo) body.reply_to = replyTo;   // customer replies reach the business inbox
+  body.reply_to = process.env.REPLY_TO || BUSINESS_EMAIL();   // customer replies reach the business inbox
   if (at) body.scheduled_at = new Date(at).toISOString();
   const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: 'Bearer ' + process.env.RESEND_API_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
   const j = await r.json().catch(() => ({}));
@@ -108,9 +110,9 @@ export async function processPaidSession(s, origin) {
     await sendEmail({ to, subject: om.subject, html: om.html });
     if (codes.length) { const cm = codesEmail(m.order, codes, { lang, origin }); await sendEmail({ to, at: sendAt, subject: cm.subject, html: cm.html }); }
   }
-  if (process.env.ADMIN_EMAIL) {
+  {
     const sh = order.ship; const addr = sh ? [sh.name, sh.phone && 'Phone: ' + sh.phone, sh.address?.line1, sh.address?.line2, sh.address?.postal_code + ' ' + sh.address?.city, sh.address?.state, sh.address?.country].filter(Boolean).map(esc).join('<br>') : 'Digital only';
-    await sendEmail({ to: process.env.ADMIN_EMAIL, subject: `New order ${m.order} · $${order.total.toFixed(2)}`, html: emailLayout(`New order ${m.order}`, `<p><b>Customer:</b> ${esc(s.customer_details?.email || email)}</p><p><b>Ship to:</b><br>${addr}</p><p><b>Items</b> (sizes and printing are in Stripe → Payments → metadata):<br>${items.map(i => `${esc(i.name)} × ${i.q}`).join('<br>')}</p><p><b>Details:</b> ${esc(m.items || '')}</p>${scarf ? '<p><b>Include a FREE club scarf.</b></p>' : ''}${m.gifts ? '<p><b>Includes FREE gift item(s): see the lines marked FREE GIFT.</b></p>' : ''}`) });
+    await sendEmail({ to: BUSINESS_EMAIL(), subject: `New order ${m.order} · $${order.total.toFixed(2)}`, html: emailLayout(`New order ${m.order}`, `<p><b>Customer:</b> ${esc(s.customer_details?.email || email)}</p><p><b>Ship to:</b><br>${addr}</p><p><b>Items</b> (sizes and printing are in Stripe → Payments → metadata):<br>${items.map(i => `${esc(i.name)} × ${i.q}`).join('<br>')}</p><p><b>Details:</b> ${esc(m.items || '')}</p>${scarf ? '<p><b>Include a FREE club scarf.</b></p>' : ''}${m.gifts ? '<p><b>Includes FREE gift item(s): see the lines marked FREE GIFT.</b></p>' : ''}`) });
   }
   return order;
 }

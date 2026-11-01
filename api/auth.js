@@ -1,7 +1,7 @@
 // /api/auth?action=signup|login|logout|me|verify|forgot|reset|welcome|gift
 import { send, readJson, fail } from './_lib.js';
 import { newGift, publicGifts } from './_gifts.js';
-import { redis, dbReady, getUser, saveUser, normEmail, validEmail, hashPw, checkPw, token, publicUser, currentUser, startSession, endSession, sendEmail, emailLayout, siteUrl, getJSON } from './_db.js';
+import { redis, dbReady, getUser, saveUser, normEmail, validEmail, hashPw, checkPw, token, publicUser, currentUser, startSession, endSession, sendEmail, emailLayout, BUSINESS_EMAIL, siteUrl, getJSON } from './_db.js';
 
 // Gift shop (Mundo Credits). Jersey and ball gifts go to "My gifts" and ship free with an order of $GIFT_MIN or more.
 const GIFTS = { 'Match ball': { cost: 18000, kind: 'ball' }, 'Free jersey': { cost: 30000, kind: 'jersey', n: 1 }, 'Hat-trick box': { cost: 60000, kind: 'jersey', n: 3 }, 'Signed shirt draw': { cost: 105000, kind: 'draw' } };
@@ -107,7 +107,7 @@ export default async function handler(req, res) {
       const claim = 'GF-' + token().slice(0, 6).toUpperCase().replace(/[^A-Z0-9]/g, 'X');
       await redis('LPUSH', 'gifts', JSON.stringify({ claim, email: u.email, name, at: Date.now() }));
       await sendEmail({ to: u.email, subject: `You're in the draw: ${name}`, html: emailLayout('You are in the draw', `<p>Your entry <b>${claim}</b> for the <b>${name}</b> is in. We'll email you if you win.</p>`) });
-      if (process.env.ADMIN_EMAIL) await sendEmail({ to: process.env.ADMIN_EMAIL, subject: `Draw entry ${claim}: ${name}`, html: emailLayout('New draw entry', `<p>${u.email} entered <b>${name}</b> (Ɱ${g.cost.toLocaleString()}). Entry ${claim}.</p>`) });
+      await sendEmail({ to: BUSINESS_EMAIL(), subject: `Draw entry ${claim}: ${name}`, html: emailLayout('New draw entry', `<p>${u.email} entered <b>${name}</b> (Ɱ${g.cost.toLocaleString()}). Entry ${claim}.</p>`) });
       return send(res, 200, { claim, bought: u.giftsBought });
     }
     send(res, 400, { error: 'Unknown action' });

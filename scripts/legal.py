@@ -1,7 +1,7 @@
 import datetime
 UPDATED = "29 October 2026"
 OP = "Hagay Dardik, an individual business registered in Israel, trading as “Futbol Mundo”"
-EMAIL = "hagaydardik@gmail.com"
+EMAIL = "futbolmundoshop@gmail.com"
 SITE = "futbolmundoshop.com"
 NAV = [("terms.html","Terms of Service"),("privacy.html","Privacy Policy"),("returns.html","Shipping & Returns"),("giveaway.html","Giveaway Rules"),("accessibility.html","Accessibility")]
 def page(fname, title, body):
