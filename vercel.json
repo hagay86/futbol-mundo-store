@@ -7,6 +7,10 @@
   },
   "rewrites": [
     {
+      "source": "/favicon.ico",
+      "destination": "/api/ingest?asset=logo-48.png"
+    },
+    {
       "source": "/thank-you",
       "destination": "/thank-you.html"
     },

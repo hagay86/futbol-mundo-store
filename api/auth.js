@@ -1,12 +1,21 @@
 // /api/auth?action=signup|login|logout|me|verify|forgot|reset|welcome|gift
-import { send, readJson, fail, ensureCatalog, findProduct } from './_lib.js';
+import { send, readJson, fail, ensureCatalog, findProduct, catalog } from './_lib.js';
 import { randomBytes } from 'node:crypto';
 import { orderEmail } from './_emails.js';
 import { newGift, publicGifts, GIFT_UNLOCK } from './_gifts.js';
 import { redis, dbReady, getUser, saveUser, normEmail, validEmail, hashPw, checkPw, token, publicUser, currentUser, startSession, endSession, sendEmail, emailLayout, BUSINESS_EMAIL, siteUrl, getJSON, setJSON } from './_db.js';
 
 // Gift shop (Mundo Credits). Jersey and ball gifts go to "My gifts" and ship free with an order of $GIFT_MIN or more.
-const GIFTS = { 'Match ball': { cost: 18000, kind: 'ball' }, 'Free jersey': { cost: 30000, kind: 'jersey', n: 1 }, 'Hat-trick box': { cost: 60000, kind: 'jersey', n: 3 }, 'Signed shirt draw': { cost: 105000, kind: 'draw' } };
+const GIFTS = {
+  'Free pants': { cost: 15000, kind: 'pants' },
+  'Free jersey': { cost: 30000, kind: 'jersey', n: 1 },
+  'Free mystery box': { cost: 36000, kind: 'box', n: 1 },
+  'Free kids full outfit': { cost: 45000, kind: 'kids' },
+  'Free 2-jersey mystery box': { cost: 66000, kind: 'box', n: 2 },
+  'Free 3-jersey mystery box': { cost: 96000, kind: 'box', n: 3 },
+};
+export const isKidsOutfit = p => /\bkids?\b/i.test(p.n) && /suit|kit|set/i.test(p.n);
+export const isPants = p => /\bpants?\b|trouser/i.test(p.n) && !/\bkids?\b/i.test(p.n);
 
 async function limited(key, max, secs) {
   const n = await redis('INCR', 'rl:' + key);
@@ -97,6 +106,7 @@ export default async function handler(req, res) {
     if (action === 'gift') {
       const name = String(body.name || ''), g = GIFTS[name];
       if (!g) return send(res, 400, { error: 'Unknown gift' });
+      if ((u.spent || 0) < GIFT_UNLOCK) return send(res, 403, { error: `Gifts unlock once you've spent $${GIFT_UNLOCK} in the shop` });
       // each gift-shop gift can be taken once per account (not advertised; the shop hides it afterwards)
       u.giftsBought = u.giftsBought || [];
       if (u.giftsBought.includes(name)) return send(res, 409, { error: 'This gift is not available right now', gone: name, bought: u.giftsBought });
@@ -127,6 +137,17 @@ export default async function handler(req, res) {
         const picks = (Array.isArray(body.picks) ? body.picks : []).slice(0, g.n).map(pk => ({ p: findProduct(+pk.pid, String(pk.n || '')), sz: t(pk.sz, 14) })).filter(x => x.p && x.p.shirt && x.sz);
         if (picks.length !== g.n) return send(res, 400, { error: 'Choose your jersey and size first' });
         for (const { p, sz } of picks) items.push({ name: `FREE GIFT: ${p.n} · Size ${sz}`, q: 1, amount: 0 });
+      } else if (g.kind === 'kids' || g.kind === 'pants') {
+        await ensureCatalog();
+        const pk = (Array.isArray(body.picks) ? body.picks : [])[0] || {}, p = findProduct(+pk.pid, String(pk.n || '')), sz = t(pk.sz, 20);
+        const okP = p && (g.kind === 'kids' ? isKidsOutfit(p) : isPants(p) && p.p <= Math.min(...catalog().products.filter(isPants).map(x => x.p)) + 0.01);
+        if (!okP || !sz) return send(res, 400, { error: 'Choose your item and size first' });
+        items.push({ name: `FREE GIFT: ${p.n} · Size ${sz}`, q: 1, amount: 0 });
+      } else if (g.kind === 'box') {
+        const sizes = (Array.isArray(body.sizes) ? body.sizes : []).slice(0, g.n).map(x => t(x, 14)).filter(Boolean);
+        if (sizes.length !== g.n) return send(res, 400, { error: 'Choose a size for every shirt' });
+        const league = t(body.league, 30) || 'Any league';
+        items.push({ name: `FREE GIFT: Mystery box (${g.n} shirt${g.n > 1 ? 's' : ''}) · Size${g.n > 1 ? 's' : ''} ${sizes.join(', ')} · ${league}`, q: 1, amount: 0 });
       } else if (g.kind === 'ball') items.push({ name: 'FREE GIFT: Match ball', q: 1, amount: 0 });
       else return send(res, 400, { error: 'This gift cannot be shipped' });
       // lock against double claims
