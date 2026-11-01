@@ -9,7 +9,7 @@ const r2 = v => Math.round(v * 100) / 100;
 const up = v => r2(v * MARKUP);
 
 const SKIP_BC = /^(Accessories|Casual Clothing|NBA|Clearance Sales)$/i;
-const LEAGUE = { 'Premier League':'Premier League', 'La Liga':'La Liga', 'LaLiga Hypermotion':'La Liga', 'Serie A':'Serie A', 'Bundesliga':'Bundesliga', 'Ligue 1':'Ligue 1', 'International':'National Teams' };
+const LEAGUE = { 'Premier League':'Premier League', 'La Liga':'La Liga', 'LaLiga Hypermotion':'La Liga', 'Serie A':'Serie A', 'Bundesliga':'Bundesliga', 'Ligue 1':'Ligue 1', 'International':'National Teams', 'Israel League':'Israeli League' };
 const isWorldCup = n => /world\s*cup/i.test(n);
 const isKids = n => /\bkids?\b|\bbaby\b|\binfant\b|\byouth\b/i.test(n);
 
@@ -41,17 +41,24 @@ export function transform(raw) {
 }
 
 let CACHE = null, CACHE_AT = 0, CACHE_VER = '';
+async function readFeed(prefix) {
+  const n = +(await redis('GET', prefix + 'n')) || 0;
+  if (!n) return [];
+  let s = '';
+  for (let i = 0; i < n; i++) s += (await redis('GET', prefix + i)) || '';
+  return transform(JSON.parse(s));
+}
+// Two feeds: cat:* (main partner feed) and cat2:* (extra leagues/teams added later). cat2 wins on the same product.
 export async function extraProducts() {
   if (!dbReady()) return CACHE || [];
   try {
     const ver = String((await redis('GET', 'cat:ver')) || '');
     if (CACHE && ver === CACHE_VER && Date.now() - CACHE_AT < 30 * 60 * 1000) return CACHE;
     CACHE_VER = ver;
-    const n = +(await redis('GET', 'cat:n')) || 0;
-    if (!n) return (CACHE = []);
-    let s = '';
-    for (let i = 0; i < n; i++) s += (await redis('GET', 'cat:' + i)) || '';
-    CACHE = transform(JSON.parse(s)); CACHE_AT = Date.now();
+    const a = await readFeed('cat:'), b = await readFeed('cat2:');
+    if (a.length && a[0].cur) { CACHE = a; CACHE_AT = Date.now(); return CACHE; }
+    const ids = new Set(b.map(p => p.mid));
+    CACHE = a.filter(p => !ids.has(p.mid)).concat(b); CACHE_AT = Date.now();
   } catch (e) { console.log('[extra catalogue]', e.message); }
   return CACHE || [];
 }

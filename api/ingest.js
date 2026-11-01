@@ -56,13 +56,14 @@ export default async function handler(req, res) {
     }
     const part = +b.part, total = +b.total;
     if (!(part >= 0 && total > 0 && part < total && total < 100) || typeof b.data !== 'string') return send(res, 400, { error: 'Bad chunk' });
-    await redis('SET', 'catnew:' + part, b.data);
+    const feed = b.feed === 'cat2' ? 'cat2' : 'cat', stage = feed === 'cat2' ? 'catnew2:' : 'catnew:';
+    await redis('SET', stage + part, b.data);
     if (b.commit) {
       // all chunks are in: check the JSON parses, then switch the live catalogue over
-      let s = ''; for (let i = 0; i < total; i++) s += (await redis('GET', 'catnew:' + i)) || '';
+      let s = ''; for (let i = 0; i < total; i++) s += (await redis('GET', stage + i)) || '';
       const j = JSON.parse(s);
-      for (let i = 0; i < total; i++) await redis('SET', 'cat:' + i, await redis('GET', 'catnew:' + i));
-      await redis('SET', 'cat:n', String(total));
+      for (let i = 0; i < total; i++) await redis('SET', feed + ':' + i, await redis('GET', stage + i));
+      await redis('SET', feed + ':n', String(total));
       await redis('SET', 'cat:ver', String(Date.now()));
       return send(res, 200, { ok: true, rows: j.rows.length, bytes: s.length });
     }

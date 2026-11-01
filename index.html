@@ -2622,7 +2622,7 @@ PRODUCTS.forEach((p, i) => {
       if (cat === p.c) continue;
       for (const t of TEAMS_BY_LEAGUE[cat]) if (_matchAny(name, t.match)) { matched = {cat, team:t.name}; break outer; }
     }
-    if (matched && !p.x && !['World Cup 2026','New Arrivals','Kids','Retro','Other Leagues','NBA','NHL','MLB','Rugby','Accessories','Shoes'].includes(p.c)) p.c = matched.cat;
+    if (matched && !p.x && !['World Cup 2026','New Arrivals','Kids','Retro','Israeli League','Other Leagues','NBA','NHL','MLB','Rugby','Accessories','Shoes'].includes(p.c)) p.c = matched.cat;
   }
   if (matched) p.t = matched.team;
   p.shirt = isShirt(p);
@@ -2769,7 +2769,7 @@ function addBox(n){
   setTimeout(toggleCart, 250);
 }
 function renderLeagueTiles(){
-  const cats = ['Retro','Premier League','La Liga','Serie A','Bundesliga','Ligue 1','National Teams','Other Leagues','Kids','NBA','New Arrivals'];
+  const cats = ['Retro','Premier League','La Liga','Serie A','Bundesliga','Ligue 1','Israeli League','National Teams','Other Leagues','Kids','NBA','New Arrivals'];
   $('#league-tiles').innerHTML = cats.map(c => {
     const n = PRODUCTS.filter(p => p.c === c).length;
     return `<button class="league" onclick="goCat('${c}')"><b>${c === 'Retro' ? 'Retro classics' : c}</b><span>${n} items</span></button>`;
@@ -2788,7 +2788,7 @@ function renderPrize(){
 }
 
 // ---------------- Shop ----------------
-const SHOP_CATS = ['All','World Cup 2026','New Arrivals','Retro','Premier League','La Liga','Serie A','Bundesliga','Ligue 1','National Teams','Other Leagues','Kids','Shoes','Accessories','NBA','NHL','MLB','Rugby'];
+const SHOP_CATS = ['All','World Cup 2026','New Arrivals','Retro','Premier League','La Liga','Serie A','Bundesliga','Ligue 1','Israeli League','National Teams','Other Leagues','Kids','Shoes','Accessories','NBA','NHL','MLB','Rugby'];
 const ERAS = [['all','All eras'],['old','Before 1990'],['90s','1990s'],['00s','2000s'],['10s','2010s +']];
 function yearOf(p){
   const n = p.n;
