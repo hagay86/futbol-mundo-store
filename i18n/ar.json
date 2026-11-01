@@ -709,5 +709,11 @@
 "Choose the outfit": "اختر الطقم",
 "Choose pants": "اختر البنطال",
 "Choose the kids outfit": "اختر طقم الأطفال",
-"Choose your pants": "اختر بنطالك"
+"Choose your pants": "اختر بنطالك",
+"Some gifts are still locked.": "بعض الهدايا لا تزال مقفلة.",
+"Shop to unlock them. The more you spend in the shop, the more gifts open up, and every unlocked gift is free and ships free.": "تسوّق من المتجر لفتحها. كلما أنفقت أكثر، فُتحت هدايا أكثر، وكل هدية مفتوحة مجانية مع شحن مجاني.",
+"🔒 Locked · shop to unlock": "🔒 مقفلة · تسوّق لفتحها",
+". No purchase needed to claim a gift once it's unlocked. Gifts unlock as you shop.": ". لا حاجة للشراء للحصول على الهدية بعد فتحها. تُفتح الهدايا كلما تسوّقت.",
+"Your choice is saved in My gifts. Once this gift unlocks (keep shopping to unlock it), tap": "تم حفظ اختيارك في هداياي. عندما تُفتح هذه الهدية (واصل التسوق لفتحها)، اضغط",
+"This gift is still locked. Keep shopping to unlock it": "هذه الهدية لا تزال مقفلة. واصل التسوق لفتحها"
 }

@@ -1,5 +1,5 @@
 // Fixed shop prices by product type (same function runs in the browser, see index.html).
-export const PRICE = { shirt: 35, pants: 25, kids: 29, shorts: 20, outer: 45, shoes: 55, other: 35 };
+export const PRICE = { shirt: 40, pants: 29, kids: 33, shorts: 23, outer: 52, shoes: 63, other: 40 };
 export function tierOf(p) {
   const n = String(p.n || ''), c = String(p.c || '');
   if (/\bpants?\b|trouser/i.test(n)) return 'pants';

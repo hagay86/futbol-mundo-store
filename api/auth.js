@@ -2,7 +2,7 @@
 import { send, readJson, fail, ensureCatalog, findProduct, catalog } from './_lib.js';
 import { randomBytes } from 'node:crypto';
 import { orderEmail } from './_emails.js';
-import { newGift, publicGifts, GIFT_UNLOCK } from './_gifts.js';
+import { newGift, publicGifts, unlockFor, unlockedGifts } from './_gifts.js';
 import { redis, dbReady, getUser, saveUser, normEmail, validEmail, hashPw, checkPw, token, publicUser, currentUser, startSession, endSession, sendEmail, emailLayout, BUSINESS_EMAIL, siteUrl, getJSON, setJSON } from './_db.js';
 
 // Gift shop (Mundo Credits). Jersey and ball gifts go to "My gifts" and ship free with an order of $GIFT_MIN or more.
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
         const o = await getJSON('order:' + id); if (!o) continue;
         orders.push({ order: o.order, total: o.total, created: o.created, status: o.status, items: o.items, spent: o.spent, ship: o.ship ? { name: o.ship.name, city: o.ship.address?.city, country: o.ship.address?.country } : null, scarf: o.scarf, codes: Date.now() >= o.sendAt ? o.codes : null, sendAt: o.sendAt });
       }
-      return send(res, 200, { user: publicUser(u), orders, gifts: publicGifts(u), bought: u.giftsBought || [], giftUnlock: GIFT_UNLOCK, ready: true });
+      return send(res, 200, { user: publicUser(u), orders, gifts: publicGifts(u), bought: u.giftsBought || [], unlocked: unlockedGifts(u), ready: true });
     }
     if (action === 'verify') {
       const t = new URL(req.url, 'http://x').searchParams.get('t') || '';
@@ -106,7 +106,7 @@ export default async function handler(req, res) {
     if (action === 'gift') {
       const name = String(body.name || ''), g = GIFTS[name];
       if (!g) return send(res, 400, { error: 'Unknown gift' });
-      if ((u.spent || 0) < GIFT_UNLOCK) return send(res, 403, { error: `Gifts unlock once you've spent $${GIFT_UNLOCK} in the shop` });
+      if ((u.spent || 0) < unlockFor(name)) return send(res, 403, { error: 'This gift is still locked. Keep shopping to unlock it' });
       // each gift-shop gift can be taken once per account (not advertised; the shop hides it afterwards)
       u.giftsBought = u.giftsBought || [];
       if (u.giftsBought.includes(name)) return send(res, 409, { error: 'This gift is not available right now', gone: name, bought: u.giftsBought });
@@ -122,10 +122,10 @@ export default async function handler(req, res) {
       await sendEmail({ to: BUSINESS_EMAIL(), subject: `Draw entry ${claim}: ${name}`, html: emailLayout('New draw entry', `<p>${u.email} entered <b>${name}</b> (Ɱ${g.cost.toLocaleString()}). Entry ${claim}.</p>`) });
       return send(res, 200, { claim, bought: u.giftsBought });
     }
-    if (action === 'claimgift') {   // ship a gift for free (gifts unlock after $GIFT_UNLOCK spent in the shop)
-      if ((u.spent || 0) < GIFT_UNLOCK) return send(res, 403, { error: `Gifts unlock once you've spent $${GIFT_UNLOCK} in the shop` });
+    if (action === 'claimgift') {   // ship a gift for free (each gift unlocks after its own shop-spend step, see _gifts.js)
       const g = (u.gifts || []).find(x => x.id === String(body.gid || '') && !x.used);
       if (!g) return send(res, 404, { error: 'This gift was already used' });
+      if (g.src !== 'welcome' && (u.spent || 0) < unlockFor(g.name)) return send(res, 403, { error: 'This gift is still locked. Keep shopping to unlock it' });
       if (g.src === 'welcome') return send(res, 400, { error: 'Your sign-up jersey is free with an order of $40 or more. Add it from the shop' });
       const t = (v, n) => String(v || '').replace(/[<>\u0000-\u001f]/g, '').trim().slice(0, n);
       const a = body.addr || {};

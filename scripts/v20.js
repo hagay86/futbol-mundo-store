@@ -1,7 +1,7 @@
 // =====================================================================
 // FUTBOL MUNDO v20 — "My gifts". The Welcome pack holds a free jersey,
 // and the gift shop sells gifts for Mundo Credits. Gifts are free and ship
-// free; they unlock once the account has spent $30 in the shop.
+// free; each one unlocks after its own shop-spend step (kept on the server).
 // =====================================================================
 const GIFT_UNLOCK = 30;   // gift-shop gifts: free once the account has spent $30
 const GIFT_MIN = 40;      // sign-up jersey: free with $40+ of other items in the same order
@@ -17,9 +17,10 @@ const isPantsP = p => /\bpants?\b|trouser/i.test(p.n) && !/\bkids?\b/i.test(p.n)
 const cheapestPants = () => { const all = PRODUCTS.filter(isPantsP); const m = Math.min(...all.map(p => +p.p)); return all.filter(p => +p.p <= m + 0.01); };
 function giftBoxSet(gid, k, v){ const b = GIFT_PICKS[gid] && !Array.isArray(GIFT_PICKS[gid]) ? GIFT_PICKS[gid] : {sizes:[], league:'Any league'}; if (k === 'league') b.league = v; else b.sizes[k] = v; GIFT_PICKS[gid] = b; saveGiftPicks(); openMyGifts(); }
 const giftSpent = () => +((ME.user && ME.user.spent) || 0);
-const giftsUnlocked = () => giftSpent() >= GIFT_UNLOCK;
+const giftOk = name => ((ME && ME.unlocked) || []).includes(name);   // the server decides; spend amounts stay private
+const giftsUnlocked = () => GIFTS.some(g => giftOk(g.name));
 function cleanGiftPicks(){ const ids = new Set(openGifts().map(g => g.id)); let ch = false; for (const k of Object.keys(GIFT_PICKS)) if (ME.ready && ME.user && !ids.has(k)) { delete GIFT_PICKS[k]; ch = true; } if (ch) saveGiftPicks(); }
-const giftLockHTML = () => giftsUnlocked() ? '' : `<div class="gf-lock">🔒 <b>Gifts unlock once you've spent $${GIFT_UNLOCK} in the shop.</b> <span>You've spent ${money(giftSpent())} so far. After that, every gift is free and ships free.</span></div>`;
+const giftLockHTML = () => GIFTS.every(g => giftOk(g.name)) ? '' : `<div class="gf-lock">🔒 <b>Some gifts are still locked.</b> <span>Shop to unlock them. The more you spend in the shop, the more gifts open up, and every unlocked gift is free and ships free.</span></div>`;
 
 // scarf leftovers from older saves
 try { if (G.items && G.items.some(i => i.key === 'scarf')) { G.items = G.items.filter(i => i.key !== 'scarf'); save(); } } catch (e) {}
@@ -50,11 +51,11 @@ function openMyGifts(next){
       body = chosen.length ? chosen.map(pk => `<div class="gf-pick"><img src="${escapeAttr(pk.img)}" alt=""><div><b class="notranslate">${escapeHtml(pk.n)}</b><span><span>Size</span> <span class="notranslate">${escapeHtml(pk.sz)}</span></span></div></div>`).join('') : `<span>${g.n > 1 ? `Choose any ${g.n} jerseys from the shop.` : 'Choose any jersey from the shop.'}</span>`;
       btns += `<button class="btn ${chosen.length ? 'btn-ghost' : 'btn-gold'} btn-sm" onclick="openGiftPicker('${g.id}',0)">${chosen.length ? 'Change' : g.n > 1 ? 'Choose my jerseys' : 'Choose my jersey'}</button>`;
     }
-    if (giftReady(g)) btns += ok ? `<button class="btn btn-gold btn-sm" onclick="openGiftAddress('${g.id}')">Get it free</button>` : `<button class="btn btn-ghost btn-sm" disabled>🔒 Locked</button>`;
+    if (giftReady(g)) btns += giftOk(g.name) ? `<button class="btn btn-gold btn-sm" onclick="openGiftAddress('${g.id}')">Get it free</button>` : `<button class="btn btn-ghost btn-sm" disabled>🔒 Locked</button>`;
     return `<div class="gf-card"><div class="gf-ico">${giftIcon(g)}</div><div class="gf-main"><b>${escapeHtml(g.name)}${g.n > 1 && g.kind === 'jersey' ? ` (${g.n} jerseys)` : ''}</b>${body}</div><div class="gf-act">${btns}</div></div>`;
   };
   const html = (open.some(g => !isWelcome(g)) ? giftLockHTML() : '') + (open.length ? open.map(row).join('') : '<p class="gf-empty">No gifts yet. Open your Welcome pack or spend Mundo Credits in the gift shop.</p>') +
-    (open.some(g => !isWelcome(g)) ? `<div class="gf-rule">🎁 Gifts are <b>free</b> and ship <b>free</b>. No purchase needed to claim them once your account has spent $${GIFT_UNLOCK} in the shop.</div>` : '') +
+    (open.some(g => !isWelcome(g)) ? `<div class="gf-rule">🎁 Gifts are <b>free</b> and ship <b>free</b>. No purchase needed to claim a gift once it's unlocked. Gifts unlock as you shop.</div>` : '') +
     (open.some(isWelcome) ? `<div class="gf-rule">👕 Your sign-up jersey is <b>free</b> with any order that has <b>$${GIFT_MIN} or more</b> of other items.</div>` : '') +
     (used.length ? `<div class="gf-used"><b>Received</b>${used.map(g => `<span>${escapeHtml(g.name)} · order ${escapeHtml(g.used.order || '')}</span>`).join('')}</div>` : '') +
     `<div class="gf-btns">${!ok && open.some(g => !isWelcome(g)) ? `<button class="info-btn" onclick="closeInfo();go('shop')">Shop jerseys</button>` : ''}${next ? `<button class="info-btn gf-sec" onclick="closeInfo();(${next})()">Continue</button>` : ''}</div>`;
@@ -98,15 +99,15 @@ function gpSave(pid, sz){
   GIFT_PICKS[g.id] = arr; saveGiftPicks();
   const nextSlot = Array.from({length:(g.kind === 'kids' || g.kind === 'pants') ? 1 : g.n}, (_, k) => k).find(k => !arr[k]);
   if (nextSlot !== undefined) { GP.q = ''; openGiftPicker(g.id, nextSlot); return; }
-  if (giftsUnlocked()) { openGiftAddress(g.id); return; }
-  $('#info-modal-body').innerHTML = `<h3>Gift saved 🎁</h3>${giftLockHTML()}<p>Your choice is saved in My gifts. Once your account has spent $${GIFT_UNLOCK} in the shop, tap <b>Get it free</b> and we ship it to you for free.</p>
+  if (giftOk(g.name)) { openGiftAddress(g.id); return; }
+  $('#info-modal-body').innerHTML = `<h3>Gift saved 🎁</h3>${giftLockHTML()}<p>Your choice is saved in My gifts. Once this gift unlocks (keep shopping to unlock it), tap <b>Get it free</b> and we ship it to you for free.</p>
     <div class="gf-btns"><button class="info-btn" onclick="closeInfo();go('shop')">Shop jerseys</button><button class="info-btn gf-sec" onclick="openMyGifts()">Back to My gifts</button></div>`;
 }
 
 // ---------- claim: delivery address, then a free order ----------
 function openGiftAddress(gid){
   const g = openGifts().find(x => x.id === gid); if (!g) return;
-  if (!giftsUnlocked()) { openMyGifts(); return; }
+  if (!giftOk(g.name)) { openMyGifts(); return; }
   $('#info-modal-body').innerHTML = `<h3>Where should we send it?</h3><p class="gf-sub">Your gift and the shipping are free.</p><div class="gf-addr">${addrHTML().replace('<h2 class="co-h2">Delivery details</h2>', '')}</div>
     <div class="gf-btns"><button class="info-btn" id="gf-send" onclick="sendGift('${gid}')">Send my free gift</button><button class="info-btn gf-sec" onclick="openMyGifts()">Back to My gifts</button></div>`;
 }
@@ -198,7 +199,7 @@ coItems = function(){
   if (g && merchTotal(cart) >= GIFT_MIN) items.push({kind:'gift', gid:g.id, picks:GIFT_PICKS[g.id].map(pk => ({pid:pk.pid, n:pk.n, sz:pk.sz}))});
   return items;
 };
-// after a paid order: refresh (the $30 unlock may have just been reached)
+// after a paid order: refresh (a gift may have just unlocked)
 const _handleOrderReturn20 = handleOrderReturn;
 handleOrderReturn = async function(){ const r = await _handleOrderReturn20.apply(this, arguments); try { await loadMe(); cleanGiftPicks(); renderCart(); } catch (e) {} return r; };
 
@@ -224,15 +225,15 @@ function welcomeGiftNext(){ openMyGifts('tutStep4'); }
 renderRewards = function(){
   const open = openGifts();
   $('#rewards').innerHTML = giftLockHTML() + `<div class="reward gf-mine" onclick="openMyGifts()" role="button"><div class="rp">🎁 ${open.length}</div><b>My gifts</b><span>${open.length ? `You have ${open.length} gift${open.length > 1 ? 's' : ''} to use. Gifts are free and ship free.` : 'Gifts you get show up here.'}</span><button class="btn btn-gold btn-sm">Open My gifts</button></div>` +
-    GIFTS.map((g, i) => (ME.bought || []).includes(g.name) ? '' : `<div class="reward${giftsUnlocked() ? '' : ' locked'}"><div class="rp">${giftsUnlocked() ? '' : '🔒 '}Ɱ${g.pts.toLocaleString()}</div><div class="rw-ico">${g.ico || '🎁'}</div><b>${g.name}</b><span>${g.txt}</span>
-    ${!giftsUnlocked() ? `<button class="btn btn-ghost btn-sm" onclick="openMyGifts()">🔒 Unlocks at $${GIFT_UNLOCK} spent</button>` : `<button class="btn ${G.points >= g.pts ? 'btn-pri' : 'btn-ghost'} btn-sm" onclick="claimGift(${i})">${G.points >= g.pts ? 'Get gift' : `Ɱ${(g.pts - G.points).toLocaleString()} to go`}</button>`}</div>`).join('');
+    GIFTS.map((g, i) => (ME.bought || []).includes(g.name) ? '' : `<div class="reward${giftOk(g.name) ? '' : ' locked'}"><div class="rp">${giftOk(g.name) ? '' : '🔒 '}Ɱ${g.pts.toLocaleString()}</div><div class="rw-ico">${g.ico || '🎁'}</div><b>${g.name}</b><span>${g.txt}</span>
+    ${!giftOk(g.name) ? `<button class="btn btn-ghost btn-sm" onclick="openMyGifts()">🔒 Locked · shop to unlock</button>` : `<button class="btn ${G.points >= g.pts ? 'btn-pri' : 'btn-ghost'} btn-sm" onclick="claimGift(${i})">${G.points >= g.pts ? 'Get gift' : `Ɱ${(g.pts - G.points).toLocaleString()} to go`}</button>`}</div>`).join('');
   $('#point-table').innerHTML = RARITY.map(r => `<div><span>${r.label}</span><b>Ɱ${r.pts.toLocaleString()}</b></div>`).join('');
   const pg = $('#packs-gifts'); if (pg && typeof pointPacksHTML === 'function') pg.innerHTML = pointPacksHTML();
 };
 claimGift = async function(i){
   const g = GIFTS[i];
   if (!ME.user) { openAuth('login', 'Sign in to get gifts.', () => claimGift(i)); return; }
-  if (!giftsUnlocked()) { openMyGifts(); return; }
+  if (!giftOk(g.name)) { openMyGifts(); return; }
   if (G.points < g.pts) { showToast(`You need ${(g.pts - G.points).toLocaleString()} more Mundo Credits`); return; }
   try {
     const j = await api('/api/auth?action=gift', {method:'POST', body:{name:g.name}});
@@ -256,4 +257,4 @@ renderHome = function(){
   try { sessionStorage.setItem('fm_xi_in', '1'); } catch (e) {}
   let n = 0; const t = setInterval(() => { const inp = $('#code-in'); if (inp && inp.offsetParent) { inp.value = rc; inp.focus(); clearInterval(t); showToast('Your code is ready. Tap Redeem'); } else if (++n > 40) clearInterval(t); else if (n % 4 === 1) { try { go('game', 'redeem'); gTab('redeem'); } catch (e) {} } }, 300); })();
 // gifts arrive with the account info
-(async () => { try { if (!ME.gifts) { const j = await api('/api/auth?action=me'); if (!ME.gifts) { ME.gifts = j.gifts || []; ME.bought = j.bought || []; } } } catch (e) {} cleanGiftPicks(); renderCart(); try { if (currentView === 'game') renderGame(); } catch (e) {} })();
+(async () => { try { if (!ME.gifts) { const j = await api('/api/auth?action=me'); if (!ME.gifts) { ME.gifts = j.gifts || []; ME.bought = j.bought || []; ME.unlocked = j.unlocked || []; } } } catch (e) {} cleanGiftPicks(); renderCart(); try { if (currentView === 'game') renderGame(); } catch (e) {} })();
