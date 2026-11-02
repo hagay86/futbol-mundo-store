@@ -715,5 +715,9 @@
 "🔒 Locked · shop to unlock": "🔒 Bloqueado · compre para desbloquear",
 ". No purchase needed to claim a gift once it's unlocked. Gifts unlock as you shop.": ". Não é preciso comprar para resgatar um presente depois de desbloqueado. Os presentes desbloqueiam conforme você compra.",
 "Your choice is saved in My gifts. Once this gift unlocks (keep shopping to unlock it), tap": "Sua escolha foi salva em Meus presentes. Quando este presente desbloquear (continue comprando para desbloqueá-lo), toque",
-"This gift is still locked. Keep shopping to unlock it": "Este presente ainda está bloqueado. Continue comprando para desbloqueá-lo"
+"This gift is still locked. Keep shopping to unlock it": "Este presente ainda está bloqueado. Continue comprando para desbloqueá-lo",
+"Premium delivery": "Entrega premium",
+"Standard delivery: {0}–{1} business days. Premium delivery: {2}–{3} business days. Free standard shipping on orders over ${4}": "Entrega padrão: {0}–{1} dias úteis. Premium: {2}–{3} dias úteis. Frete padrão grátis em pedidos acima de ${4}",
+"Standard delivery: {0}–{1} business days. Premium delivery: {2}–{3} business days. Free standard shipping on orders over ${4}.": "Entrega padrão: {0}–{1} dias úteis. Premium: {2}–{3} dias úteis. Frete padrão grátis em pedidos acima de ${4}.",
+"Standard: {0}–{1} business days. Premium: {2}–{3} days.": "Padrão: {0}–{1} dias úteis. Premium: {2}–{3} dias."
 }

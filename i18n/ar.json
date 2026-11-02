@@ -715,5 +715,9 @@
 "🔒 Locked · shop to unlock": "🔒 مقفلة · تسوّق لفتحها",
 ". No purchase needed to claim a gift once it's unlocked. Gifts unlock as you shop.": ". لا حاجة للشراء للحصول على الهدية بعد فتحها. تُفتح الهدايا كلما تسوّقت.",
 "Your choice is saved in My gifts. Once this gift unlocks (keep shopping to unlock it), tap": "تم حفظ اختيارك في هداياي. عندما تُفتح هذه الهدية (واصل التسوق لفتحها)، اضغط",
-"This gift is still locked. Keep shopping to unlock it": "هذه الهدية لا تزال مقفلة. واصل التسوق لفتحها"
+"This gift is still locked. Keep shopping to unlock it": "هذه الهدية لا تزال مقفلة. واصل التسوق لفتحها",
+"Premium delivery": "توصيل مميز",
+"Standard delivery: {0}–{1} business days. Premium delivery: {2}–{3} business days. Free standard shipping on orders over ${4}": "التوصيل العادي: {0}–{1} أيام عمل. المميز: {2}–{3} أيام عمل. شحن عادي مجاني للطلبات فوق ${4}",
+"Standard delivery: {0}–{1} business days. Premium delivery: {2}–{3} business days. Free standard shipping on orders over ${4}.": "التوصيل العادي: {0}–{1} أيام عمل. المميز: {2}–{3} أيام عمل. شحن عادي مجاني للطلبات فوق ${4}.",
+"Standard: {0}–{1} business days. Premium: {2}–{3} days.": "العادي: {0}–{1} أيام عمل. المميز: {2}–{3} أيام."
 }

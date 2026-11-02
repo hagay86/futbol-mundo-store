@@ -111,8 +111,7 @@ export default async function handler(req, res) {
       const opt = (name, amount, lo, hi) => ({ shipping_rate_data: { type: 'fixed_amount', display_name: name, fixed_amount: { amount, currency: 'usd' }, delivery_estimate: { minimum: { unit: 'business_day', value: lo }, maximum: { unit: 'business_day', value: hi } } } });
       params.shipping_options = {
         0: opt(merch >= FREE_SHIP_OVER * 100 ? 'Standard delivery (free)' : 'Standard delivery', merch >= FREE_SHIP_OVER * 100 ? 0 : SHIPPING.standard, 5, 7),
-        1: opt('Express delivery', SHIPPING.express, 2, 3),
-        2: opt('Next-day delivery', SHIPPING.overnight, 1, 1),
+        1: opt('Premium delivery', SHIPPING.express, 2, 3),
       };
     }
     // Delivery details typed on our bag page (any country, phone with country code)
@@ -123,7 +122,7 @@ export default async function handler(req, res) {
       if (!/^[A-Z]{2}$/.test(addr.country) || addr.name.length < 3 || addr.line1.length < 3 || addr.city.length < 2 || addr.phone.replace(/\D/g, '').length < 7) return send(res, 400, { error: 'Please fill in your delivery details' });
     }
     if (paypalReady()) {
-      const method = ['standard', 'express', 'overnight'].includes(body.ship) ? body.ship : 'standard';
+      const method = ['standard', 'express'].includes(body.ship) ? body.ship : 'standard';
       const shippingCents = !physical ? 0 : method === 'standard' && merch >= FREE_SHIP_OVER * 100 ? 0 : SHIPPING[method];
       const lang = String(body.lang || '').slice(0, 2);
       const LOC = { en:'en-US', es:'es-ES', pt:'pt-BR', fr:'fr-FR', de:'de-DE', it:'it-IT', he:'he-IL', ar:'ar-EG' };

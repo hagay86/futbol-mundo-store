@@ -715,5 +715,9 @@
 "🔒 Locked · shop to unlock": "🔒 Gesperrt · einkaufen zum Freischalten",
 ". No purchase needed to claim a gift once it's unlocked. Gifts unlock as you shop.": ". Kein Kauf nötig, um ein freigeschaltetes Geschenk zu holen. Geschenke werden beim Einkaufen freigeschaltet.",
 "Your choice is saved in My gifts. Once this gift unlocks (keep shopping to unlock it), tap": "Deine Wahl ist unter Meine Geschenke gespeichert. Sobald dieses Geschenk freigeschaltet ist (kaufe weiter ein, um es freizuschalten), tippe auf",
-"This gift is still locked. Keep shopping to unlock it": "Dieses Geschenk ist noch gesperrt. Kaufe weiter ein, um es freizuschalten"
+"This gift is still locked. Keep shopping to unlock it": "Dieses Geschenk ist noch gesperrt. Kaufe weiter ein, um es freizuschalten",
+"Premium delivery": "Premium-Versand",
+"Standard delivery: {0}–{1} business days. Premium delivery: {2}–{3} business days. Free standard shipping on orders over ${4}": "Standardversand: {0}–{1} Werktage. Premium: {2}–{3} Werktage. Kostenloser Standardversand bei Bestellungen über ${4}",
+"Standard delivery: {0}–{1} business days. Premium delivery: {2}–{3} business days. Free standard shipping on orders over ${4}.": "Standardversand: {0}–{1} Werktage. Premium: {2}–{3} Werktage. Kostenloser Standardversand bei Bestellungen über ${4}.",
+"Standard: {0}–{1} business days. Premium: {2}–{3} days.": "Standard: {0}–{1} Werktage. Premium: {2}–{3} Tage."
 }

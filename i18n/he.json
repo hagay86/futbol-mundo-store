@@ -715,5 +715,9 @@
 "🔒 Locked · shop to unlock": "🔒 נעול · קנו כדי לפתוח",
 ". No purchase needed to claim a gift once it's unlocked. Gifts unlock as you shop.": ". לא צריך לקנות כדי לקבל מתנה אחרי שהיא נפתחה. מתנות נפתחות ככל שקונים.",
 "Your choice is saved in My gifts. Once this gift unlocks (keep shopping to unlock it), tap": "הבחירה נשמרה במתנות שלי. כשהמתנה תיפתח (המשיכו לקנות כדי לפתוח אותה), הקישו",
-"This gift is still locked. Keep shopping to unlock it": "המתנה הזו עדיין נעולה. המשיכו לקנות כדי לפתוח אותה"
+"This gift is still locked. Keep shopping to unlock it": "המתנה הזו עדיין נעולה. המשיכו לקנות כדי לפתוח אותה",
+"Premium delivery": "משלוח פרימיום",
+"Standard delivery: {0}–{1} business days. Premium delivery: {2}–{3} business days. Free standard shipping on orders over ${4}": "משלוח רגיל: {0}–{1} ימי עסקים. פרימיום: {2}–{3} ימי עסקים. משלוח רגיל חינם בהזמנות מעל ${4}",
+"Standard delivery: {0}–{1} business days. Premium delivery: {2}–{3} business days. Free standard shipping on orders over ${4}.": "משלוח רגיל: {0}–{1} ימי עסקים. פרימיום: {2}–{3} ימי עסקים. משלוח רגיל חינם בהזמנות מעל ${4}.",
+"Standard: {0}–{1} business days. Premium: {2}–{3} days.": "רגיל: {0}–{1} ימי עסקים. פרימיום: {2}–{3} ימים."
 }

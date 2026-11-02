@@ -177,7 +177,7 @@ RETURNS = f'''
 <h2>1. Where we ship</h2>
 <p>We ship to most countries worldwide. If we cannot deliver to your address we will cancel the order and refund you in full.</p>
 <h2>2. Shipping options and times</h2>
-<ul><li><b>Standard delivery:</b> US$9.99 (free on product orders over US$99).</li><li><b>Express delivery:</b> US$14.99.</li><li><b>Next-day delivery:</b> US$29.99, where available.</li></ul>
+<ul><li><b>Standard delivery:</b> US$9.99 (free on product orders over US$99).</li><li><b>Premium delivery:</b> US$14.99 (2–3 business days).</li></ul>
 <p>Orders are usually prepared within 3–7 business days (plus 2–3 days for name and number printing). Delivery times after dispatch depend on the destination, the courier and customs, and are estimates, not guarantees. We will send tracking details when available.</p>
 <h2>3. Customs and import charges</h2>
 <p>International orders may be subject to customs duties, import taxes and handling fees in your country. These are not included in our prices and are paid by you to the courier or customs authority.</p>

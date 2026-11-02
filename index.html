@@ -1490,7 +1490,7 @@ footer{background:#000}
       <div><div class="brand"><img class="brand-mark" src="/a/logo-96.png" alt="" width="34" height="34">MUNDO</div><p>Jerseys for every fan, and a game that turns your collection into a squad.</p></div>
       <div><h4>Shop</h4><a onclick="go('shop')">All jerseys</a><a onclick="goCat('New Arrivals')">New arrivals</a><a onclick="goCat('Retro')">Retro</a><a onclick="go('home','boxes')">Mystery boxes</a></div>
       <div><h4>Mundo XI</h4><a onclick="go('game','redeem')">Redeem a code</a><a onclick="openGiveaway()">Jersey giveaway</a><a onclick="go('game','play')">Play a season</a><a onclick="go('game','cups')">Cups</a><a onclick="go('game','packs')">Packs</a><a onclick="openInfo('Mundo XI rules', RULES_TEXT)">Rules</a></div>
-      <div><h4>Help</h4><a onclick="openTrack()">Track order</a><a onclick="openSizeGuide()">Size guide</a><a onclick="openHelp()">FAQ</a><a onclick="openInfo('Shipping','Standard delivery: 5–7 business days. Express: 2–3 business days. Free standard shipping on orders over $99.')">Shipping</a></div>
+      <div><h4>Help</h4><a onclick="openTrack()">Track order</a><a onclick="openSizeGuide()">Size guide</a><a onclick="openHelp()">FAQ</a><a onclick="openInfo('Shipping','Standard delivery: 5–7 business days. Premium delivery: 2–3 business days. Free standard shipping on orders over $99.')">Shipping</a></div>
     </div>
     <div class="f-legal"><a href="/legal/terms.html">Terms of Service</a><a href="/legal/privacy.html">Privacy Policy</a><a href="/legal/returns.html">Shipping &amp; Returns</a><a href="/legal/giveaway.html">Giveaway Rules</a><a href="/legal/accessibility.html">Accessibility</a></div>
     <div class="f-bot"><span>© 2026 Mundo</span><span>Secure checkout · PayPal, Visa, Mastercard, Amex</span></div>
@@ -1879,7 +1879,7 @@ function closeCart() { document.getElementById('cart-drawer').classList.remove('
 function openCheckoutFromCart() { closeCart(); openCheckout(); }
 
 // ===================== APPLE-STYLE CHECKOUT =====================
-const SHIPPING_RATES = { standard: 9.99, express: 14.99, overnight: 29.99 };
+const SHIPPING_RATES = { standard: 9.99, express: 14.99 };
 const FREE_SHIP_OVER = 99;
 const TAX_RATE = 0.08;
 let coStep = 1, coShipping = 9.99, coPayMethod = 'card', coPromoDiscount = 0, coPromoCode = '';
@@ -2229,7 +2229,7 @@ function openHelp() {
   document.getElementById('info-modal-body').innerHTML = `
     <h3>Help &amp; FAQ</h3>
     <div style="text-align:left">
-      <details style="margin-bottom:10px;cursor:pointer"><summary style="font-weight:500;padding:8px 0">How long does shipping take?</summary><p style="font-size:13px;padding:0 0 8px;color:#555">Standard: 5–7 business days. Express: 2–3 days. Next-day available before 2pm ET.</p></details>
+      <details style="margin-bottom:10px;cursor:pointer"><summary style="font-weight:500;padding:8px 0">How long does shipping take?</summary><p style="font-size:13px;padding:0 0 8px;color:#555">Standard: 5–7 business days. Premium: 2–3 days.</p></details>
       <details style="margin-bottom:10px;cursor:pointer"><summary style="font-weight:500;padding:8px 0">Can I customize a jersey?</summary><p style="font-size:13px;padding:0 0 8px;color:#555">Yes — choose any name and number on the product page. Custom prints add 1–2 days to processing.</p></details>
       <details style="margin-bottom:10px;cursor:pointer"><summary style="font-weight:500;padding:8px 0">What's your return policy?</summary><p style="font-size:13px;padding:0 0 8px;color:#555">30-day returns on unworn items with tags. Custom-printed jerseys are non-refundable unless defective.</p></details>
       <details style="margin-bottom:10px;cursor:pointer"><summary style="font-weight:500;padding:8px 0">Do you ship internationally?</summary><p style="font-size:13px;padding:0 0 8px;color:#555">Yes — to 50+ countries. International shipping calculated at checkout.</p></details>
@@ -4516,7 +4516,7 @@ if (currentView === 'game' && !xiEntered() && !new URLSearchParams(location.sear
 // on the bag page, PayPal return flow, owner order tools.
 // =====================================================================
 var coShipMethod = 'standard';
-const SHIP_OPTS = [['standard', 9.99, 'Standard delivery', '5–7 business days'], ['express', 14.99, 'Express delivery', '2–3 business days'], ['overnight', 29.99, 'Next-day delivery', '1 business day']];
+const SHIP_OPTS = [['standard', 9.99, 'Standard delivery', '5–7 business days'], ['express', 14.99, 'Premium delivery', '2–3 business days']];
 function shipCost(method){ const m = merchTotal(cart); if (!m) return 0; const o = SHIP_OPTS.find(x => x[0] === method) || SHIP_OPTS[0]; return method === 'standard' && m >= FREE_SHIP_OVER ? 0 : o[1]; }
 function pickShip(m){ coShipMethod = m; renderCheckout(); }
 const _renderCheckout8 = renderCheckout;

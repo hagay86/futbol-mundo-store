@@ -10,7 +10,7 @@ import { extraProducts, mergeCatalog } from './_extra.js';
 export const SHIRT_POINTS = 4000;        // enough for one 6-player Gold pack
 export const SCARF_THRESHOLD = 30;       // legacy (unused)
 export const FREE_SHIP_OVER = 99;
-export const SHIPPING = { standard: 999, express: 1499, overnight: 2999 }; // cents
+export const SHIPPING = { standard: 999, express: 1499 }; // cents
 
 let CATALOG = null, EXTRA = [];
 // Load the partner feed (Redis) before using catalog(); rebuilds when the feed changes.
